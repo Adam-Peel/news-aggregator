@@ -1,9 +1,15 @@
+const { convertTimestampToDate } = require("./utils");
+
 //Code Start
 
 function formatData(data) {
+  const reformattedData = data.map((element) => {
+    return convertTimestampToDate(element);
+  });
+  console.log(reformattedData);
   const placeHolderArray = [];
   let index = 0;
-  data.map((element) => {
+  reformattedData.map((element) => {
     const valuesArray = [];
     for (const [key, value] of Object.entries(element)) {
       valuesArray.push(value);
@@ -16,7 +22,10 @@ function formatData(data) {
 }
 
 function getKeys(data) {
-  const keyReference = data[0];
+  const reformattedData = data.map((element) => {
+    return convertTimestampToDate(element);
+  });
+  const keyReference = reformattedData[0];
   let placeholder = [];
   for (const [key] of Object.entries(keyReference)) {
     placeholder.push(key);

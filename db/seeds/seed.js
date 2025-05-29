@@ -51,6 +51,7 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
     articlesKeys,
     formattedArticlesData
   );
+  console.log(insertArticlesData);
 
   const insertCommentsData = format(
     `INSERT INTO comments (%I) VALUES %L`,
@@ -58,7 +59,6 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
     formattedCommentsData
   );
 
-  console.log(insertUserData);
   try {
     await db.query(insertUserData);
     await db.query(insertTopicsData);
