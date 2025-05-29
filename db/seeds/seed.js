@@ -50,18 +50,47 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
   const formattedTopicsData = formatData(topicData);
   const formattedArticlesData = formatData(articleData);
   const formattedCommentsData = formatData(commentData);
-  console.log(formattedUsersData);
+  // console.log(formattedUsersData);
   // Get keys for pg-format
   const usersKeys = getKeys(userData);
   const topicsKeys = getKeys(topicData);
   const articlesKeys = getKeys(articleData);
   const commentsKeys = getKeys(commentData);
-  console.log(usersKeys);
+  //console.log(usersKeys); TODO - Figure how to automatically insert this into pg-format
 
   const insertUserData = format(
-    `INSERT INTO users (username, name, avatar_url) VALUES %L`,
+    `INSERT INTO users (%I) VALUES %L`,
+    usersKeys,
     formattedUsersData
   );
+
+  const insertTopicsData = format(
+    `INSERT INTO topics (%I) VALUES %L`,
+    topicsKeys,
+    formattedTopicsData
+  );
+
+  const insertArticlesData = format(
+    `INSERT INTO articles (%I) VALUES %L`,
+    articlesKeys,
+    formattedArticlesData
+  );
+
+  const insertCommentsData = format(
+    `INSERT INTO comments (%I) VALUES %L`,
+    commentsKeys,
+    formattedCommentsData
+  );
+
+  console.log(insertUserData);
+  try {
+    await db.query(insertUserData);
+    await db.query(insertTopicsData);
+    await db.query(insertArticlesData);
+    await db.query(insertCommentsData);
+  } catch (err) {
+    console.log(`Error inserting data:\n${err}`);
+  }
 };
 
 module.exports = seed;
