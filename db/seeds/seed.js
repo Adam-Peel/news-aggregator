@@ -7,6 +7,7 @@ const {
 } = require("./create-tables");
 const format = require("pg-format");
 const { getKeys, formatData } = require("./data-formatting");
+const comments = require("../data/test-data/comments");
 
 const seed = async ({ topicData, userData, articleData, commentData }) => {
   try {
@@ -51,13 +52,15 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
     articlesKeys,
     formattedArticlesData
   );
-  console.log(insertArticlesData);
 
   const insertCommentsData = format(
-    `SELECT INTO comments (%I) VALUES %L`,
+    `INSERT INTO comments (%I, article_id) VALUES %L SELECT articles.article_id from articles JOIN comments ON articles.title = comments.article_name`,
     commentsKeys,
     formattedCommentsData
   );
+  console.log(commentsKeys);
+  console.log(formattedCommentsData);
+  // TODO - BUG - Figure out syntax and data structure for comments insertion.
 
   try {
     await db.query(insertUserData);
