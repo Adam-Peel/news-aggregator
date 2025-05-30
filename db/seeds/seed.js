@@ -4,6 +4,7 @@ const {
   createTopicsTable,
   createArticlesTable,
   createCommentsTable,
+  createEmojisTable,
 } = require("./create-tables");
 const format = require("pg-format");
 const {
@@ -15,12 +16,19 @@ const {
 } = require("./data-formatting");
 
 // Create db tables
-const seed = async ({ topicData, userData, articleData, commentData }) => {
+const seed = async ({
+  topicData,
+  userData,
+  articleData,
+  commentData,
+  emojiData,
+}) => {
   try {
     await db.query(`DROP TABLE IF EXISTS comments`);
     await db.query(`DROP TABLE IF EXISTS articles`);
     await db.query(`DROP TABLE IF EXISTS topics`);
     await db.query(`DROP TABLE IF EXISTS users`);
+    await db.query(`DROP TABLE IF EXISTS emojis`);
   } catch (err) {
     console.log(`Error dropping tables:\n${err}`);
   }
@@ -28,16 +36,19 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
   await createTopicsTable(db);
   await createArticlesTable(db);
   await createCommentsTable(db);
+  await createEmojisTable(db);
 
   // Format data
   const formattedUsersData = formatData(userData);
   const formattedTopicsData = formatData(topicData);
   const formattedArticlesData = formatData(articleData);
+  const formattedEmojiData = formatData(emojiData);
 
   // Get keys for pg-format
   const usersKeys = getKeys(userData);
   const topicsKeys = getKeys(topicData);
   const articlesKeys = getKeys(articleData);
+  const emojisKeys = getKeys(emojiData);
 
   // Write SQL strings for insertion
   const insertUserData = format(
@@ -58,10 +69,17 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
     formattedArticlesData
   );
 
+  const insertEmojisData = format(
+    `INSERT INTO emojis (%I) VALUES %L`,
+    emojisKeys,
+    formattedEmojiData
+  );
+
   try {
     await db.query(insertUserData);
     await db.query(insertTopicsData);
     await db.query(insertArticlesData);
+    await db.query(insertEmojisData);
   } catch (err) {
     console.log(`Error inserting data:\n${err}`);
   }

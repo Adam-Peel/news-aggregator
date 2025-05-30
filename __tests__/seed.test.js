@@ -81,6 +81,83 @@ describe("seed", () => {
     });
   });
 
+  //TODO
+  describe("emojis table", () => {
+    test("emojis table exists", () => {
+      return db
+        .query(
+          `SELECT EXISTS (
+            SELECT FROM 
+                information_schema.tables 
+            WHERE 
+                table_name = 'emojis'
+            );`
+        )
+        .then(({ rows: [{ exists }] }) => {
+          expect(exists).toBe(true);
+        });
+    });
+
+    test("emojis table has emoji column as varying character", () => {
+      return db
+        .query(
+          `SELECT *
+            FROM information_schema.columns
+            WHERE table_name = 'emojis'
+            AND column_name = 'emoji';`
+        )
+        .then(({ rows: [column] }) => {
+          expect(column.column_name).toBe("emoji");
+          expect(column.data_type).toBe("character varying");
+        });
+    });
+
+    test("emojis table has emoji_id column as the primary key", () => {
+      return db
+        .query(
+          `SELECT column_name
+            FROM information_schema.table_constraints AS tc
+            JOIN information_schema.key_column_usage AS kcu
+            ON tc.constraint_name = kcu.constraint_name
+            WHERE tc.constraint_type = 'PRIMARY KEY'
+            AND tc.table_name = 'emojis';`
+        )
+        .then(({ rows: [{ column_name }] }) => {
+          expect(column_name).toBe("emoji_id");
+        });
+    });
+
+    test("emojis table has emoji column with a restriction of UNIQUE", () => {
+      return db
+        .query(
+          `SELECT column_name
+            FROM information_schema.table_constraints AS tc
+            JOIN information_schema.key_column_usage AS kcu
+            ON tc.constraint_name = kcu.constraint_name
+            WHERE tc.constraint_type = 'UNIQUE'
+            AND tc.table_name = 'emojis';`
+        )
+        .then(({ rows: [{ column_name }] }) => {
+          expect(column_name).toBe("emoji");
+        });
+    });
+
+    test("emojis table has description column as varying character", () => {
+      return db
+        .query(
+          `SELECT column_name, data_type, column_default
+            FROM information_schema.columns
+            WHERE table_name = 'emojis'
+            AND column_name = 'emoji_description';`
+        )
+        .then(({ rows: [column] }) => {
+          expect(column.column_name).toBe("emoji_description");
+          expect(column.data_type).toBe("character varying");
+        });
+    });
+  });
+  //TODO
+
   describe("users table", () => {
     test("users table exists", () => {
       return db
