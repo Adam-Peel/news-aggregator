@@ -37,7 +37,6 @@ const seed = async ({
     await db.query(`DROP TABLE IF EXISTS users_topics`);
     await db.query(`DROP TABLE IF EXISTS emoji_article_user`);
     await db.query(`DROP TABLE IF EXISTS users_articles_votes`);
-    await db.query(`DROP TABLE IF EXISTS topics_articles_votes`);
     await db.query(`DROP TABLE IF EXISTS comments`);
     await db.query(`DROP TABLE IF EXISTS articles`);
     await db.query(`DROP TABLE IF EXISTS topics`);
@@ -56,7 +55,6 @@ const seed = async ({
   await createUsersArticlesVotesTable(db);
 
   // TODO
-  // await createTopicsArticlesVotesTable(db);
   // await createUsersArticlesBookmarkTable(db)//
 
   // Format data

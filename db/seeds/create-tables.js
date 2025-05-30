@@ -83,20 +83,10 @@ async function createUsersArticlesVotesTable(db) {
 async function createUsersArticlesBookmarkTable(db) {
   try {
     await db.query(
-      `CREATE TABLE users_articles_bookmark (user_article_bookmark_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), bookmarked_article BOOLEAN, CONSTRAINT users_articles UNIQUE (username, article_id));`
+      `CREATE TABLE users_articles_bookmark (user_article_bookmark_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), is_article_read BOOLEAN,is_article_bookmarked BOOLEAN, CONSTRAINT users_articles UNIQUE (username, article_id));`
     );
   } catch (err) {
     console.log(`Error creating users_articles_votes table:\n${err}`);
-  }
-}
-
-async function createTopicsArticlesVotesTable(db) {
-  try {
-    await db.query(
-      `CREATE TABLE topics_articles_votes (topics_article_votes_id SERIAL PRIMARY KEY, topic VARCHAR(255) REFERENCES topics(slug), article_id INT REFERENCES articles(article_id), vote_count INT NOT NULL);`
-    );
-  } catch (err) {
-    console.log(`Error creating topics_articles_votes table:\n${err}`);
   }
 }
 
@@ -109,7 +99,6 @@ module.exports = {
   createEmojisArticlesUsersTable,
   createUsersTopicsTable,
   createUsersArticlesVotesTable,
-  createTopicsArticlesVotesTable,
   createUsersArticlesBookmarkTable,
 };
 
