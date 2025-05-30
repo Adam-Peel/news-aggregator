@@ -28,10 +28,13 @@ function getKeys(data) {
 }
 
 function getLookup(data, valueToLookUp, valueToReference) {
+  if (Object.keys(data).length === 0) {
+    return "dataset is empty";
+  }
   const lookupObject = {};
   const dataToIterateOver = data.rows;
   dataToIterateOver.forEach((element) => {
-    lookupObject[element.title] = element.article_id;
+    lookupObject[element[valueToLookUp]] = element[valueToReference];
   });
   return lookupObject;
 }

@@ -1,6 +1,5 @@
-const {
-  convertTimestampToDate
-} = require("../db/seeds/utils");
+const { convertTimestampToDate } = require("../db/seeds/utils");
+const { getLookup } = require("../db/seeds/data-formatting");
 
 describe("convertTimestampToDate", () => {
   test("returns a new object", () => {
@@ -38,3 +37,22 @@ describe("convertTimestampToDate", () => {
   });
 });
 
+describe("getLookup", () => {
+  test("If passed empty object, returns error message", () => {
+    const input = {};
+    const actual = getLookup(input, "title", "article_id");
+    const errMessage = "dataset is empty";
+    expect(actual).toEqual(errMessage);
+  });
+  test("If passed empty object, returns error message", () => {
+    const input = {};
+    const actual = getLookup(input, "title", "article_id");
+    const errMessage = "dataset is empty";
+    expect(actual).toEqual(errMessage);
+  });
+});
+
+// Expected behaviour for length 1
+// Expected behaviour for length > 1
+// Original array is unmutated
+// Memory references

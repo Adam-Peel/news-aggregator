@@ -73,9 +73,9 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
     console.log(`Error inserting data:\n${err}`);
   }
 
-  const lookup = await db.query(`SELECT * FROM articles`);
-  //console.log(lookup);
-  console.log(getLookup(lookup));
+  // Implement lookup from article data
+  const articles = await db.query(`SELECT * FROM articles`);
+  const articlesLookup = getLookup(articles, "title", "article_id");
 
   //await db.query(insertCommentsData);
 };
