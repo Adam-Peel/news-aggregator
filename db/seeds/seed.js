@@ -6,9 +6,16 @@ const {
   createCommentsTable,
 } = require("./create-tables");
 const format = require("pg-format");
-const { getKeys, formatData, getLookup } = require("./data-formatting");
+const {
+  getKeys,
+  formatData,
+  getLookup,
+  replaceObjectEntries,
+  removePropertyFromArrayOfObjects,
+} = require("./data-formatting");
 const comments = require("../data/test-data/comments");
 
+// Create db tables
 const seed = async ({ topicData, userData, articleData, commentData }) => {
   try {
     await db.query(`DROP TABLE IF EXISTS comments`);
@@ -27,14 +34,13 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
   const formattedUsersData = formatData(userData);
   const formattedTopicsData = formatData(topicData);
   const formattedArticlesData = formatData(articleData);
-  const formattedCommentsData = formatData(commentData);
 
   // Get keys for pg-format
   const usersKeys = getKeys(userData);
   const topicsKeys = getKeys(topicData);
   const articlesKeys = getKeys(articleData);
-  const commentsKeys = getKeys(commentData);
 
+  // Write SQL strings for insertion
   const insertUserData = format(
     `INSERT INTO users (%I) VALUES %L`,
     usersKeys,
@@ -53,18 +59,6 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
     formattedArticlesData
   );
 
-  //Get article_id for comments
-  const articleIdLookup = await db.query(`SELECT article_id from articles`);
-
-  const insertCommentsData = format(
-    `INSERT INTO comments (%I, article_id) VALUES %L`,
-    commentsKeys,
-    formattedCommentsData
-  );
-  // console.log(commentsKeys);
-  // console.log(formattedCommentsData);
-  // TODO - BUG - Figure out syntax and data structure for comments insertion.
-
   try {
     await db.query(insertUserData);
     await db.query(insertTopicsData);
@@ -73,9 +67,31 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
     console.log(`Error inserting data:\n${err}`);
   }
 
+  // Modify comments data and keys before insertion
   // Implement lookup from article data
   const articles = await db.query(`SELECT * FROM articles`);
   const articlesLookup = getLookup(articles, "title", "article_id");
+  const articlesWithId = replaceObjectEntries(
+    commentData,
+    "article_title",
+    articlesLookup,
+    "article_id"
+  );
+  console.log(
+    removePropertyFromArrayOfObjects(articlesWithId, "article_title")
+  );
+
+  // const formattedCommentsData = formatData(commentData);
+  // const commentsKeys = getKeys(commentData);
+
+  // const insertCommentsData = format(
+  //   `INSERT INTO comments (%I, article_id) VALUES %L`,
+  //   commentsKeys,
+  //   formattedCommentsData
+  // );
+
+  // console.log(articlesLookup);
+  // console.log(formattedCommentsData);
 
   //await db.query(insertCommentsData);
 };

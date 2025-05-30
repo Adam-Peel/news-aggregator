@@ -10,6 +10,7 @@ function formatData(data) {
     for (const [key, value] of Object.entries(element)) {
       valuesArray.push(value);
     }
+    // NOTE - required creating array to push into placeholder to ensure nesting
     placeHolderArray.push(valuesArray);
   });
   return placeHolderArray;
@@ -39,8 +40,31 @@ function getLookup(data, valueToLookUp, valueToReference) {
   return lookupObject;
 }
 
+function replaceObjectEntries(
+  dataToAmend,
+  propertyToAmend,
+  lookupObject,
+  renameStringForProperty
+) {
+  const clonedObject = [...dataToAmend];
+  clonedObject.forEach((element) => {
+    const reference = element[[propertyToAmend]];
+    element[renameStringForProperty] = lookupObject[reference];
+  });
+  return clonedObject;
+}
+
+function removePropertyFromArrayOfObjects(data, propertyToRemove) {
+  const deletedArray = data.forEach((element) => {
+    delete element[`${propertyToRemove}`];
+  });
+  return deletedArray;
+}
+
 module.exports = {
   getKeys,
   formatData,
   getLookup,
+  replaceObjectEntries,
+  removePropertyFromArrayOfObjects,
 };
