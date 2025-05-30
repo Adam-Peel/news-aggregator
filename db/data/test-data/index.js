@@ -5,3 +5,4 @@ exports.userData = require("./users.js");
 exports.emojiData = require("./emojis.js");
 exports.emojisArticlesUsersData = require("./emojis-articles-users.js");
 exports.userTopicsData = require("./users-topics.js");
+exports.userArticleVotesData = require("./user-article-votes.js");

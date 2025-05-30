@@ -22,6 +22,7 @@ const {
 const {
   emojisArticlesUsersData,
   userTopicsData,
+  userArticleVotesData,
 } = require("../data/test-data");
 
 // Create db tables
@@ -52,9 +53,9 @@ const seed = async ({
   await createEmojisTable(db);
   await createEmojisArticlesUsersTable(db);
   await createUsersTopicsTable(db);
+  await createUsersArticlesVotesTable(db);
 
   // TODO
-  // await createUsersArticlesVotesTable(db);
   // await createTopicsArticlesVotesTable(db);
   // await createUsersArticlesBookmarkTable(db)//
 
@@ -65,6 +66,7 @@ const seed = async ({
   const formattedEmojiData = formatData(emojiData);
   const formattedEAUData = formatData(emojisArticlesUsersData);
   const formattedUsersTopicsData = formatData(userTopicsData);
+  const formattedUsersArticlesVotes = formatData(userArticleVotesData);
 
   // Get keys for pg-format
   const usersKeys = getKeys(userData);
@@ -73,6 +75,7 @@ const seed = async ({
   const emojisKeys = getKeys(emojiData);
   const EAUKeys = getKeys(emojisArticlesUsersData);
   const userTopicsKeys = getKeys(userTopicsData);
+  const userArticleVoteKeys = getKeys(userArticleVotesData);
 
   // Write SQL strings for insertion
   const insertUserData = format(
@@ -111,6 +114,12 @@ const seed = async ({
     formattedUsersTopicsData
   );
 
+  const insertUsersArticlesVotesData = format(
+    `INSERT INTO users_articles_votes (%I) VALUES %L`,
+    userArticleVoteKeys,
+    formattedUsersArticlesVotes
+  );
+
   try {
     await db.query(insertUserData);
     await db.query(insertTopicsData);
@@ -118,6 +127,7 @@ const seed = async ({
     await db.query(insertEmojisData);
     await db.query(insertEAUData);
     await db.query(insertUsersTopicsData);
+    await db.query(insertUsersArticlesVotesData);
   } catch (err) {
     console.log(`Error inserting data:\n${err}`);
   }
