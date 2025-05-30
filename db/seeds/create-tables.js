@@ -41,7 +41,7 @@ async function createCommentsTable(db) {
 async function createEmojisTable(db) {
   try {
     await db.query(
-      `CREATE TABLE emojis (emoji_id SERIAL PRIMARY KEY, emoji VARCHAR(255) UNIQUE NOT NULL);`
+      `CREATE TABLE emojis (emoji_id SERIAL PRIMARY KEY, emoji VARCHAR(255) UNIQUE NOT NULL, emoji_description VARCHAR(255));`
     );
   } catch (err) {
     console.log(`Error creating emojis table:\n${err}`);
@@ -99,3 +99,11 @@ module.exports = {
   createUsersArticlesVotesTable,
   createTopicsArticlesVotesTable,
 };
+
+/* Create data for:
+  createEmojisTable,
+  createEmojisArticlesUsersTable,
+  createUsersTopicsTable,
+  createUsersArticlesVotesTable,
+  createTopicsArticlesVotesTable,
+*/
