@@ -78,6 +78,16 @@ async function createUsersArticlesVotesTable(db) {
   }
 }
 
+async function createTopicsArticlesVotesTable(db) {
+  try {
+    await db.query(
+      `CREATE TABLE topics_articles_votes (topics_article_votes_id SERIAL PRIMARY KEY, topic VARCHAR(255) REFERENCES topics(slug), article_id(INT) REFERENCES articles(article_id), vote_count INT NOT NULL);`
+    );
+  } catch (err) {
+    console.log(`Error creating topics_articles_votes table:\n${err}`);
+  }
+}
+
 module.exports = {
   createUsersTable,
   createTopicsTable,
@@ -87,4 +97,5 @@ module.exports = {
   createEmojisArticlesUsersTable,
   createUsersTopicsTable,
   createUsersArticlesVotesTable,
+  createTopicsArticlesVotesTable,
 };
