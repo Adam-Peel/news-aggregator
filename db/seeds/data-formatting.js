@@ -55,10 +55,11 @@ function replaceObjectEntries(
 }
 
 function removePropertyFromArrayOfObjects(data, propertyToRemove) {
-  const deletedArray = data.forEach((element) => {
-    delete element[`${propertyToRemove}`];
+  const copy = [...data];
+  copy.forEach((element) => {
+    delete element[propertyToRemove];
   });
-  return deletedArray;
+  return copy;
 }
 
 module.exports = {

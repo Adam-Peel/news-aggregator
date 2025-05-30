@@ -77,8 +77,10 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
     articlesLookup,
     "article_id"
   );
-  console.log(
-    removePropertyFromArrayOfObjects(articlesWithId, "article_title")
+
+  const articlesWithoutTitles = removePropertyFromArrayOfObjects(
+    articlesWithId,
+    "article_title"
   );
 
   // const formattedCommentsData = formatData(commentData);
