@@ -13,7 +13,6 @@ const {
   replaceObjectEntries,
   removePropertyFromArrayOfObjects,
 } = require("./data-formatting");
-const comments = require("../data/test-data/comments");
 
 // Create db tables
 const seed = async ({ topicData, userData, articleData, commentData }) => {
@@ -68,7 +67,6 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
   }
 
   // Modify comments data and keys before insertion
-  // Implement lookup from article data
   const articles = await db.query(`SELECT * FROM articles`);
   const articlesLookup = getLookup(articles, "title", "article_id");
   const commentsWithId = replaceObjectEntries(
@@ -92,7 +90,11 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
     formattedCommentsData
   );
 
-  await db.query(insertCommentsData);
+  try {
+    await db.query(insertCommentsData);
+  } catch (err) {
+    console.log(`Error:\n${err}`);
+  }
 };
 
 module.exports = seed;
