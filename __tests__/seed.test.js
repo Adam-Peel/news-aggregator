@@ -965,7 +965,7 @@ describe("data insertion", () => {
       });
   });
 
-  test("users_articles_votes data has been inserted correctly", () => {
+  test("users_articles_bookmarks data has been inserted correctly", () => {
     return db
       .query(`SELECT * FROM users_articles_bookmarks;`)
       .then(({ rows: users_articles_engagements }) => {
@@ -975,6 +975,8 @@ describe("data insertion", () => {
           expect(user_engagement).toHaveProperty("article_id");
           expect(user_engagement).toHaveProperty("is_article_read");
           expect(user_engagement).toHaveProperty("is_article_bookmarked");
+          expect(user_engagement).toHaveProperty("vote_count");
+          expect(user_engagement).toHaveProperty("emoji_id");
         });
       });
   });

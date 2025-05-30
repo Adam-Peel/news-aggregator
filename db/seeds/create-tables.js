@@ -83,7 +83,7 @@ async function createUsersArticlesVotesTable(db) {
 async function createUsersArticlesBookmarksTable(db) {
   try {
     await db.query(
-      `CREATE TABLE users_articles_bookmarks (user_articles_bookmarks_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), is_article_read BOOLEAN,is_article_bookmarked BOOLEAN);`
+      `CREATE TABLE users_articles_bookmarks (user_articles_bookmarks_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), is_article_read BOOLEAN, is_article_bookmarked BOOLEAN, vote_count INT CHECK (vote_count between -1 and 1), emoji_id INT REFERENCES emojis(emoji_id));`
     );
   } catch (err) {
     console.log(`Error creating users_articles_votes table:\n${err}`);
