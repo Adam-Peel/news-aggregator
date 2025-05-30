@@ -61,7 +61,33 @@ describe("getLookup", () => {
     const output = { "Testing Testing": 123, "Mambo no..": 5 };
     expect(actual).toEqual(output);
   });
+  test("Purity - input and output do not share same memory reference", () => {
+    const input = {
+      rows: [
+        { title: "Testing Testing", article_id: 123 },
+        { title: "Mambo no..", article_id: 5 },
+      ],
+    };
+    getLookup(input, "title", "article_id");
+    const output = { "Testing Testing": 123, "Mambo no..": 5 };
+    expect(input).not.toBe(output);
+  });
+  test("Purity - input is not mutated", () => {
+    const input = {
+      rows: [
+        { title: "Testing Testing", article_id: 123 },
+        { title: "Mambo no..", article_id: 5 },
+      ],
+    };
+    getLookup(input, "title", "article_id");
+    const copyInput = {
+      rows: [
+        { title: "Testing Testing", article_id: 123 },
+        { title: "Mambo no..", article_id: 5 },
+      ],
+    };
+    expect(input).toEqual(copyInput);
+  });
 });
 
 // Original array is unmutated
-// Memory references
