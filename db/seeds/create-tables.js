@@ -54,7 +54,7 @@ async function createEmojisArticlesUsersTable(db) {
       `CREATE TABLE emoji_article_user (emoji_article_user_id SERIAL PRIMARY KEY, emoji_id INT REFERENCES emojis(emoji_id), username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), CONSTRAINT users_articles_reactions UNIQUE (username, article_id));`
     );
   } catch (err) {
-    console.log(`Error creating emojis_articles_users table:\n${err}`);
+    console.log(`Error creating emoji_articles_users table:\n${err}`);
   }
 }
 

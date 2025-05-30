@@ -80,17 +80,17 @@ describe("seed", () => {
         });
     });
   });
-
   //TODO
-  describe("emojis table", () => {
-    test("emojis table exists", () => {
+
+  describe("emoji_article_user table", () => {
+    test("emoji_article_user table exists", () => {
       return db
         .query(
           `SELECT EXISTS (
             SELECT FROM 
                 information_schema.tables 
             WHERE 
-                table_name = 'emojis'
+                table_name = 'emoji_article_user'
             );`
         )
         .then(({ rows: [{ exists }] }) => {
@@ -98,87 +98,12 @@ describe("seed", () => {
         });
     });
 
-    test("emojis table has emoji column as varying character", () => {
+    test("emoji_article_user table has username column as varying character", () => {
       return db
         .query(
           `SELECT *
             FROM information_schema.columns
-            WHERE table_name = 'emojis'
-            AND column_name = 'emoji';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("emoji");
-          expect(column.data_type).toBe("character varying");
-        });
-    });
-
-    test("emojis table has emoji_id column as the primary key", () => {
-      return db
-        .query(
-          `SELECT column_name
-            FROM information_schema.table_constraints AS tc
-            JOIN information_schema.key_column_usage AS kcu
-            ON tc.constraint_name = kcu.constraint_name
-            WHERE tc.constraint_type = 'PRIMARY KEY'
-            AND tc.table_name = 'emojis';`
-        )
-        .then(({ rows: [{ column_name }] }) => {
-          expect(column_name).toBe("emoji_id");
-        });
-    });
-
-    test("emojis table has emoji column with a restriction of UNIQUE", () => {
-      return db
-        .query(
-          `SELECT column_name
-            FROM information_schema.table_constraints AS tc
-            JOIN information_schema.key_column_usage AS kcu
-            ON tc.constraint_name = kcu.constraint_name
-            WHERE tc.constraint_type = 'UNIQUE'
-            AND tc.table_name = 'emojis';`
-        )
-        .then(({ rows: [{ column_name }] }) => {
-          expect(column_name).toBe("emoji");
-        });
-    });
-
-    test("emojis table has description column as varying character", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type, column_default
-            FROM information_schema.columns
-            WHERE table_name = 'emojis'
-            AND column_name = 'emoji_description';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("emoji_description");
-          expect(column.data_type).toBe("character varying");
-        });
-    });
-  });
-
-  describe("users table", () => {
-    test("users table exists", () => {
-      return db
-        .query(
-          `SELECT EXISTS (
-            SELECT FROM 
-                information_schema.tables 
-            WHERE 
-                table_name = 'users'
-            );`
-        )
-        .then(({ rows: [{ exists }] }) => {
-          expect(exists).toBe(true);
-        });
-    });
-
-    test("users table has username column of varying character", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type, column_default
-            FROM information_schema.columns
-            WHERE table_name = 'users'
+            WHERE table_name = 'emoji_article_user'
             AND column_name = 'username';`
         )
         .then(({ rows: [column] }) => {
@@ -187,130 +112,266 @@ describe("seed", () => {
         });
     });
 
-    test("users table has username column as the primary key", () => {
+    test("emoji_article_user table has emoji_id column as integer", () => {
       return db
         .query(
-          `SELECT column_name
+          `SELECT column_name, data_type, column_default
+            FROM information_schema.columns
+            WHERE table_name = 'emoji_article_user'
+            AND column_name = 'emoji_id';`
+        )
+        .then(({ rows: [column] }) => {
+          expect(column.column_name).toBe("emoji_id");
+          expect(column.data_type).toBe("integer");
+        });
+    });
+  });
+
+  test("emoji_article_user table has article_id column as integer", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type, column_default
+            FROM information_schema.columns
+            WHERE table_name = 'emoji_article_user'
+            AND column_name = 'article_id';`
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("article_id");
+        expect(column.data_type).toBe("integer");
+      });
+  });
+});
+
+//TODO
+describe("emojis table", () => {
+  test("emojis table exists", () => {
+    return db
+      .query(
+        `SELECT EXISTS (
+            SELECT FROM 
+                information_schema.tables 
+            WHERE 
+                table_name = 'emojis'
+            );`
+      )
+      .then(({ rows: [{ exists }] }) => {
+        expect(exists).toBe(true);
+      });
+  });
+
+  test("emojis table has emoji column as varying character", () => {
+    return db
+      .query(
+        `SELECT *
+            FROM information_schema.columns
+            WHERE table_name = 'emojis'
+            AND column_name = 'emoji';`
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("emoji");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
+
+  test("emojis table has emoji_id column as the primary key", () => {
+    return db
+      .query(
+        `SELECT column_name
+            FROM information_schema.table_constraints AS tc
+            JOIN information_schema.key_column_usage AS kcu
+            ON tc.constraint_name = kcu.constraint_name
+            WHERE tc.constraint_type = 'PRIMARY KEY'
+            AND tc.table_name = 'emojis';`
+      )
+      .then(({ rows: [{ column_name }] }) => {
+        expect(column_name).toBe("emoji_id");
+      });
+  });
+
+  test("emojis table has emoji column with a restriction of UNIQUE", () => {
+    return db
+      .query(
+        `SELECT column_name
+            FROM information_schema.table_constraints AS tc
+            JOIN information_schema.key_column_usage AS kcu
+            ON tc.constraint_name = kcu.constraint_name
+            WHERE tc.constraint_type = 'UNIQUE'
+            AND tc.table_name = 'emojis';`
+      )
+      .then(({ rows: [{ column_name }] }) => {
+        expect(column_name).toBe("emoji");
+      });
+  });
+
+  test("emojis table has description column as varying character", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type, column_default
+            FROM information_schema.columns
+            WHERE table_name = 'emojis'
+            AND column_name = 'emoji_description';`
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("emoji_description");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
+});
+
+describe("users table", () => {
+  test("users table exists", () => {
+    return db
+      .query(
+        `SELECT EXISTS (
+            SELECT FROM 
+                information_schema.tables 
+            WHERE 
+                table_name = 'users'
+            );`
+      )
+      .then(({ rows: [{ exists }] }) => {
+        expect(exists).toBe(true);
+      });
+  });
+
+  test("users table has username column of varying character", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type, column_default
+            FROM information_schema.columns
+            WHERE table_name = 'users'
+            AND column_name = 'username';`
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("username");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
+
+  test("users table has username column as the primary key", () => {
+    return db
+      .query(
+        `SELECT column_name
             FROM information_schema.table_constraints AS tc
             JOIN information_schema.key_column_usage AS kcu
             ON tc.constraint_name = kcu.constraint_name
             WHERE tc.constraint_type = 'PRIMARY KEY'
             AND tc.table_name = 'users';`
-        )
-        .then(({ rows: [{ column_name }] }) => {
-          expect(column_name).toBe("username");
-        });
-    });
+      )
+      .then(({ rows: [{ column_name }] }) => {
+        expect(column_name).toBe("username");
+      });
+  });
 
-    test("users table has name column as varying character", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type
+  test("users table has name column as varying character", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type
             FROM information_schema.columns
             WHERE table_name = 'users'
             AND column_name = 'name';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("name");
-          expect(column.data_type).toBe("character varying");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("name");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
 
-    test("users table has avatar_url column of varying character of max length 1000", () => {
-      return db
-        .query(
-          `SELECT column_name, character_maximum_length
+  test("users table has avatar_url column of varying character of max length 1000", () => {
+    return db
+      .query(
+        `SELECT column_name, character_maximum_length
             FROM information_schema.columns
             WHERE table_name = 'users'
             AND column_name = 'avatar_url';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("avatar_url");
-          expect(column.character_maximum_length).toBe(1000);
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("avatar_url");
+        expect(column.character_maximum_length).toBe(1000);
+      });
   });
+});
 
-  describe("articles table", () => {
-    test("articles table exists", () => {
-      return db
-        .query(
-          `SELECT EXISTS (
+describe("articles table", () => {
+  test("articles table exists", () => {
+    return db
+      .query(
+        `SELECT EXISTS (
             SELECT FROM 
                 information_schema.tables 
             WHERE 
                 table_name = 'articles'
             );`
-        )
-        .then(({ rows: [{ exists }] }) => {
-          expect(exists).toBe(true);
-        });
-    });
+      )
+      .then(({ rows: [{ exists }] }) => {
+        expect(exists).toBe(true);
+      });
+  });
 
-    test("articles table has article_id column as a serial", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type, column_default
+  test("articles table has article_id column as a serial", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type, column_default
             FROM information_schema.columns
             WHERE table_name = 'articles'
             AND column_name = 'article_id';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("article_id");
-          expect(column.data_type).toBe("integer");
-          expect(column.column_default).toBe(
-            "nextval('articles_article_id_seq'::regclass)"
-          );
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("article_id");
+        expect(column.data_type).toBe("integer");
+        expect(column.column_default).toBe(
+          "nextval('articles_article_id_seq'::regclass)"
+        );
+      });
+  });
 
-    test("articles table has article_id column as the primary key", () => {
-      return db
-        .query(
-          `SELECT column_name
+  test("articles table has article_id column as the primary key", () => {
+    return db
+      .query(
+        `SELECT column_name
             FROM information_schema.table_constraints AS tc
             JOIN information_schema.key_column_usage AS kcu
             ON tc.constraint_name = kcu.constraint_name
             WHERE tc.constraint_type = 'PRIMARY KEY'
             AND tc.table_name = 'articles';`
-        )
-        .then(({ rows: [{ column_name }] }) => {
-          expect(column_name).toBe("article_id");
-        });
-    });
+      )
+      .then(({ rows: [{ column_name }] }) => {
+        expect(column_name).toBe("article_id");
+      });
+  });
 
-    test("articles table has title column as varying character", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type
+  test("articles table has title column as varying character", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type
             FROM information_schema.columns
             WHERE table_name = 'articles'
             AND column_name = 'title';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("title");
-          expect(column.data_type).toBe("character varying");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("title");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
 
-    test("articles table has topic column as varying character", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type
+  test("articles table has topic column as varying character", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type
             FROM information_schema.columns
             WHERE table_name = 'articles'
             AND column_name = 'topic';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("topic");
-          expect(column.data_type).toBe("character varying");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("topic");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
 
-    test("topic column references a slug from the topics table", () => {
-      return db
-        .query(
-          `
+  test("topic column references a slug from the topics table", () => {
+    return db
+      .query(
+        `
         SELECT *
         FROM information_schema.table_constraints AS tc
         JOIN information_schema.key_column_usage AS kcu
@@ -323,30 +384,30 @@ describe("seed", () => {
           AND ccu.table_name = 'topics'
           AND ccu.column_name = 'slug';
       `
-        )
-        .then(({ rows }) => {
-          expect(rows).toHaveLength(1);
-        });
-    });
+      )
+      .then(({ rows }) => {
+        expect(rows).toHaveLength(1);
+      });
+  });
 
-    test("articles table has author column as varying character", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type
+  test("articles table has author column as varying character", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type
             FROM information_schema.columns
             WHERE table_name = 'articles'
             AND column_name = 'author';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("author");
-          expect(column.data_type).toBe("character varying");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("author");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
 
-    test("author column references a username from the users table", () => {
-      return db
-        .query(
-          `
+  test("author column references a username from the users table", () => {
+    return db
+      .query(
+        `
         SELECT *
         FROM information_schema.table_constraints AS tc
         JOIN information_schema.key_column_usage AS kcu
@@ -359,162 +420,162 @@ describe("seed", () => {
           AND ccu.table_name = 'users'
           AND ccu.column_name = 'username';
       `
-        )
-        .then(({ rows }) => {
-          expect(rows).toHaveLength(1);
-        });
-    });
+      )
+      .then(({ rows }) => {
+        expect(rows).toHaveLength(1);
+      });
+  });
 
-    test("articles table has body column as text", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type, character_maximum_length
+  test("articles table has body column as text", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type, character_maximum_length
               FROM information_schema.columns
               WHERE table_name = 'articles'
               AND column_name = 'body';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("body");
-          expect(column.data_type).toBe("text");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("body");
+        expect(column.data_type).toBe("text");
+      });
+  });
 
-    test("articles table has created_at column as timestamp", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type
+  test("articles table has created_at column as timestamp", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type
               FROM information_schema.columns
               WHERE table_name = 'articles'
               AND column_name = 'created_at';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("created_at");
-          expect(column.data_type).toBe("timestamp without time zone");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("created_at");
+        expect(column.data_type).toBe("timestamp without time zone");
+      });
+  });
 
-    test("created_at column has default value of the current timestamp", () => {
-      return db
-        .query(
-          `SELECT column_default
+  test("created_at column has default value of the current timestamp", () => {
+    return db
+      .query(
+        `SELECT column_default
         FROM information_schema.columns
         WHERE table_name = 'articles'
         AND column_name = 'created_at';`
-        )
-        .then(({ rows: [{ column_default }] }) => {
-          expect(column_default).toBe("CURRENT_TIMESTAMP");
-        });
-    });
+      )
+      .then(({ rows: [{ column_default }] }) => {
+        expect(column_default).toBe("CURRENT_TIMESTAMP");
+      });
+  });
 
-    test("articles table has votes column as integer", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type
+  test("articles table has votes column as integer", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type
             FROM information_schema.columns
             WHERE table_name = 'articles'
             AND column_name = 'votes';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("votes");
-          expect(column.data_type).toBe("integer");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("votes");
+        expect(column.data_type).toBe("integer");
+      });
+  });
 
-    test("votes column has default value of 0", () => {
-      return db
-        .query(
-          `SELECT column_default
+  test("votes column has default value of 0", () => {
+    return db
+      .query(
+        `SELECT column_default
           FROM information_schema.columns
           WHERE table_name = 'articles'
           AND column_name = 'votes'`
-        )
-        .then(({ rows: [{ column_default }] }) => {
-          expect(column_default).toBe("0");
-        });
-    });
+      )
+      .then(({ rows: [{ column_default }] }) => {
+        expect(column_default).toBe("0");
+      });
+  });
 
-    test("articles table has article_img_url column of varying character of max length 1000", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type, character_maximum_length
+  test("articles table has article_img_url column of varying character of max length 1000", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type, character_maximum_length
             FROM information_schema.columns
             WHERE table_name = 'articles'
             AND column_name = 'article_img_url';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("article_img_url");
-          expect(column.data_type).toBe("character varying");
-          expect(column.character_maximum_length).toBe(1000);
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("article_img_url");
+        expect(column.data_type).toBe("character varying");
+        expect(column.character_maximum_length).toBe(1000);
+      });
   });
+});
 
-  describe("comments table", () => {
-    test("comments table exists", () => {
-      return db
-        .query(
-          `SELECT EXISTS (
+describe("comments table", () => {
+  test("comments table exists", () => {
+    return db
+      .query(
+        `SELECT EXISTS (
             SELECT FROM 
                 information_schema.tables 
             WHERE 
                 table_name = 'comments'
             );`
-        )
-        .then(({ rows: [{ exists }] }) => {
-          expect(exists).toBe(true);
-        });
-    });
+      )
+      .then(({ rows: [{ exists }] }) => {
+        expect(exists).toBe(true);
+      });
+  });
 
-    test("comments table has comment_id column as serial", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type, column_default
+  test("comments table has comment_id column as serial", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type, column_default
             FROM information_schema.columns
             WHERE table_name = 'comments'
             AND column_name = 'comment_id';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("comment_id");
-          expect(column.data_type).toBe("integer");
-          expect(column.column_default).toBe(
-            "nextval('comments_comment_id_seq'::regclass)"
-          );
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("comment_id");
+        expect(column.data_type).toBe("integer");
+        expect(column.column_default).toBe(
+          "nextval('comments_comment_id_seq'::regclass)"
+        );
+      });
+  });
 
-    test("comments table has comment_id column as the primary key", () => {
-      return db
-        .query(
-          `SELECT column_name
+  test("comments table has comment_id column as the primary key", () => {
+    return db
+      .query(
+        `SELECT column_name
             FROM information_schema.table_constraints AS tc
             JOIN information_schema.key_column_usage AS kcu
             ON tc.constraint_name = kcu.constraint_name
             WHERE tc.constraint_type = 'PRIMARY KEY'
             AND tc.table_name = 'comments';`
-        )
-        .then(({ rows: [{ column_name }] }) => {
-          expect(column_name).toBe("comment_id");
-        });
-    });
+      )
+      .then(({ rows: [{ column_name }] }) => {
+        expect(column_name).toBe("comment_id");
+      });
+  });
 
-    test("comments table has article_id column as integer", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type
+  test("comments table has article_id column as integer", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type
             FROM information_schema.columns
             WHERE table_name = 'comments'
             AND column_name = 'article_id';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("article_id");
-          expect(column.data_type).toBe("integer");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("article_id");
+        expect(column.data_type).toBe("integer");
+      });
+  });
 
-    test("article_id column references an article from the articles table", () => {
-      return db
-        .query(
-          `
+  test("article_id column references an article from the articles table", () => {
+    return db
+      .query(
+        `
         SELECT *
         FROM information_schema.table_constraints AS tc
         JOIN information_schema.key_column_usage AS kcu
@@ -527,71 +588,71 @@ describe("seed", () => {
           AND ccu.table_name = 'articles'
           AND ccu.column_name = 'article_id';
       `
-        )
-        .then(({ rows }) => {
-          expect(rows).toHaveLength(1);
-        });
-    });
+      )
+      .then(({ rows }) => {
+        expect(rows).toHaveLength(1);
+      });
+  });
 
-    test("comments table has body column as text", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type
+  test("comments table has body column as text", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type
             FROM information_schema.columns
             WHERE table_name = 'comments'
             AND column_name = 'body';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("body");
-          expect(column.data_type).toBe("text");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("body");
+        expect(column.data_type).toBe("text");
+      });
+  });
 
-    test("comments table has votes column as integer", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type
+  test("comments table has votes column as integer", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type
             FROM information_schema.columns
             WHERE table_name = 'comments'
             AND column_name = 'votes';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("votes");
-          expect(column.data_type).toBe("integer");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("votes");
+        expect(column.data_type).toBe("integer");
+      });
+  });
 
-    test("votes column has default value of 0", () => {
-      return db
-        .query(
-          `SELECT column_default
+  test("votes column has default value of 0", () => {
+    return db
+      .query(
+        `SELECT column_default
           FROM information_schema.columns
           WHERE table_name = 'comments'
           AND column_name = 'votes'`
-        )
-        .then(({ rows: [{ column_default }] }) => {
-          expect(column_default).toBe("0");
-        });
-    });
+      )
+      .then(({ rows: [{ column_default }] }) => {
+        expect(column_default).toBe("0");
+      });
+  });
 
-    test("comments table has an author column as varying character", () => {
-      return db
-        .query(
-          `SELECT *
+  test("comments table has an author column as varying character", () => {
+    return db
+      .query(
+        `SELECT *
             FROM information_schema.columns
             WHERE table_name = 'comments'
             AND column_name = 'author';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("author");
-          expect(column.data_type).toBe("character varying");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("author");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
 
-    test("author column references a username from the users table", () => {
-      return db
-        .query(
-          `
+  test("author column references a username from the users table", () => {
+    return db
+      .query(
+        `
         SELECT *
         FROM information_schema.table_constraints AS tc
         JOIN information_schema.key_column_usage AS kcu
@@ -604,38 +665,37 @@ describe("seed", () => {
           AND ccu.table_name = 'users'
           AND ccu.column_name = 'username';
       `
-        )
-        .then(({ rows }) => {
-          expect(rows).toHaveLength(1);
-        });
-    });
+      )
+      .then(({ rows }) => {
+        expect(rows).toHaveLength(1);
+      });
+  });
 
-    test("comments table has created_at column as timestamp", () => {
-      return db
-        .query(
-          `SELECT column_name, data_type
+  test("comments table has created_at column as timestamp", () => {
+    return db
+      .query(
+        `SELECT column_name, data_type
             FROM information_schema.columns
             WHERE table_name = 'comments'
             AND column_name = 'created_at';`
-        )
-        .then(({ rows: [column] }) => {
-          expect(column.column_name).toBe("created_at");
-          expect(column.data_type).toBe("timestamp without time zone");
-        });
-    });
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("created_at");
+        expect(column.data_type).toBe("timestamp without time zone");
+      });
+  });
 
-    test("created_at column has default value of the current timestamp", () => {
-      return db
-        .query(
-          `SELECT column_default
+  test("created_at column has default value of the current timestamp", () => {
+    return db
+      .query(
+        `SELECT column_default
         FROM information_schema.columns
         WHERE table_name = 'comments'
         AND column_name = 'created_at';`
-        )
-        .then(({ rows: [{ column_default }] }) => {
-          expect(column_default).toBe("CURRENT_TIMESTAMP");
-        });
-    });
+      )
+      .then(({ rows: [{ column_default }] }) => {
+        expect(column_default).toBe("CURRENT_TIMESTAMP");
+      });
   });
 });
 
@@ -661,6 +721,7 @@ describe("data insertion", () => {
       });
     });
   });
+
   test("emojis data has been inserted correctly", () => {
     return db.query(`SELECT * FROM emojis;`).then(({ rows: emojis }) => {
       expect(emojis).toHaveLength(3);
@@ -669,6 +730,19 @@ describe("data insertion", () => {
         expect(emoji).toHaveProperty("emoji_description");
       });
     });
+  });
+
+  test("emojis_articles_user data has been inserted correctly", () => {
+    return db
+      .query(`SELECT * FROM emoji_article_user;`)
+      .then(({ rows: emoji_article_user }) => {
+        expect(emoji_article_user).toHaveLength(2);
+        emoji_article_user.forEach((combination) => {
+          expect(combination).toHaveProperty("emoji_id");
+          expect(combination).toHaveProperty("username");
+          expect(combination).toHaveProperty("article_id");
+        });
+      });
   });
 
   test("articles data has been inserted correctly", () => {

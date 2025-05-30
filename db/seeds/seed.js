@@ -5,6 +5,10 @@ const {
   createArticlesTable,
   createCommentsTable,
   createEmojisTable,
+  createEmojisArticlesUsersTable,
+  createUsersTopicsTable,
+  createUsersArticlesVotesTable,
+  createTopicsArticlesVotesTable,
 } = require("./create-tables");
 const format = require("pg-format");
 const {
@@ -14,6 +18,7 @@ const {
   replaceObjectEntries,
   removePropertyFromArrayOfObjects,
 } = require("./data-formatting");
+const { emojisArticlesUsersData } = require("../data/test-data");
 
 // Create db tables
 const seed = async ({
@@ -24,6 +29,7 @@ const seed = async ({
   emojiData,
 }) => {
   try {
+    await db.query(`DROP TABLE IF EXISTS emoji_article_user`);
     await db.query(`DROP TABLE IF EXISTS comments`);
     await db.query(`DROP TABLE IF EXISTS articles`);
     await db.query(`DROP TABLE IF EXISTS topics`);
@@ -37,18 +43,21 @@ const seed = async ({
   await createArticlesTable(db);
   await createCommentsTable(db);
   await createEmojisTable(db);
+  await createEmojisArticlesUsersTable(db);
 
   // Format data
   const formattedUsersData = formatData(userData);
   const formattedTopicsData = formatData(topicData);
   const formattedArticlesData = formatData(articleData);
   const formattedEmojiData = formatData(emojiData);
+  const formattedEAUData = formatData(emojisArticlesUsersData);
 
   // Get keys for pg-format
   const usersKeys = getKeys(userData);
   const topicsKeys = getKeys(topicData);
   const articlesKeys = getKeys(articleData);
   const emojisKeys = getKeys(emojiData);
+  const EAUKeys = getKeys(emojisArticlesUsersData);
 
   // Write SQL strings for insertion
   const insertUserData = format(
@@ -75,11 +84,18 @@ const seed = async ({
     formattedEmojiData
   );
 
+  const insertEAUData = format(
+    `INSERT INTO emoji_article_user (%I) VALUES %L`,
+    EAUKeys,
+    formattedEAUData
+  );
+
   try {
     await db.query(insertUserData);
     await db.query(insertTopicsData);
     await db.query(insertArticlesData);
     await db.query(insertEmojisData);
+    await db.query(insertEAUData);
   } catch (err) {
     console.log(`Error inserting data:\n${err}`);
   }
