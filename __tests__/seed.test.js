@@ -156,7 +156,6 @@ describe("seed", () => {
         });
     });
   });
-  //TODO
 
   describe("users table", () => {
     test("users table exists", () => {
@@ -659,6 +658,15 @@ describe("data insertion", () => {
         expect(user).toHaveProperty("username");
         expect(user).toHaveProperty("name");
         expect(user).toHaveProperty("avatar_url");
+      });
+    });
+  });
+  test("emojis data has been inserted correctly", () => {
+    return db.query(`SELECT * FROM emojis;`).then(({ rows: emojis }) => {
+      expect(emojis).toHaveLength(3);
+      emojis.forEach((emoji) => {
+        expect(emoji).toHaveProperty("emoji");
+        expect(emoji).toHaveProperty("emoji_description");
       });
     });
   });
