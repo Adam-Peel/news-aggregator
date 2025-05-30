@@ -803,6 +803,67 @@ describe("users_articles_votes table", () => {
   });
 });
 
+// Testing duplicates
+
+describe("users_articles_bookmarks table", () => {
+  test("users_articles_bookmarks table exists", () => {
+    return db
+      .query(
+        `SELECT EXISTS (
+            SELECT FROM 
+                information_schema.tables 
+            WHERE 
+                table_name = 'users_articles_bookmarks'
+            );`
+      )
+      .then(({ rows: [{ exists }] }) => {
+        expect(exists).toBe(true);
+      });
+  });
+
+  test("users_articles_bookmarks table has username column as varying character", () => {
+    return db
+      .query(
+        `SELECT *
+            FROM information_schema.columns
+            WHERE table_name = 'users_articles_bookmarks'
+            AND column_name = 'username';`
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("username");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
+
+  test("users_articles_bookmarks table has article_id column as integer", () => {
+    return db
+      .query(
+        `SELECT *
+            FROM information_schema.columns
+            WHERE table_name = 'users_articles_bookmarks'
+            AND column_name = 'article_id';`
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("article_id");
+        expect(column.data_type).toBe("integer");
+      });
+  });
+
+  test("users_articles_bookmarks table has is_article_read column as boolean", () => {
+    return db
+      .query(
+        `SELECT *
+            FROM information_schema.columns
+            WHERE table_name = 'users_articles_bookmarks'
+            AND column_name = 'is_article_read';`
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("is_article_read");
+        expect(column.data_type).toBe("boolean");
+      });
+  });
+});
+
 describe("data insertion", () => {
   test("topics data has been inserted correctly", () => {
     return db.query(`SELECT * FROM topics;`).then(({ rows: topics }) => {
@@ -900,6 +961,20 @@ describe("data insertion", () => {
           expect(user_vote_count).toHaveProperty("article_id");
           expect(user_vote_count).toHaveProperty("username");
           expect(user_vote_count).toHaveProperty("vote_count");
+        });
+      });
+  });
+
+  test("users_articles_votes data has been inserted correctly", () => {
+    return db
+      .query(`SELECT * FROM users_articles_bookmarks;`)
+      .then(({ rows: users_articles_engagements }) => {
+        expect(users_articles_engagements).toHaveLength(5);
+        users_articles_engagements.forEach((user_engagement) => {
+          expect(user_engagement).toHaveProperty("username");
+          expect(user_engagement).toHaveProperty("article_id");
+          expect(user_engagement).toHaveProperty("is_article_read");
+          expect(user_engagement).toHaveProperty("is_article_bookmarked");
         });
       });
   });

@@ -80,15 +80,17 @@ async function createUsersArticlesVotesTable(db) {
   }
 }
 
-async function createUsersArticlesBookmarkTable(db) {
+async function createUsersArticlesBookmarksTable(db) {
   try {
     await db.query(
-      `CREATE TABLE users_articles_bookmark (user_article_bookmark_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), is_article_read BOOLEAN,is_article_bookmarked BOOLEAN, CONSTRAINT users_articles UNIQUE (username, article_id));`
+      `CREATE TABLE users_articles_bookmarks (user_articles_bookmarks_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), is_article_read BOOLEAN,is_article_bookmarked BOOLEAN);`
     );
   } catch (err) {
     console.log(`Error creating users_articles_votes table:\n${err}`);
   }
 }
+
+//TODO - BUG - Insert constraint into users_articles_bookmarks: CONSTRAINT users_articles UNIQUE (username, article_id)
 
 module.exports = {
   createUsersTable,
@@ -99,12 +101,5 @@ module.exports = {
   createEmojisArticlesUsersTable,
   createUsersTopicsTable,
   createUsersArticlesVotesTable,
-  createUsersArticlesBookmarkTable,
+  createUsersArticlesBookmarksTable,
 };
-
-/* Create data and test for:
-  createEmojisArticlesUsersTable,
-  createUsersTopicsTable,
-  createUsersArticlesVotesTable,
-  createTopicsArticlesVotesTable,
-*/
