@@ -27,7 +27,17 @@ function getKeys(data) {
   return placeholder;
 }
 
+function getLookup(data, valueToLookUp, valueToReference) {
+  const lookupObject = {};
+  const dataToIterateOver = data.rows;
+  dataToIterateOver.forEach((element) => {
+    lookupObject[element.title] = element.article_id;
+  });
+  return lookupObject;
+}
+
 module.exports = {
   getKeys,
   formatData,
+  getLookup,
 };

@@ -6,7 +6,7 @@ const {
   createCommentsTable,
 } = require("./create-tables");
 const format = require("pg-format");
-const { getKeys, formatData } = require("./data-formatting");
+const { getKeys, formatData, getLookup } = require("./data-formatting");
 const comments = require("../data/test-data/comments");
 
 const seed = async ({ topicData, userData, articleData, commentData }) => {
@@ -53,23 +53,31 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
     formattedArticlesData
   );
 
+  //Get article_id for comments
+  const articleIdLookup = await db.query(`SELECT article_id from articles`);
+
   const insertCommentsData = format(
-    `INSERT INTO comments (%I, article_id) VALUES %L SELECT articles.article_id from articles JOIN comments ON articles.title = comments.article_name`,
+    `INSERT INTO comments (%I, article_id) VALUES %L`,
     commentsKeys,
     formattedCommentsData
   );
-  console.log(commentsKeys);
-  console.log(formattedCommentsData);
+  // console.log(commentsKeys);
+  // console.log(formattedCommentsData);
   // TODO - BUG - Figure out syntax and data structure for comments insertion.
 
   try {
     await db.query(insertUserData);
     await db.query(insertTopicsData);
     await db.query(insertArticlesData);
-    await db.query(insertCommentsData);
   } catch (err) {
     console.log(`Error inserting data:\n${err}`);
   }
+
+  const lookup = await db.query(`SELECT * FROM articles`);
+  //console.log(lookup);
+  console.log(getLookup(lookup));
+
+  //await db.query(insertCommentsData);
 };
 
 module.exports = seed;
