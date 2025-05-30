@@ -44,15 +44,24 @@ describe("getLookup", () => {
     const errMessage = "dataset is empty";
     expect(actual).toEqual(errMessage);
   });
-  test("If passed empty object, returns error message", () => {
-    const input = {};
+  test("If passed an object with a rows array of length 1, returns expected object", () => {
+    const input = { rows: [{ title: "Testing Testing", article_id: 123 }] };
     const actual = getLookup(input, "title", "article_id");
-    const errMessage = "dataset is empty";
-    expect(actual).toEqual(errMessage);
+    const output = { "Testing Testing": 123 };
+    expect(actual).toEqual(output);
+  });
+  test("If passed an object with a rows array of > length 1, returns expected object", () => {
+    const input = {
+      rows: [
+        { title: "Testing Testing", article_id: 123 },
+        { title: "Mambo no..", article_id: 5 },
+      ],
+    };
+    const actual = getLookup(input, "title", "article_id");
+    const output = { "Testing Testing": 123, "Mambo no..": 5 };
+    expect(actual).toEqual(output);
   });
 });
 
-// Expected behaviour for length 1
-// Expected behaviour for length > 1
 // Original array is unmutated
 // Memory references
