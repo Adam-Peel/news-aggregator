@@ -71,31 +71,28 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
   // Implement lookup from article data
   const articles = await db.query(`SELECT * FROM articles`);
   const articlesLookup = getLookup(articles, "title", "article_id");
-  const articlesWithId = replaceObjectEntries(
+  const commentsWithId = replaceObjectEntries(
     commentData,
     "article_title",
     articlesLookup,
     "article_id"
   );
 
-  const articlesWithoutTitles = removePropertyFromArrayOfObjects(
-    articlesWithId,
+  const commentsWithoutTitles = removePropertyFromArrayOfObjects(
+    commentsWithId,
     "article_title"
   );
 
-  // const formattedCommentsData = formatData(commentData);
-  // const commentsKeys = getKeys(commentData);
+  const commentsKeys = getKeys(commentsWithoutTitles);
+  const formattedCommentsData = formatData(commentsWithoutTitles);
 
-  // const insertCommentsData = format(
-  //   `INSERT INTO comments (%I, article_id) VALUES %L`,
-  //   commentsKeys,
-  //   formattedCommentsData
-  // );
+  const insertCommentsData = format(
+    `INSERT INTO comments (%I) VALUES %L`,
+    commentsKeys,
+    formattedCommentsData
+  );
 
-  // console.log(articlesLookup);
-  // console.log(formattedCommentsData);
-
-  //await db.query(insertCommentsData);
+  await db.query(insertCommentsData);
 };
 
 module.exports = seed;
