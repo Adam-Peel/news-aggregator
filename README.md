@@ -23,7 +23,7 @@ The repo is currently a work in progress.
 
 1. Repository created - complete
 2. README.md created - complete
-3. SQL Tables created - In progress
-4. SQL Tables populated - In progress
+3. SQL Tables created - complete
+4. SQL Tables populated - complete
 5. Debugging and testing - In progress
 6. ERD Creation - In progress
