@@ -61,17 +61,29 @@ async function createEmojisArticlesUsersTable(db) {
 async function createUsersTopicsTable(db) {
   try {
     await db.query(
-      `CREATE TABLE users_topics (user_topic_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), topic VARCHAR(255) REFERENCES topics(slug), CONSTRAINT users_topics UNIQUE (username, topic));`
+      `CREATE TABLE users_topics (users_topic_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), topic VARCHAR(255) REFERENCES topics(slug));`
     );
   } catch (err) {
-    console.log(`Error creating emojis_articles_users table:\n${err}`);
+    console.log(`Error creating users_topics table:\n${err}`);
   }
 }
+
+// TODO - BUG : Inserting constraint into users_topics causes it to not be created: , CONSTRAINT users_topics UNIQUE (username, topic)
 
 async function createUsersArticlesVotesTable(db) {
   try {
     await db.query(
       `CREATE TABLE users_articles_votes (user_article_votes_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), vote_count INT NOT NULL, CONSTRAINT users_articles UNIQUE (username, article_id));`
+    );
+  } catch (err) {
+    console.log(`Error creating users_articles_votes table:\n${err}`);
+  }
+}
+
+async function createUsersArticlesBookmarkTable(db) {
+  try {
+    await db.query(
+      `CREATE TABLE users_articles_bookmark (user_article_bookmark_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), bookmarked_article BOOLEAN, CONSTRAINT users_articles UNIQUE (username, article_id));`
     );
   } catch (err) {
     console.log(`Error creating users_articles_votes table:\n${err}`);
@@ -98,6 +110,7 @@ module.exports = {
   createUsersTopicsTable,
   createUsersArticlesVotesTable,
   createTopicsArticlesVotesTable,
+  createUsersArticlesBookmarkTable,
 };
 
 /* Create data and test for:

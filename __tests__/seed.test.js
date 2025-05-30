@@ -80,7 +80,6 @@ describe("seed", () => {
         });
     });
   });
-  //TODO
 
   describe("emoji_article_user table", () => {
     test("emoji_article_user table exists", () => {
@@ -142,7 +141,6 @@ describe("seed", () => {
   });
 });
 
-//TODO
 describe("emojis table", () => {
   test("emojis table exists", () => {
     return db
@@ -699,6 +697,67 @@ describe("comments table", () => {
   });
 });
 
+describe("users_topics table", () => {
+  test("users_topics table exists", () => {
+    return db
+      .query(
+        `SELECT EXISTS (
+            SELECT FROM 
+                information_schema.tables 
+            WHERE 
+                table_name = 'users_topics'
+            );`
+      )
+      .then(({ rows: [{ exists }] }) => {
+        expect(exists).toBe(true);
+      });
+  });
+
+  test("users_topics table has username column as varying character", () => {
+    return db
+      .query(
+        `SELECT *
+            FROM information_schema.columns
+            WHERE table_name = 'users_topics'
+            AND column_name = 'username';`
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("username");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
+
+  test("users_topics table has topic column as varying character", () => {
+    return db
+      .query(
+        `SELECT *
+            FROM information_schema.columns
+            WHERE table_name = 'users_topics'
+            AND column_name = 'topic';`
+      )
+      .then(({ rows: [column] }) => {
+        expect(column.column_name).toBe("topic");
+        expect(column.data_type).toBe("character varying");
+      });
+  });
+
+  // test("users_topics table has a restriction of UNIQUE combination of two columns (username, topic)", () => {
+  //   return db
+  //     .query(
+  //       `SELECT column_name
+  //           FROM information_schema.table_constraints AS tc
+  //           JOIN information_schema.key_column_usage AS kcu
+  //           ON tc.constraint_name = kcu.constraint_name
+  //           WHERE tc.constraint_type = 'UNIQUE'
+  //           AND tc.table_name = 'users_topics';`
+  //     )
+  //     .then(({ rows: [{ column_name }] }) => {
+  //       expect(column_name).toBe("username");
+  //       expect(column_name).toBe("topic");
+  //     });
+  // });
+});
+
 describe("data insertion", () => {
   test("topics data has been inserted correctly", () => {
     return db.query(`SELECT * FROM topics;`).then(({ rows: topics }) => {
@@ -773,5 +832,17 @@ describe("data insertion", () => {
         expect(comment).toHaveProperty("created_at");
       });
     });
+  });
+
+  test("users_topics data has been inserted correctly", () => {
+    return db
+      .query(`SELECT * FROM users_topics;`)
+      .then(({ rows: comments }) => {
+        expect(comments).toHaveLength(3);
+        comments.forEach((comment) => {
+          expect(comment).toHaveProperty("username");
+          expect(comment).toHaveProperty("topic");
+        });
+      });
   });
 });

@@ -9,6 +9,7 @@ const {
   createUsersTopicsTable,
   createUsersArticlesVotesTable,
   createTopicsArticlesVotesTable,
+  createUsersArticlesBookmarkTable,
 } = require("./create-tables");
 const format = require("pg-format");
 const {
@@ -18,7 +19,10 @@ const {
   replaceObjectEntries,
   removePropertyFromArrayOfObjects,
 } = require("./data-formatting");
-const { emojisArticlesUsersData } = require("../data/test-data");
+const {
+  emojisArticlesUsersData,
+  userTopicsData,
+} = require("../data/test-data");
 
 // Create db tables
 const seed = async ({
@@ -29,8 +33,8 @@ const seed = async ({
   emojiData,
 }) => {
   try {
-    await db.query(`DROP TABLE IF EXISTS emoji_article_user`);
     await db.query(`DROP TABLE IF EXISTS users_topics`);
+    await db.query(`DROP TABLE IF EXISTS emoji_article_user`);
     await db.query(`DROP TABLE IF EXISTS users_articles_votes`);
     await db.query(`DROP TABLE IF EXISTS topics_articles_votes`);
     await db.query(`DROP TABLE IF EXISTS comments`);
@@ -47,10 +51,12 @@ const seed = async ({
   await createCommentsTable(db);
   await createEmojisTable(db);
   await createEmojisArticlesUsersTable(db);
+  await createUsersTopicsTable(db);
+
   // TODO
-  // await createUsersTopicsTable(db);
   // await createUsersArticlesVotesTable(db);
-  // await createTopicsArticlesVotesTable
+  // await createTopicsArticlesVotesTable(db);
+  // await createUsersArticlesBookmarkTable(db)//
 
   // Format data
   const formattedUsersData = formatData(userData);
@@ -58,6 +64,7 @@ const seed = async ({
   const formattedArticlesData = formatData(articleData);
   const formattedEmojiData = formatData(emojiData);
   const formattedEAUData = formatData(emojisArticlesUsersData);
+  const formattedUsersTopicsData = formatData(userTopicsData);
 
   // Get keys for pg-format
   const usersKeys = getKeys(userData);
@@ -65,6 +72,7 @@ const seed = async ({
   const articlesKeys = getKeys(articleData);
   const emojisKeys = getKeys(emojiData);
   const EAUKeys = getKeys(emojisArticlesUsersData);
+  const userTopicsKeys = getKeys(userTopicsData);
 
   // Write SQL strings for insertion
   const insertUserData = format(
@@ -97,12 +105,19 @@ const seed = async ({
     formattedEAUData
   );
 
+  const insertUsersTopicsData = format(
+    `INSERT INTO users_topics (%I) VALUES %L`,
+    userTopicsKeys,
+    formattedUsersTopicsData
+  );
+
   try {
     await db.query(insertUserData);
     await db.query(insertTopicsData);
     await db.query(insertArticlesData);
     await db.query(insertEmojisData);
     await db.query(insertEAUData);
+    await db.query(insertUsersTopicsData);
   } catch (err) {
     console.log(`Error inserting data:\n${err}`);
   }
