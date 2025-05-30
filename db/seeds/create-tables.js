@@ -38,9 +38,53 @@ async function createCommentsTable(db) {
   }
 }
 
+async function createEmojisTable(db) {
+  try {
+    await db.query(
+      `CREATE TABLE emojis (emoji_id SERIAL PRIMARY KEY, emoji VARCHAR(255) UNIQUE NOT NULL);`
+    );
+  } catch (err) {
+    console.log(`Error creating emojis table:\n${err}`);
+  }
+}
+
+async function createEmojisArticlesUsersTable(db) {
+  try {
+    await db.query(
+      `CREATE TABLE emoji_article_user (emoji_article_user_id SERIAL PRIMARY KEY, emoji_id INT REFERENCES emojis(emoji_id), username VARCHAR(255) REFERENCES users(username), article_id(INT) REFERENCES articles(article_id), CONSTRAINT users_articles_reactions UNIQUE (username, article_id));`
+    );
+  } catch (err) {
+    console.log(`Error creating emojis_articles_users table:\n${err}`);
+  }
+}
+
+async function createUsersTopicsTable(db) {
+  try {
+    await db.query(
+      `CREATE TABLE users_topics (user_topic_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), topic VARCHAR(255) REFERENCES topics(slug), CONSTRAINT users_topics UNIQUE (username, topic));`
+    );
+  } catch (err) {
+    console.log(`Error creating emojis_articles_users table:\n${err}`);
+  }
+}
+
+async function createUsersArticlesVotesTable(db) {
+  try {
+    await db.query(
+      `CREATE TABLE users_articles_votes (user_article_votes_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id(INT) REFERENCES articles(article_id), vote_count INT NOT NULL, CONSTRAINT users_articles UNIQUE (username, article_id));`
+    );
+  } catch (err) {
+    console.log(`Error creating users_articles_votes table:\n${err}`);
+  }
+}
+
 module.exports = {
   createUsersTable,
   createTopicsTable,
   createArticlesTable,
   createCommentsTable,
+  createEmojisTable,
+  createEmojisArticlesUsersTable,
+  createUsersTopicsTable,
+  createUsersArticlesVotesTable,
 };
