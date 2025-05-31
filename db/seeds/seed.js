@@ -28,16 +28,41 @@ const seed = async ({
   usersArticlesBookmarksData,
 }) => {
   try {
-    await db.query(`DROP TABLE IF EXISTS users_topics`);
-    await db.query(`DROP TABLE IF EXISTS users_articles_bookmarks`);
-    await db.query(`DROP TABLE IF EXISTS comments`);
-    await db.query(`DROP TABLE IF EXISTS articles`);
+    await db.query(`DROP TABLE IF EXISTS users_articles_bookmarks cascade`);
+  } catch (err) {
+    console.log(`${err}`);
+  }
+  try {
+    await db.query(`DROP TABLE IF EXISTS users_topics cascade`);
+  } catch (err) {
+    console.log(`${err}`);
+  }
+  try {
+    await db.query(`DROP TABLE IF EXISTS comments cascade`);
+  } catch (err) {
+    console.log(`${err}`);
+  }
+  try {
+    await db.query(`DROP TABLE IF EXISTS articles cascade`);
+  } catch (err) {
+    console.log(`${err}`);
+  }
+  try {
     await db.query(`DROP TABLE IF EXISTS topics`);
+  } catch (err) {
+    console.log(`${err}`);
+  }
+  try {
     await db.query(`DROP TABLE IF EXISTS users`);
+  } catch (err) {
+    console.log(`${err}`);
+  }
+  try {
     await db.query(`DROP TABLE IF EXISTS emojis`);
   } catch (err) {
-    console.log(`Error dropping tables:\n${err}`);
+    console.log(`${err}`);
   }
+
   await createUsersTable(db);
   await createTopicsTable(db);
   await createArticlesTable(db);

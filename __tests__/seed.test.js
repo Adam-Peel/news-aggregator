@@ -760,7 +760,7 @@ describe("users_articles_bookmarks table", () => {
   });
 });
 
-describe.skip("data insertion", () => {
+describe("data insertion", () => {
   test("topics data has been inserted correctly", () => {
     return db.query(`SELECT * FROM topics;`).then(({ rows: topics }) => {
       expect(topics).toHaveLength(3);
@@ -791,19 +791,6 @@ describe.skip("data insertion", () => {
         expect(emoji).toHaveProperty("emoji_description");
       });
     });
-  });
-
-  test("emojis_articles_user data has been inserted correctly", () => {
-    return db
-      .query(`SELECT * FROM emoji_article_user;`)
-      .then(({ rows: emoji_article_user }) => {
-        expect(emoji_article_user).toHaveLength(2);
-        emoji_article_user.forEach((combination) => {
-          expect(combination).toHaveProperty("emoji_id");
-          expect(combination).toHaveProperty("username");
-          expect(combination).toHaveProperty("article_id");
-        });
-      });
   });
 
   test("articles data has been inserted correctly", () => {

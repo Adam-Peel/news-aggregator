@@ -1,3 +1,5 @@
+// Tables with no dependencies
+
 async function createUsersTable(db) {
   try {
     await db.query(
@@ -5,6 +7,16 @@ async function createUsersTable(db) {
     );
   } catch (err) {
     console.log(`Error creating users table:\n${err}`);
+  }
+}
+
+async function createEmojisTable(db) {
+  try {
+    await db.query(
+      `CREATE TABLE emojis (emoji_id SERIAL PRIMARY KEY, emoji VARCHAR(255) UNIQUE NOT NULL, emoji_description VARCHAR(255));`
+    );
+  } catch (err) {
+    console.log(`Error creating emojis table:\n${err}`);
   }
 }
 
@@ -17,6 +29,8 @@ async function createTopicsTable(db) {
     console.log(`Error creating topics table:\n${err}`);
   }
 }
+
+// Tables with dependencies
 
 async function createArticlesTable(db) {
   try {
@@ -35,16 +49,6 @@ async function createCommentsTable(db) {
     );
   } catch (err) {
     console.log(`Error creating comments table:\n${err}`);
-  }
-}
-
-async function createEmojisTable(db) {
-  try {
-    await db.query(
-      `CREATE TABLE emojis (emoji_id SERIAL PRIMARY KEY, emoji VARCHAR(255) UNIQUE NOT NULL, emoji_description VARCHAR(255));`
-    );
-  } catch (err) {
-    console.log(`Error creating emojis table:\n${err}`);
   }
 }
 
