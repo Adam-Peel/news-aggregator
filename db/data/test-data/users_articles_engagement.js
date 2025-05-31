@@ -5,13 +5,15 @@ module.exports = [
     is_article_read: true,
     is_article_bookmarked: true,
     vote_count: 0,
+    emoji_id: 2,
   },
   {
     username: "butter_bridge",
     article_id: 3,
     is_article_read: true,
     is_article_bookmarked: true,
-    vote_count: 0,
+    vote_count: null,
+    emoji_id: 2,
   },
   {
     username: "butter_bridge",
@@ -19,6 +21,7 @@ module.exports = [
     is_article_read: false,
     is_article_bookmarked: true,
     vote_count: 1,
+    emoji_id: 3,
   },
   {
     username: "lurker",
@@ -26,6 +29,7 @@ module.exports = [
     is_article_read: false,
     is_article_bookmarked: true,
     vote_count: -1,
+    emoji_id: 1,
   },
   {
     username: "lurker",
@@ -33,5 +37,6 @@ module.exports = [
     is_article_read: false,
     is_article_bookmarked: true,
     vote_count: 1,
+    emoji_id: 3,
   },
 ];

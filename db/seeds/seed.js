@@ -28,7 +28,7 @@ const seed = async ({
   usersArticlesEngagementData,
 }) => {
   try {
-    await db.query(`DROP TABLE IF EXISTS users_articles_Engagement cascade`);
+    await db.query(`DROP TABLE IF EXISTS users_articles_engagement cascade`);
   } catch (err) {
     console.log(`${err}`);
   }
@@ -121,7 +121,7 @@ const seed = async ({
   );
 
   const insertUsersArticlesEngagementData = format(
-    `INSERT INTO users_articles_Engagement (%I) VALUES %L`,
+    `INSERT INTO users_articles_engagement (%I) VALUES %L`,
     userArticlesEngagementKeys,
     formattedUsersArticlesEngagement
   );

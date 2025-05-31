@@ -5,6 +5,7 @@ module.exports = [
     is_article_read: true,
     is_article_bookmarked: true,
     vote_count: 0,
+    emoji_id: null,
   },
   {
     username: "grumpy19",
@@ -12,6 +13,7 @@ module.exports = [
     is_article_read: true,
     is_article_bookmarked: true,
     vote_count: 1,
+    emoji_id: null,
   },
   {
     username: "grumpy19",
@@ -19,6 +21,7 @@ module.exports = [
     is_article_read: false,
     is_article_bookmarked: true,
     vote_count: 1,
+    emoji_id: null,
   },
   {
     username: "tickle122",
@@ -26,13 +29,15 @@ module.exports = [
     is_article_read: false,
     is_article_bookmarked: true,
     vote_count: -1,
+    emoji_id: 1,
   },
   {
     username: "tickle122",
     article_id: 3,
     is_article_read: false,
     is_article_bookmarked: true,
-    vote_count: 0,
+    vote_count: null,
+    emoji_id: 1,
   },
   {
     username: "cooljmessy",
@@ -40,12 +45,14 @@ module.exports = [
     is_article_read: true,
     is_article_bookmarked: true,
     vote_count: 1,
+    emoji_id: 12,
   },
   {
     username: "cooljmessy",
     article_id: 3,
     is_article_read: false,
     is_article_bookmarked: true,
-    vote_count: 1,
+    vote_count: null,
+    emoji_id: 5,
   },
 ];
