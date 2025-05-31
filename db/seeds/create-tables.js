@@ -48,16 +48,6 @@ async function createEmojisTable(db) {
   }
 }
 
-async function createEmojisArticlesUsersTable(db) {
-  try {
-    await db.query(
-      `CREATE TABLE emoji_article_user (emoji_article_user_id SERIAL PRIMARY KEY, emoji_id INT REFERENCES emojis(emoji_id), username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), CONSTRAINT users_articles_reactions UNIQUE (username, article_id));`
-    );
-  } catch (err) {
-    console.log(`Error creating emoji_articles_users table:\n${err}`);
-  }
-}
-
 async function createUsersTopicsTable(db) {
   try {
     await db.query(
@@ -69,16 +59,6 @@ async function createUsersTopicsTable(db) {
 }
 
 // TODO - BUG : Inserting constraint into users_topics causes it to not be created: , CONSTRAINT users_topics UNIQUE (username, topic)
-
-async function createUsersArticlesVotesTable(db) {
-  try {
-    await db.query(
-      `CREATE TABLE users_articles_votes (user_article_votes_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), vote_count INT NOT NULL CHECK (vote_count between -1 and 1), CONSTRAINT users_articles UNIQUE (username, article_id));`
-    );
-  } catch (err) {
-    console.log(`Error creating users_articles_votes table:\n${err}`);
-  }
-}
 
 async function createUsersArticlesBookmarksTable(db) {
   try {
@@ -98,8 +78,6 @@ module.exports = {
   createArticlesTable,
   createCommentsTable,
   createEmojisTable,
-  createEmojisArticlesUsersTable,
   createUsersTopicsTable,
-  createUsersArticlesVotesTable,
   createUsersArticlesBookmarksTable,
 };
