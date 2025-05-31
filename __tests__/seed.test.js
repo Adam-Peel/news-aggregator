@@ -701,15 +701,15 @@ describe("users_topics table", () => {
 
 // Testing duplicates
 
-describe("users_articles_bookmarks table", () => {
-  test("users_articles_bookmarks table exists", () => {
+describe("users_articles_engagement table", () => {
+  test("users_articles_engagement table exists", () => {
     return db
       .query(
         `SELECT EXISTS (
             SELECT FROM 
                 information_schema.tables 
             WHERE 
-                table_name = 'users_articles_bookmarks'
+                table_name = 'users_articles_engagement'
             );`
       )
       .then(({ rows: [{ exists }] }) => {
@@ -717,12 +717,12 @@ describe("users_articles_bookmarks table", () => {
       });
   });
 
-  test("users_articles_bookmarks table has username column as varying character", () => {
+  test("users_articles_engagement table has username column as varying character", () => {
     return db
       .query(
         `SELECT *
             FROM information_schema.columns
-            WHERE table_name = 'users_articles_bookmarks'
+            WHERE table_name = 'users_articles_engagement'
             AND column_name = 'username';`
       )
       .then(({ rows: [column] }) => {
@@ -731,12 +731,12 @@ describe("users_articles_bookmarks table", () => {
       });
   });
 
-  test("users_articles_bookmarks table has article_id column as integer", () => {
+  test("users_articles_engagement table has article_id column as integer", () => {
     return db
       .query(
         `SELECT *
             FROM information_schema.columns
-            WHERE table_name = 'users_articles_bookmarks'
+            WHERE table_name = 'users_articles_engagement'
             AND column_name = 'article_id';`
       )
       .then(({ rows: [column] }) => {
@@ -745,12 +745,12 @@ describe("users_articles_bookmarks table", () => {
       });
   });
 
-  test("users_articles_bookmarks table has is_article_read column as boolean", () => {
+  test("users_articles_engagement table has is_article_read column as boolean", () => {
     return db
       .query(
         `SELECT *
             FROM information_schema.columns
-            WHERE table_name = 'users_articles_bookmarks'
+            WHERE table_name = 'users_articles_engagement'
             AND column_name = 'is_article_read';`
       )
       .then(({ rows: [column] }) => {
@@ -835,9 +835,9 @@ describe("data insertion", () => {
       });
   });
 
-  test("users_articles_bookmarks data has been inserted correctly", () => {
+  test("users_articles_engagement data has been inserted correctly", () => {
     return db
-      .query(`SELECT * FROM users_articles_bookmarks;`)
+      .query(`SELECT * FROM users_articles_engagement;`)
       .then(({ rows: users_articles_engagements }) => {
         expect(users_articles_engagements).toHaveLength(5);
         users_articles_engagements.forEach((user_engagement) => {

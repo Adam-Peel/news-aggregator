@@ -64,13 +64,13 @@ async function createUsersTopicsTable(db) {
 
 // TODO - BUG : Inserting constraint into users_topics causes it to not be created: , CONSTRAINT users_topics UNIQUE (username, topic)
 
-async function createUsersArticlesBookmarksTable(db) {
+async function createUsersArticlesEngagementTable(db) {
   try {
     await db.query(
-      `CREATE TABLE users_articles_bookmarks (user_articles_bookmarks_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), is_article_read BOOLEAN, is_article_bookmarked BOOLEAN, vote_count INT CHECK (vote_count between -1 and 1), emoji_id INT REFERENCES emojis(emoji_id));`
+      `CREATE TABLE users_articles_engagement (user_articles_engagement_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), is_article_read BOOLEAN, is_article_bookmarked BOOLEAN, vote_count INT CHECK (vote_count between -1 and 1), emoji_id INT REFERENCES emojis(emoji_id));`
     );
   } catch (err) {
-    console.log(`Error creating users_articles_votes table:\n${err}`);
+    console.log(`Error creating users_articles_engagement table:\n${err}`);
   }
 }
 
@@ -83,5 +83,5 @@ module.exports = {
   createCommentsTable,
   createEmojisTable,
   createUsersTopicsTable,
-  createUsersArticlesBookmarksTable,
+  createUsersArticlesEngagementTable,
 };

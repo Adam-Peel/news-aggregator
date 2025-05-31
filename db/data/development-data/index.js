@@ -4,4 +4,4 @@ exports.topicData = require("./topics.js");
 exports.userData = require("./users.js");
 exports.emojiData = require("./emojis.js");
 exports.userTopicsData = require("./users-topics.js");
-exports.usersArticlesBookmarksData = require("./users_articles_bookmarks.js");
+exports.usersArticlesEngagementData = require("./users_articles_engagement.js");
