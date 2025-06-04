@@ -1,6 +1,6 @@
 const db = require("../db/connection");
 
-async function fetchTopicsDB() {
+async function fetchAllTopicsDB() {
   try {
     const { rows } = await db.query(`SELECT description, slug FROM topics`);
     return rows;
@@ -9,4 +9,4 @@ async function fetchTopicsDB() {
   }
 }
 
-module.exports = { fetchTopicsDB };
+module.exports = { fetchAllTopicsDB };

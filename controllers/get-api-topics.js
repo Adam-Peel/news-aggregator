@@ -1,13 +1,13 @@
 const db = require("../db/connection.js");
-const { fetchTopicsDB } = require("../models/fetch-topics-db.js");
+const { fetchAllTopicsDB } = require("../models/fetch-topics-db.js");
 
-async function getTopicsAPI(request, response) {
+async function getAllTopicsAPI(request, response) {
   try {
-    const topics = await fetchTopicsDB();
+    const topics = await fetchAllTopicsDB();
     response.status(200).send({ topics });
   } catch (err) {
     response.status(500).send(err);
   }
 }
 
-module.exports = { getTopicsAPI };
+module.exports = { getAllTopicsAPI };
