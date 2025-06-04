@@ -16,10 +16,17 @@ afterAll(() => {
 
 describe("GET /api/topics", () => {
   test("200: Responds with an object listing all topics in desired format", () => {
-    return request(app).get("/api/topics").expect(200);
-    // // .then(({ body: { endpoints } }) => {
-    // //   expect(endpoints).toEqual(endpointsJson);
-    // });
+    return request(app)
+      .get("/api/topics")
+      .expect(200)
+      .then(({ body }) => {
+        expect(Array.isArray(body)).toBe(true);
+        body.forEach((element) => {
+          const { slug, description } = element;
+          expect(typeof slug).toBe("string");
+          expect(typeof description).toBe("string");
+        });
+      });
   });
   // test("200: Responds with an object detailing the documentation for each endpoint", () => {
   //   return request(app)

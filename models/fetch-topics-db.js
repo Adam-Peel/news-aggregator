@@ -1,12 +1,11 @@
 const db = require("../db/connection");
 
 async function fetchTopicsDB() {
-  console.log("fetchTopics <- Model");
   try {
-    const { rows } = await db.query(`SELECT * FROM topics`);
+    const { rows } = await db.query(`SELECT description, slug FROM topics`);
     return rows;
   } catch (err) {
-    // DEAL WITH ERROR
+    return err;
   }
 }
 
