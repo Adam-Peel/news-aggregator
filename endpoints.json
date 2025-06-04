@@ -29,18 +29,16 @@
   "GET /api/articles/:id": {
     "description": "serves an object with the key of article and the value of an article of article objects. The articles are sorted by date, in descending order.",
     "exampleResponse": {
-      "articles": [
-        {
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "article_id": 1,
-          "author": "weegembump",
-          "created_at": "2018-05-30T15:59:13.341Z",
-          "votes": 0,
-          "comment_count": 6,
-          "article_img_url": "url-goes-here"
-        }
-      ]
+      "article": {
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "article_id": 1,
+        "author": "weegembump",
+        "created_at": "2018-05-30T15:59:13.341Z",
+        "votes": 0,
+        "comment_count": 6,
+        "article_img_url": "url-goes-here"
+      }
     }
   }
 }
