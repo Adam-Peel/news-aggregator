@@ -38,7 +38,7 @@ describe("GET /api/topics", () => {
 });
 
 describe("GET /api/articles", () => {
-  test.skip("200: Responds with an object listing all articles in desired format", () => {
+  test("200: Responds with an object listing all articles in desired format", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
