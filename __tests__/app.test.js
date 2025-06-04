@@ -65,7 +65,7 @@ describe("GET /api/articles", () => {
         });
       });
   });
-  test.skip("Get single article - /api/articles/:id - 200: Responds with an object listing an article in desired format, where that article exists", () => {
+  test("Get single article - /api/articles/:id - 200: Responds with an object listing an article in desired format, where that article exists", () => {
     return request(app)
       .get("/api/articles/3")
       .expect(200)
@@ -92,8 +92,8 @@ describe("GET /api/articles", () => {
         });
       });
   });
-  test.skip("Get single article - /api/articles/:id - 404: Responds with error where that article does not exists", () => {
-    return request(app).get("/api/articles/3").expect(404);
+  test("Get single article - /api/articles/:id - 404: Responds with error where that article does not exists", () => {
+    return request(app).get("/api/articles/3676").expect(404);
   });
 });
 

@@ -36,7 +36,7 @@ async function fetchSingleArticle(request) {
     if (rows.length > 0) {
       return { article: rows };
     } else {
-      throw new Error("No article found");
+      return Error;
     }
   } catch (err) {
     return err;
