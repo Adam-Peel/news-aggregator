@@ -1,4 +1,3 @@
-const db = require("../db/connection.js");
 const { fetchAllTopicsDB } = require("../models/fetch-topics-db.js");
 
 async function getAllTopicsAPI(request, response) {
