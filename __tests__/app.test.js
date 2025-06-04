@@ -14,8 +14,8 @@ afterAll(() => {
   db.end();
 });
 
-describe("GET /api", () => {
-  test("200: Responds with an object detailing the documentation for each endpoint", () => {
+describe("GET /api/topics", () => {
+  test("200: Responds with an object listing all topics in desired format", () => {
     return request(app).get("/api/topics").expect(200);
     // // .then(({ body: { endpoints } }) => {
     // //   expect(endpoints).toEqual(endpointsJson);

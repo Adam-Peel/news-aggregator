@@ -1,4 +1,6 @@
-async function fetchTopicsDB(request) {
+const db = require("../db/connection");
+
+async function fetchTopicsDB() {
   console.log("fetchTopics <- Model");
   try {
     const { rows } = await db.query(`SELECT * FROM topics`);
