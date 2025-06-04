@@ -14,7 +14,7 @@ afterAll(() => {
   db.end();
 });
 
-describe("GET /api/topics", () => {
+describe("GET /api/users", () => {
   test("200: Responds with an object listing all topics in desired format", () => {
     return request(app)
       .get("/api/topics")
@@ -62,6 +62,22 @@ describe("GET /api/articles", () => {
           expect(typeof votes).toBe("number");
           expect(typeof article_img_url).toBe("string");
           expect(typeof comment_count).toBe("string");
+        });
+      });
+  });
+});
+
+describe("GET /api/users", () => {
+  test.skip("200: Responds with an object listing all users in desired format", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        body.users.forEach((element) => {
+          const { username, name, avatar_url } = element;
+          expect(typeof username).toBe("string");
+          expect(typeof name).toBe("string");
+          expect(typeof avatar_url).toBe("string");
         });
       });
   });

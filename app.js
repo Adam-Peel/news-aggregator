@@ -9,6 +9,7 @@ const { getAllArticlesAPI } = require("./controllers/get-api-articles");
 // CODE HERE
 app.get("/api/topics", getAllTopicsAPI);
 app.get("/api/articles", getAllArticlesAPI);
+//app.get("/api/users", getAllUsersAPI);
 
 // EXPORTS
 module.exports = { app };
