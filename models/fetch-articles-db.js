@@ -34,7 +34,7 @@ async function fetchSingleArticle(request) {
       request
     );
     if (rows.length > 0) {
-      return { article: rows };
+      return { article: rows[0] };
     } else {
       return Error;
     }
