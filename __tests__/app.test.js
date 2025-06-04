@@ -40,10 +40,10 @@ describe("GET /api/topics", () => {
 describe("GET /api/articles", () => {
   test.skip("200: Responds with an object listing all articles in desired format", () => {
     return request(app)
-      .get("/api/topics")
+      .get("/api/articles")
       .expect(200)
       .then(({ body }) => {
-        body.topics.forEach((element) => {
+        body.articles.forEach((element) => {
           const {
             author,
             title,

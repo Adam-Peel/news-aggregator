@@ -1,16 +1,12 @@
 const db = require("../db/connection");
 
-async function fetchAllArticlesAPI(request, response) {
+async function fetchAllArticlesDB(request, response) {
   try {
-    console.log("fetchAllArticlesAPI - model");
     const { rows } = await db.query(`SELECT * FROM articles`);
-    console.log(rows);
-    return rows;
-    //
+    return { articles: rows };
   } catch (err) {
-    //
     return err;
   }
 }
 
-module.exports = { fetchAllArticlesAPI };
+module.exports = { fetchAllArticlesDB };
