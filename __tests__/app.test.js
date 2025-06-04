@@ -65,6 +65,4 @@ describe("GET /api/articles", () => {
         });
       });
   });
-  //TODO - Test by date in ascending order
-  // No body property present on article objects
 });
