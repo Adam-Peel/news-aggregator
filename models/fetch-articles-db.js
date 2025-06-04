@@ -27,4 +27,20 @@ articles.created_at DESC;`
   }
 }
 
-module.exports = { fetchAllArticlesDB };
+async function fetchSingleArticle(request) {
+  try {
+    const { rows } = await db.query(
+      `SELECT * FROM articles WHERE article_id = $1`,
+      request
+    );
+    if (rows.length > 0) {
+      return { article: rows };
+    } else {
+      throw new Error("No article found");
+    }
+  } catch (err) {
+    return err;
+  }
+}
+
+module.exports = { fetchAllArticlesDB, fetchSingleArticle };

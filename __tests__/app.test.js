@@ -65,6 +65,36 @@ describe("GET /api/articles", () => {
         });
       });
   });
+  test.skip("Get single article - /api/articles/:id - 200: Responds with an object listing an article in desired format, where that article exists", () => {
+    return request(app)
+      .get("/api/articles/3")
+      .expect(200)
+      .then(({ body }) => {
+        body.article.forEach((element) => {
+          const {
+            author,
+            title,
+            article_id,
+            body,
+            topic,
+            created_at,
+            votes,
+            article_img_url,
+          } = element;
+          expect(typeof author).toBe("string");
+          expect(typeof title).toBe("string");
+          expect(typeof article_id).toBe("number");
+          expect(typeof body).toBe("string");
+          expect(typeof topic).toBe("string");
+          expect(new Date(created_at)).toBeInstanceOf(Date);
+          expect(typeof votes).toBe("number");
+          expect(typeof article_img_url).toBe("string");
+        });
+      });
+  });
+  test.skip("Get single article - /api/articles/:id - 404: Responds with error where that article does not exists", () => {
+    return request(app).get("/api/articles/3").expect(404);
+  });
 });
 
 describe("GET /api/users", () => {

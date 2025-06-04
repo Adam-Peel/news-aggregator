@@ -1,4 +1,7 @@
-const { fetchAllArticlesDB } = require("../models/fetch-articles-db");
+const {
+  fetchAllArticlesDB,
+  fetchSingleArticle,
+} = require("../models/fetch-articles-db");
 
 async function getAllArticlesAPI(request, response) {
   try {
@@ -9,4 +12,14 @@ async function getAllArticlesAPI(request, response) {
   }
 }
 
-module.exports = { getAllArticlesAPI };
+async function getSingleArticleAPI(request, response) {
+  try {
+    const articleId = Object.values(request.params);
+    const article = await fetchSingleArticle(articleId);
+    response.status(200).send(article);
+  } catch (err) {
+    response.status(404).send(err);
+  }
+}
+
+module.exports = { getAllArticlesAPI, getSingleArticleAPI };
