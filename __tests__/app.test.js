@@ -20,8 +20,7 @@ describe("GET /api/topics", () => {
       .get("/api/topics")
       .expect(200)
       .then(({ body }) => {
-        expect(Array.isArray(body)).toBe(true);
-        body.forEach((element) => {
+        body.topics.forEach((element) => {
           const { slug, description } = element;
           expect(typeof slug).toBe("string");
           expect(typeof description).toBe("string");
