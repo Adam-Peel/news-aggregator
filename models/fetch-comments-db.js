@@ -1,11 +1,10 @@
 const db = require("../db/connection");
 
-async function fetchSingleCommentsDB(request, response) {
+async function fetchSingleCommentsDB(request) {
   try {
-    const articleId = request;
     const { rows } = await db.query(
       `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC`,
-      articleId
+      request
     );
     if (rows.length > 0) {
       return rows;

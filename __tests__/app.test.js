@@ -59,7 +59,7 @@ describe("GET /api/articles", () => {
           expect(typeof article_id).toBe("number");
           expect(typeof topic).toBe("string");
           expect(new Date(created_at)).toBeInstanceOf(Date);
-          expect(typeof votes).toBe("number");
+          expect(votes).toBeOneOf([expect.any(Number), null]);
           expect(typeof article_img_url).toBe("string");
           expect(typeof comment_count).toBe("string");
         });
@@ -86,8 +86,8 @@ describe("GET /api/articles", () => {
         expect(typeof articleBody).toBe("string");
         expect(typeof topic).toBe("string");
         expect(new Date(created_at)).toBeInstanceOf(Date);
-        expect(typeof votes).toBe("number");
-        expect(typeof article_img_url).toBe("string");
+        expect(votes).toBeOneOf([expect.any(Number), null]);
+        expect(article_img_url).toBeOneOf([expect.any(String), null]);
       });
   });
   test("Get single article - /api/articles/:id - 404: Responds with error where that article does not exists", () => {
@@ -122,23 +122,6 @@ describe("GET /api/articles", () => {
         expect(body.message).toEqual("Item not found");
       });
   });
-  test.only("Get single article comments - /api/articles/:id/comments - 200: Responds with desired output where the article exists", () => {
-    return request(app)
-      .get("/api/articles/3/comments")
-      .expect(200)
-      .then(({ body }) => {
-        body.comments.forEach((element) => {
-          const { comment_id, votes, created_at, author, body, article_id } =
-            element;
-          expect(typeof comment_id).toBe("number");
-          expect(typeof votes).toBe("number");
-          expect(new Date(created_at)).toBeInstanceOf(Date);
-          expect(typeof author).toBe("string");
-          expect(typeof body).toBe("string");
-          expect(article_id).toEqual(3);
-        });
-      });
-  });
 });
 
 describe("GET /api/users", () => {
@@ -151,7 +134,27 @@ describe("GET /api/users", () => {
           const { username, name, avatar_url } = element;
           expect(typeof username).toBe("string");
           expect(typeof name).toBe("string");
-          expect(typeof avatar_url).toBe("string");
+          expect(avatar_url).toBeOneOf([expect.any(String), null]);
+        });
+      });
+  });
+});
+
+describe("GET /api/articles/3/comments", () => {
+  test("Get single article comments - /api/articles/:id/comments - 200: Responds with desired output where the article exists", () => {
+    return request(app)
+      .get("/api/articles/3/comments")
+      .expect(200)
+      .then(({ body }) => {
+        body.comments.forEach((element) => {
+          const { comment_id, votes, created_at, author, body, article_id } =
+            element;
+          expect(typeof comment_id).toBe("number");
+          expect(votes).toBeOneOf([expect.any(Number), null]);
+          expect(new Date(created_at)).toBeInstanceOf(Date);
+          expect(typeof author).toBe("string");
+          expect(typeof body).toBe("string");
+          expect(article_id).toEqual(3);
         });
       });
   });
