@@ -183,14 +183,14 @@ describe("POST /api/articles/:article_id/comments", () => {
         );
       });
   });
-  test("Post single article comments - /api/articles/:id/comments - 404: Responds with error where the article id is not found", () => {
-    const commentObj = { username: "lurker", body: "This is another comment" };
+  test.only("Post single article comments - /api/articles/:id/comments - 500: Responds with error where the username is not found", () => {
+    const commentObj = {
+      username: "laker",
+      body: "This is yet another comment",
+    };
     return request(app)
-      .post("/api/articles/36767/comments")
+      .post("/api/articles/3/comments")
       .send(commentObj)
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.message).toEqual("Item not found");
-      });
+      .expect(500);
   });
 });

@@ -5,8 +5,23 @@ async function fetchAllUsersDB(request, response) {
     const { rows } = await db.query(`SELECT * FROM users`);
     return { users: rows };
   } catch (err) {
+    return err;
+  }
+}
+
+async function checkUserExists(request) {
+  console.log(request);
+  try {
+    const { rows } = await db.query(
+      `SELECT * FROM users WHERE username = $1`,
+      request
+    );
+    if (rows.length > 0) {
+      return Promise.resolve();
+    }
+  } catch (err) {
     throw err;
   }
 }
 
-module.exports = { fetchAllUsersDB };
+module.exports = { fetchAllUsersDB, checkUserExists };

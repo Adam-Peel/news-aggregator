@@ -3,6 +3,7 @@ const {
   postSingleCommentDB,
 } = require("../models/fetch-comments-db");
 const { fetchSingleArticle } = require("../models/fetch-articles-db");
+const { checkUserExists } = require("../models/fetch-users-db");
 
 async function getSingleCommentsAPI(request, response, next) {
   try {
@@ -17,8 +18,10 @@ async function getSingleCommentsAPI(request, response, next) {
 async function postSingleCommentAPI(request, response, next) {
   try {
     const bodyToSend = structuredClone(request.body);
+    const { username } = bodyToSend;
     const articleId = Object.values(request.params);
-    const articleCheck = await fetchSingleArticle(articleId);
+    await fetchSingleArticle(articleId);
+    await checkUserExists(username);
     bodyToSend.articleId = articleId[0];
     const postedComment = await postSingleCommentDB(bodyToSend);
     response.status(201).send(postedComment);
