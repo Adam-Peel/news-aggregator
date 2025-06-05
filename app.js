@@ -7,6 +7,7 @@ const { getAllTopicsAPI } = require("./controllers/api-topics");
 const {
   getAllArticlesAPI,
   getSingleArticleAPI,
+  patchArticleAPI,
 } = require("./controllers/api-articles");
 const {
   getSingleCommentsAPI,
@@ -21,8 +22,8 @@ app.get("/api/articles", getAllArticlesAPI);
 app.get("/api/users", getAllUsersAPI);
 app.get("/api/articles/:id", getSingleArticleAPI);
 app.get("/api/articles/:id/comments", getSingleCommentsAPI);
-//TODO
 app.post("/api/articles/:id/comments", postSingleCommentAPI);
+app.patch("/api/articles/:id", patchArticleAPI);
 
 // Error Handling
 app.use(customErrors);

@@ -160,7 +160,7 @@ describe("GET /api/articles/:id/comments", () => {
   });
 });
 
-describe.only("POST /api/articles/:article_id/comments", () => {
+describe("POST /api/articles/:article_id/comments", () => {
   test("Post single article comments - /api/articles/:id/comments - 201: Responds with desired output where the article and username exists", () => {
     const commentObj = { username: "lurker", body: "This is the comment" };
     return request(app)
@@ -208,8 +208,8 @@ describe.only("POST /api/articles/:article_id/comments", () => {
   });
 });
 
-describe.only("PATCH /api/articles/:article_id", () => {
-  test("Patch the vote count for a single article - /api/articles/:id/comments - 200: Responds with the updated article", () => {
+describe("PATCH /api/articles/:article_id", () => {
+  test.only("Patch the vote count for a single article - /api/articles/:id/comments - 200: Responds with the updated article", () => {
     const commentObj = { inc_votes: 1000 };
     return request(app)
       .patch("/api/articles/2")
@@ -228,7 +228,7 @@ describe.only("PATCH /api/articles/:article_id", () => {
         } = body.article;
         expect(typeof author).toBe("string");
         expect(typeof title).toBe("string");
-        expect(typeof article_id).toBe(2);
+        expect(article_id).toBe(2);
         expect(typeof articleBody).toBe("string");
         expect(typeof topic).toBe("string");
         expect(new Date(created_at)).toBeInstanceOf(Date);

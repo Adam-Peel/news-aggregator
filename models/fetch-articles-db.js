@@ -43,4 +43,22 @@ async function fetchSingleArticle(request) {
   }
 }
 
-module.exports = { fetchAllArticlesDB, fetchSingleArticle };
+async function patchArticleDB(request) {
+  const { inc_votes, article_id } = request;
+  try {
+    const { rows } = await db.query(
+      `UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *`,
+      [inc_votes, article_id]
+    );
+    console.log(rows);
+    if (rows.length > 0) {
+      return { article: rows[0] };
+    } else {
+      return Promise.reject({ status: 404, message: "Item not found" });
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
+module.exports = { fetchAllArticlesDB, fetchSingleArticle, patchArticleDB };
