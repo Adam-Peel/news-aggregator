@@ -23,7 +23,7 @@ articles.created_at DESC;`
     );
     return { articles: rows };
   } catch (err) {
-    return err;
+    throw err;
   }
 }
 

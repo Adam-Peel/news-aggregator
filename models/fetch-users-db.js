@@ -5,7 +5,7 @@ async function fetchAllUsersDB(request, response) {
     const { rows } = await db.query(`SELECT * FROM users`);
     return { users: rows };
   } catch (err) {
-    return err;
+    throw err;
   }
 }
 

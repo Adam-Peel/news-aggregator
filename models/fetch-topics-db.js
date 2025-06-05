@@ -5,7 +5,7 @@ async function fetchAllTopicsDB() {
     const { rows } = await db.query(`SELECT description, slug FROM topics`);
     return rows;
   } catch (err) {
-    return err;
+    throw err;
   }
 }
 
