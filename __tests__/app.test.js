@@ -122,15 +122,15 @@ describe("GET /api/articles", () => {
         expect(body.message).toEqual("Item not found");
       });
   });
-  test("Get single article comments - /api/articles/:id/comments - 200: Responds with desired output where the article exists", () => {
+  test.only("Get single article comments - /api/articles/:id/comments - 200: Responds with desired output where the article exists", () => {
     return request(app)
       .get("/api/articles/3/comments")
       .expect(200)
       .then(({ body }) => {
-        body.article.forEach((element) => {
+        body.comments.forEach((element) => {
           const { comment_id, votes, created_at, author, body, article_id } =
             element;
-          expect(typeof comment_id).toBe("string");
+          expect(typeof comment_id).toBe("number");
           expect(typeof votes).toBe("number");
           expect(new Date(created_at)).toBeInstanceOf(Date);
           expect(typeof author).toBe("string");

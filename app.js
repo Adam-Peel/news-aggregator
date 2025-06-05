@@ -8,6 +8,7 @@ const {
   getAllArticlesAPI,
   getSingleArticleAPI,
 } = require("./controllers/get-api-articles");
+const { getSingleCommentsAPI } = require("./controllers/get-api-comments");
 const { getAllUsersAPI } = require("./controllers/get-api-users");
 const { customErrors, genericError } = require("./errors");
 
@@ -16,6 +17,7 @@ app.get("/api/topics", getAllTopicsAPI);
 app.get("/api/articles", getAllArticlesAPI);
 app.get("/api/users", getAllUsersAPI);
 app.get("/api/articles/:id", getSingleArticleAPI);
+app.get("/api/articles/:id/comments", getSingleCommentsAPI);
 
 // Error Handling
 app.use(customErrors);
