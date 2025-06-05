@@ -171,7 +171,7 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(body.body).toEqual("This is the comment");
       });
   });
-  test.only("Post single article comments - /api/articles/:id/comments - 400: Responds with error where a necessary parameter is not included in the request", () => {
+  test("Post single article comments - /api/articles/:id/comments - 400: Responds with error where a necessary parameter is not included in the request", () => {
     const commentObj = { username: "lurker" };
     return request(app)
       .post("/api/articles/3/comments")
@@ -181,6 +181,16 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(body.message).toEqual(
           "At least one parameter missing or incorrect"
         );
+      });
+  });
+  test("Post single article comments - /api/articles/:id/comments - 404: Responds with error where the article id is not found", () => {
+    const commentObj = { username: "lurker", body: "This is another comment" };
+    return request(app)
+      .post("/api/articles/36767/comments")
+      .send(commentObj)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Item not found");
       });
   });
 });

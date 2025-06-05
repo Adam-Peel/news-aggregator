@@ -26,12 +26,15 @@ async function postSingleCommentDB(request) {
       });
     }
     const timestamp = new Date();
-    console.log(username, body, articleId, timestamp);
     const { rows } = await db.query(
       `INSERT INTO comments (article_id, body, author, created_at) VALUES ($1, $2, $3, $4) RETURNING body`,
       [articleId, body, username, timestamp]
     );
-    return rows[0];
+    if (rows.length > 0) {
+      return rows[0];
+    } else {
+      return Promise.reject({ status: 404, message: "Item not found" });
+    }
   } catch (err) {
     throw err;
   }
