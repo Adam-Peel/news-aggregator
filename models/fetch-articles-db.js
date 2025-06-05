@@ -39,7 +39,7 @@ async function fetchSingleArticle(request) {
       return Promise.reject({ status: 404, message: "Item not found" });
     }
   } catch (err) {
-    return err;
+    throw err;
   }
 }
 
