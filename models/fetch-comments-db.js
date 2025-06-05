@@ -7,7 +7,7 @@ async function fetchSingleCommentsDB(request) {
       request
     );
     if (rows.length > 0) {
-      return rows;
+      return { comments: rows };
     } else {
       return Promise.reject({ status: 404, message: "Item not found" });
     }

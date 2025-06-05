@@ -106,22 +106,6 @@ describe("GET /api/articles", () => {
         expect(body.message).toEqual("Invalid input");
       });
   });
-  test("Get single article comments - /api/articles/:id/comments - 400: Responds with error where the input is not a valid 'type'", () => {
-    return request(app)
-      .get("/api/articles/abc/comments")
-      .expect(400)
-      .then(({ body }) => {
-        expect(body.message).toEqual("Invalid input");
-      });
-  });
-  test("Get single article comments - /api/articles/:id/comments - 404: Responds with error where the article does not exist", () => {
-    return request(app)
-      .get("/api/articles/4567/comments")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.message).toEqual("Item not found");
-      });
-  });
 });
 
 describe("GET /api/users", () => {
@@ -140,7 +124,7 @@ describe("GET /api/users", () => {
   });
 });
 
-describe("GET /api/articles/3/comments", () => {
+describe("GET /api/articles/:id/comments", () => {
   test("Get single article comments - /api/articles/:id/comments - 200: Responds with desired output where the article exists", () => {
     return request(app)
       .get("/api/articles/3/comments")
@@ -156,6 +140,35 @@ describe("GET /api/articles/3/comments", () => {
           expect(typeof body).toBe("string");
           expect(article_id).toEqual(3);
         });
+      });
+  });
+  test("Get single article comments - /api/articles/:id/comments - 400: Responds with error where the input is not a valid 'type'", () => {
+    return request(app)
+      .get("/api/articles/abc/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Invalid input");
+      });
+  });
+  test("Get single article comments - /api/articles/:id/comments - 404: Responds with error where the article does not exist", () => {
+    return request(app)
+      .get("/api/articles/4567/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Item not found");
+      });
+  });
+});
+
+describe("POST /api/articles/:article_id/comments", () => {
+  test("Get single article comments - /api/articles/:id/comments - 200: Responds with desired output where the article exists", () => {
+    const commentObj = { username: "lurker", body: "This is the comment" };
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(commentObj)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.body).toEqual("This is the comment");
       });
   });
 });
