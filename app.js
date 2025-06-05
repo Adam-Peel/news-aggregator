@@ -8,7 +8,10 @@ const {
   getAllArticlesAPI,
   getSingleArticleAPI,
 } = require("./controllers/api-articles");
-const { getSingleCommentsAPI } = require("./controllers/api-comments");
+const {
+  getSingleCommentsAPI,
+  postSingleCommentAPI,
+} = require("./controllers/api-comments");
 const { getAllUsersAPI } = require("./controllers/api-users");
 const { customErrors, genericError } = require("./errors");
 
@@ -18,6 +21,8 @@ app.get("/api/articles", getAllArticlesAPI);
 app.get("/api/users", getAllUsersAPI);
 app.get("/api/articles/:id", getSingleArticleAPI);
 app.get("/api/articles/:id/comments", getSingleCommentsAPI);
+//TODO
+app.post("/api/articles/:id/comments", postSingleCommentAPI);
 
 // Error Handling
 app.use(customErrors);

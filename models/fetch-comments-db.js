@@ -16,4 +16,19 @@ async function fetchSingleCommentsDB(request) {
   }
 }
 
-module.exports = { fetchSingleCommentsDB };
+async function postSingleCommentDB(request) {
+  try {
+    console.log(request, "Received at model");
+    const { username, body, articleId } = request;
+    console.log(username, body, articleId);
+    const { rows } = await db.query(
+      `INSERT INTO comments (article_id, body, author) VALUES ($1, $2, $3) RETURNING body`,
+      [articleId, body, username]
+    );
+    return rows[0];
+  } catch (err) {
+    throw err;
+  }
+}
+
+module.exports = { fetchSingleCommentsDB, postSingleCommentDB };

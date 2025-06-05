@@ -161,7 +161,7 @@ describe("GET /api/articles/:id/comments", () => {
 });
 
 describe("POST /api/articles/:article_id/comments", () => {
-  test("Post single article comments - /api/articles/:id/comments - 201: Responds with desired output where the article and username exists", () => {
+  test.only("Post single article comments - /api/articles/:id/comments - 201: Responds with desired output where the article and username exists", () => {
     const commentObj = { username: "lurker", body: "This is the comment" };
     return request(app)
       .post("/api/articles/3/comments")
