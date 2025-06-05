@@ -160,8 +160,8 @@ describe("GET /api/articles/:id/comments", () => {
   });
 });
 
-describe("POST /api/articles/:article_id/comments", () => {
-  test.only("Post single article comments - /api/articles/:id/comments - 201: Responds with desired output where the article and username exists", () => {
+describe.only("POST /api/articles/:article_id/comments", () => {
+  test("Post single article comments - /api/articles/:id/comments - 201: Responds with desired output where the article and username exists", () => {
     const commentObj = { username: "lurker", body: "This is the comment" };
     return request(app)
       .post("/api/articles/3/comments")
@@ -189,8 +189,21 @@ describe("POST /api/articles/:article_id/comments", () => {
       body: "This is yet another comment",
     };
     return request(app)
-      .post("/api/articles/3/comments")
+      .post("/api/articles/2/comments")
       .send(commentObj)
       .expect(500);
+  });
+  test("Post single article comments - /api/articles/:id/comments - 500: Responds with error where the article is not found", () => {
+    const commentObj = {
+      username: "lurker",
+      body: "This is yet again another comment",
+    };
+    return request(app)
+      .post("/api/articles/3434/comments")
+      .send(commentObj)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Item not found");
+      });
   });
 });
