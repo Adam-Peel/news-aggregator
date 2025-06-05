@@ -12,13 +12,14 @@ async function getAllArticlesAPI(request, response) {
   }
 }
 
-async function getSingleArticleAPI(request, response) {
+async function getSingleArticleAPI(request, response, next) {
   try {
     const articleId = Object.values(request.params);
     const article = await fetchSingleArticle(articleId);
     response.status(200).send(article);
   } catch (err) {
-    response.status(404).send(err);
+    console.log(err);
+    next(err);
   }
 }
 

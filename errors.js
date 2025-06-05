@@ -3,10 +3,10 @@ const customErrors = async function (err, request, response, next) {
     if (err.status) {
       return response.status(err.status).send({ message: err.message });
     } else {
-      next(err);
+      return next(err);
     }
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 

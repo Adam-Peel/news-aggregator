@@ -98,6 +98,14 @@ describe("GET /api/articles", () => {
         expect(body.message).toEqual("Item not found");
       });
   });
+  test("Get single article - /api/articles/:id - 400: Responds with error where the input is not a valid 'type'", () => {
+    return request(app)
+      .get("/api/articles/abc")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Invalid input");
+      });
+  });
 });
 
 describe("GET /api/users", () => {
