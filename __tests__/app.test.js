@@ -207,3 +207,33 @@ describe.only("POST /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe.only("PATCH /api/articles/:article_id", () => {
+  test("Patch the vote count for a single article - /api/articles/:id/comments - 200: Responds with the updated article", () => {
+    const commentObj = { inc_votes: 1000 };
+    return request(app)
+      .patch("/api/articles/2")
+      .send(commentObj)
+      .expect(200)
+      .then(({ body }) => {
+        const {
+          author,
+          title,
+          article_id,
+          body: articleBody,
+          topic,
+          created_at,
+          votes,
+          article_img_url,
+        } = body.article;
+        expect(typeof author).toBe("string");
+        expect(typeof title).toBe("string");
+        expect(typeof article_id).toBe(2);
+        expect(typeof articleBody).toBe("string");
+        expect(typeof topic).toBe("string");
+        expect(new Date(created_at)).toBeInstanceOf(Date);
+        expect(votes).not.toBeLessThan(1000);
+        expect(article_img_url).toBeOneOf([expect.any(String), null]);
+      });
+  });
+});
