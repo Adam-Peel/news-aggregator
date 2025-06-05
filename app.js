@@ -3,13 +3,13 @@ const db = require("./db/connection");
 const express = require("express");
 const app = express();
 app.use(express.json());
-const { getAllTopicsAPI } = require("./controllers/get-api-topics");
+const { getAllTopicsAPI } = require("./controllers/api-topics");
 const {
   getAllArticlesAPI,
   getSingleArticleAPI,
-} = require("./controllers/get-api-articles");
-const { getSingleCommentsAPI } = require("./controllers/get-api-comments");
-const { getAllUsersAPI } = require("./controllers/get-api-users");
+} = require("./controllers/api-articles");
+const { getSingleCommentsAPI } = require("./controllers/api-comments");
+const { getAllUsersAPI } = require("./controllers/api-users");
 const { customErrors, genericError } = require("./errors");
 
 // CODE HERE
