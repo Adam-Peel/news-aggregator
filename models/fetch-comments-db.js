@@ -20,10 +20,11 @@ async function postSingleCommentDB(request) {
   try {
     console.log(request, "Received at model");
     const { username, body, articleId } = request;
-    console.log(username, body, articleId);
+    const timestamp = new Date();
+    console.log(username, body, articleId, timestamp);
     const { rows } = await db.query(
-      `INSERT INTO comments (article_id, body, author) VALUES ($1, $2, $3) RETURNING body`,
-      [articleId, body, username]
+      `INSERT INTO comments (article_id, body, author, created_at) VALUES ($1, $2, $3, $4) RETURNING body`,
+      [articleId, body, username, timestamp]
     );
     return rows[0];
   } catch (err) {
