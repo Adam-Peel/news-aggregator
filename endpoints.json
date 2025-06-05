@@ -53,5 +53,15 @@
         "body": "This is a comment about the article"
       }
     }
+  },
+  "POST /api/articles/:id/comments": {
+    "requiredInformation": {
+      "username": "The name of the user posting the comment",
+      "body": "The comment body to be posted"
+    },
+    "description": "Posts a comment to the relevant article subject to tests being passed, returns the posted comment only.",
+    "exampleResponse": {
+      "body": "This is the comment"
+    }
   }
 }

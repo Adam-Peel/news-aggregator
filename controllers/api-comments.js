@@ -20,10 +20,11 @@ async function postSingleCommentAPI(request, response, next) {
     const bodyToSend = structuredClone(request.body);
     const { username } = bodyToSend;
     const articleId = Object.values(request.params);
-    await fetchSingleArticle(articleId);
-    await checkUserExists(username);
+    // await fetchSingleArticle(articleId);
+    //await checkUserExists(username);
     bodyToSend.articleId = articleId[0];
     const postedComment = await postSingleCommentDB(bodyToSend);
+    console.log(postedComment);
     response.status(201).send(postedComment);
   } catch (err) {
     next(err);

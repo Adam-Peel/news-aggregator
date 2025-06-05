@@ -10,7 +10,6 @@ async function fetchAllUsersDB(request, response) {
 }
 
 async function checkUserExists(request) {
-  console.log(request);
   try {
     const { rows } = await db.query(
       `SELECT * FROM users WHERE username = $1`,
