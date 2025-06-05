@@ -9,6 +9,7 @@ const {
   getSingleArticleAPI,
 } = require("./controllers/get-api-articles");
 const { getAllUsersAPI } = require("./controllers/get-api-users");
+const { customErrors, genericError } = require("./errors");
 
 // CODE HERE
 app.get("/api/topics", getAllTopicsAPI);
@@ -17,18 +18,8 @@ app.get("/api/users", getAllUsersAPI);
 app.get("/api/articles/:id", getSingleArticleAPI);
 
 // Error Handling
-app.use((err, request, response, next) => {
-  if (err.status) {
-    response.status(err.status).send({ message: err.message });
-  } else {
-    next(err);
-  }
-});
-
-app.use((err, request, response, next) => {
-  console.error(err);
-  response.status(500).send({ message: "Unclassified error" });
-});
+app.use(customErrors);
+app.use(genericError);
 
 // EXPORTS
 module.exports = { app };
