@@ -1,6 +1,5 @@
 const customErrors = async function (err, request, response, next) {
   try {
-    console.log(err.code);
     if (err.status) {
       return response.status(err.status).send({ message: err.message });
     } else if (err.code === "22P02") {

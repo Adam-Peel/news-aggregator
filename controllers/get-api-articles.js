@@ -3,12 +3,12 @@ const {
   fetchSingleArticle,
 } = require("../models/fetch-articles-db");
 
-async function getAllArticlesAPI(request, response) {
+async function getAllArticlesAPI(request, response, next) {
   try {
     const articles = await fetchAllArticlesDB();
     response.status(200).send(articles);
   } catch (err) {
-    response.status(500).send(err);
+    next(err);
   }
 }
 

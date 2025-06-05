@@ -1,11 +1,11 @@
 const { fetchAllUsersDB } = require("../models/fetch-users-db");
 
-async function getAllUsersAPI(request, response) {
+async function getAllUsersAPI(request, response, next) {
   try {
     const users = await fetchAllUsersDB();
     response.status(200).send(users);
   } catch (err) {
-    response.status(500).send(err);
+    next(err);
   }
 }
 
