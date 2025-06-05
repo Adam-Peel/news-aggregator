@@ -18,8 +18,13 @@ async function fetchSingleCommentsDB(request) {
 
 async function postSingleCommentDB(request) {
   try {
-    console.log(request, "Received at model");
     const { username, body, articleId } = request;
+    if (!username || !body || !articleId) {
+      return Promise.reject({
+        status: 400,
+        message: "At least one parameter missing or incorrect",
+      });
+    }
     const timestamp = new Date();
     console.log(username, body, articleId, timestamp);
     const { rows } = await db.query(

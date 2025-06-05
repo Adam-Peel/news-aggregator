@@ -161,7 +161,7 @@ describe("GET /api/articles/:id/comments", () => {
 });
 
 describe("POST /api/articles/:article_id/comments", () => {
-  test.only("Post single article comments - /api/articles/:id/comments - 201: Responds with desired output where the article and username exists", () => {
+  test("Post single article comments - /api/articles/:id/comments - 201: Responds with desired output where the article and username exists", () => {
     const commentObj = { username: "lurker", body: "This is the comment" };
     return request(app)
       .post("/api/articles/3/comments")
@@ -169,6 +169,18 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(201)
       .then(({ body }) => {
         expect(body.body).toEqual("This is the comment");
+      });
+  });
+  test.only("Post single article comments - /api/articles/:id/comments - 400: Responds with error where a necessary parameter is not included in the request", () => {
+    const commentObj = { username: "lurker" };
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(commentObj)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual(
+          "At least one parameter missing or incorrect"
+        );
       });
   });
 });
