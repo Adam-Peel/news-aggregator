@@ -90,9 +90,14 @@ describe("GET /api/articles", () => {
         expect(typeof article_img_url).toBe("string");
       });
   });
-});
-test("Get single article - /api/articles/:id - 404: Responds with error where that article does not exists", () => {
-  return request(app).get("/api/articles/3676").expect(404);
+  test("Get single article - /api/articles/:id - 404: Responds with error where that article does not exists", () => {
+    return request(app)
+      .get("/api/articles/3676")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Item not found");
+      });
+  });
 });
 
 describe("GET /api/users", () => {

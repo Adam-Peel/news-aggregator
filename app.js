@@ -16,5 +16,19 @@ app.get("/api/articles", getAllArticlesAPI);
 app.get("/api/users", getAllUsersAPI);
 app.get("/api/articles/:id", getSingleArticleAPI);
 
+// Error Handling
+app.use((err, request, response, next) => {
+  if (err.status) {
+    response.status(err.status).send({ message: err.message });
+  } else {
+    next(err);
+  }
+});
+
+app.use((err, request, response, next) => {
+  console.error(err);
+  response.status(500).send({ message: "Unclassified error" });
+});
+
 // EXPORTS
 module.exports = { app };

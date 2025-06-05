@@ -36,7 +36,7 @@ async function fetchSingleArticle(request) {
     if (rows.length > 0) {
       return { article: rows[0] };
     } else {
-      return Error;
+      return Promise.reject({ status: 404, message: "Item not found" });
     }
   } catch (err) {
     return err;
