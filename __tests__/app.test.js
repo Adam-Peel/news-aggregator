@@ -70,7 +70,6 @@ describe("GET /api/articles", () => {
       .get("/api/articles/3")
       .expect(200)
       .then(({ body }) => {
-        console.log(body.article);
         const {
           author,
           title,
