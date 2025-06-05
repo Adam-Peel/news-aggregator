@@ -106,6 +106,39 @@ describe("GET /api/articles", () => {
         expect(body.message).toEqual("Invalid input");
       });
   });
+  test("Get single article comments - /api/articles/:id/comments - 400: Responds with error where the input is not a valid 'type'", () => {
+    return request(app)
+      .get("/api/articles/abc/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Invalid input");
+      });
+  });
+  test("Get single article comments - /api/articles/:id/comments - 404: Responds with error where the article does not exist", () => {
+    return request(app)
+      .get("/api/articles/4567/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Item not found");
+      });
+  });
+  test("Get single article comments - /api/articles/:id/comments - 200: Responds with desired output where the article exists", () => {
+    return request(app)
+      .get("/api/articles/3/comments")
+      .expect(200)
+      .then(({ body }) => {
+        body.article.forEach((element) => {
+          const { comment_id, votes, created_at, author, body, article_id } =
+            element;
+          expect(typeof comment_id).toBe("string");
+          expect(typeof votes).toBe("number");
+          expect(new Date(created_at)).toBeInstanceOf(Date);
+          expect(typeof author).toBe("string");
+          expect(typeof body).toBe("string");
+          expect(article_id).toEqual(3);
+        });
+      });
+  });
 });
 
 describe("GET /api/users", () => {
