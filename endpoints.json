@@ -71,6 +71,9 @@
         }
       }
     },
+    "DELETE /comments/:comment_id": {
+      "description": "deletes the given comment where it exists, returning no response except a 204 status."
+    },
     "POST /api/articles/:article_id/comments": {
       "requiredInformation": {
         "username": "The name of the user posting the comment",

@@ -5,12 +5,13 @@ async function isStringANumber(str) {
   }
 }
 
-async function emptyArrayCheck(arr) {
-  if (arr.length > 0) {
-    return true;
-  } else {
+//TODO - BUG
+async function singleRowHandler(arr) {
+  if (arr.length === 0) {
     return Promise.reject({ status: 404, message: "Item not found" });
+  } else {
+    return arr[0];
   }
 }
 
-module.exports = { isStringANumber, emptyArrayCheck };
+module.exports = { isStringANumber, singleRowHandler };

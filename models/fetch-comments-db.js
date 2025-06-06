@@ -1,6 +1,5 @@
 const db = require("../db/connection");
 const format = require("pg-format");
-const emptyArrayCheck = require("../app-utils");
 
 async function fetchSingleCommentsDB(request) {
   let column = Object.keys(request);

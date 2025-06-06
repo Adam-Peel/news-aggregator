@@ -65,6 +65,36 @@ describe("GET /api/articles", () => {
         });
       });
   });
+  test.only("200: Responds with an object listing all articles in desired format where a sorting query is used, in this case defaulting to the created_at", () => {
+    return request(app)
+      .get("/api/articles?sort")
+      .expect(200)
+      .then(({ body }) => {
+        let dateCheck = new Date(body.articles[0].created_at).getTime();
+        body.articles.forEach((element) => {
+          const {
+            author,
+            title,
+            article_id,
+            topic,
+            created_at,
+            votes,
+            article_img_url,
+            comment_count,
+          } = element;
+          expect(typeof author).toBe("string");
+          expect(typeof title).toBe("string");
+          expect(typeof article_id).toBe("number");
+          expect(typeof topic).toBe("string");
+          expect(new Date(created_at)).toBeInstanceOf(Date);
+          expect(votes).toBeOneOf([expect.any(Number), null]);
+          expect(typeof article_img_url).toBe("string");
+          expect(typeof comment_count).toBe("string");
+          expect(new Date(created_at).getTime()).toBeLessThanOrEqual(dateCheck);
+          dateCheck = new Date(created_at).getTime();
+        });
+      });
+  });
   test("Get single article - /api/articles/:id - 200: Responds with an object listing an article in desired format, where that article exists", () => {
     return request(app)
       .get("/api/articles/3")
