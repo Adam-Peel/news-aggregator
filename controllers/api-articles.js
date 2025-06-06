@@ -25,8 +25,7 @@ async function getSingleArticleAPI(request, response, next) {
 async function patchArticleAPI(request, response, next) {
   try {
     const bodyToSend = structuredClone(request.body);
-    const articleID = Object.values(request.params);
-    bodyToSend.article_id = articleID[0];
+    bodyToSend.article_id = request.params.article_id;
     const patchedArticle = await patchArticleDB(bodyToSend);
     response.status(200).send(patchedArticle);
   } catch (err) {
