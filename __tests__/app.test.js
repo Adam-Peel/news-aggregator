@@ -14,7 +14,7 @@ afterAll(() => {
   db.end();
 });
 
-describe("GET /api/users", () => {
+describe("GET /api/topics", () => {
   test("200: Responds with an object listing all topics in desired format", () => {
     return request(app)
       .get("/api/topics")
@@ -234,6 +234,26 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(new Date(created_at)).toBeInstanceOf(Date);
         expect(votes).not.toBeLessThan(1000);
         expect(article_img_url).toBeOneOf([expect.any(String), null]);
+      });
+  });
+  test("Patch the vote count for a single article - /api/articles/:id/comments - 404: Responds with error where the article does not exist", () => {
+    const commentObj = { inc_votes: 1000 };
+    return request(app)
+      .patch("/api/articles/5675")
+      .send(commentObj)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Item not found");
+      });
+  });
+  test("Patch the vote count for a single article - /api/articles/:id/comments - 400: Responds with error where the article request is NaN", () => {
+    const commentObj = { inc_votes: 1000 };
+    return request(app)
+      .patch("/api/articles/def")
+      .send(commentObj)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Invalid input");
       });
   });
 });
