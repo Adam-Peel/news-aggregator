@@ -2,9 +2,9 @@ const db = require("../db/connection");
 const format = require("pg-format");
 
 async function fetchSingleCommentsDB(request) {
+  let column = Object.keys(request);
+  let condition = Object.values(request);
   try {
-    column = Object.keys(request);
-    condition = Object.values(request);
     const sqlString = format(
       `SELECT * FROM comments WHERE %I = $1 ORDER BY created_at DESC`,
       column
