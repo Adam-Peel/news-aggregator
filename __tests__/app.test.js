@@ -286,8 +286,27 @@ describe("PATCH /api/articles/:article_id", () => {
   test("Patch the vote count for a single article - /api/articles/:id/comments - 400: Responds with error where the vote_count is NaN", () => {
     const commentObj = { inc_votes: "abc" };
     return request(app)
-      .patch("/api/articles/def")
+      .patch("/api/articles/2")
       .send(commentObj)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Invalid input");
+      });
+  });
+});
+
+describe("DELETE /api/comments/:comment_id", () => {
+  test("DELETE /api/comments/:comment_id - 404: Responds with error where the comment does not exist", () => {
+    return request(app)
+      .delete("/api/comments/3432")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Item not found");
+      });
+  });
+  test("DELETE /api/comments/:comment_id - 400: Responds with error where the parameter is NaN", () => {
+    return request(app)
+      .patch("/api/comments/qwerty")
       .expect(400)
       .then(({ body }) => {
         expect(body.message).toEqual("Invalid input");
