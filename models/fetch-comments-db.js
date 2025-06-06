@@ -1,5 +1,6 @@
 const db = require("../db/connection");
 const format = require("pg-format");
+const emptyArrayCheck = require("../app-utils");
 
 async function fetchSingleCommentsDB(request) {
   let column = Object.keys(request);
@@ -44,4 +45,27 @@ async function postSingleCommentDB(request) {
   }
 }
 
-module.exports = { fetchSingleCommentsDB, postSingleCommentDB };
+async function deleteSingleCommentDB(request) {
+  let column = Object.keys(request);
+  let condition = Object.values(request);
+  try {
+    const sqlString = format(
+      `DELETE FROM comments WHERE %I = $1 RETURNING *`,
+      column
+    );
+    const { rows } = await db.query(sqlString, condition);
+    if (rows.length > 0) {
+      return rows[0];
+    } else {
+      return Promise.reject({ status: 404, message: "Item not found" });
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
+module.exports = {
+  fetchSingleCommentsDB,
+  postSingleCommentDB,
+  deleteSingleCommentDB,
+};

@@ -1,6 +1,7 @@
 const {
   fetchSingleCommentsDB,
   postSingleCommentDB,
+  deleteSingleCommentDB,
 } = require("../models/fetch-comments-db");
 const { fetchSingleArticle } = require("../models/fetch-articles-db");
 const { isStringANumber } = require("../app-utils.js");
@@ -36,4 +37,22 @@ async function postSingleCommentAPI(request, response, next) {
   }
 }
 
-module.exports = { getSingleCommentsAPI, postSingleCommentAPI };
+async function deleteCommentAPI(request, response, next) {
+  try {
+    await isStringANumber(request.params.comment_id);
+  } catch (err) {
+    next(err);
+  }
+  try {
+    await deleteSingleCommentDB(request.params);
+    response.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = {
+  getSingleCommentsAPI,
+  postSingleCommentAPI,
+  deleteCommentAPI,
+};

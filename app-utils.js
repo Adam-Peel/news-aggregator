@@ -5,4 +5,12 @@ async function isStringANumber(str) {
   }
 }
 
-module.exports = { isStringANumber };
+async function emptyArrayCheck(arr) {
+  if (arr.length > 0) {
+    return true;
+  } else {
+    return Promise.reject({ status: 404, message: "Item not found" });
+  }
+}
+
+module.exports = { isStringANumber, emptyArrayCheck };

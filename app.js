@@ -12,6 +12,7 @@ const {
 const {
   getSingleCommentsAPI,
   postSingleCommentAPI,
+  deleteCommentAPI,
 } = require("./controllers/api-comments");
 const { getAllUsersAPI } = require("./controllers/api-users");
 const { customErrors, genericError } = require("./errors");
@@ -24,6 +25,7 @@ app.get("/api/articles/:article_id", getSingleArticleAPI);
 app.get("/api/articles/:article_id/comments", getSingleCommentsAPI);
 app.post("/api/articles/:article_id/comments", postSingleCommentAPI);
 app.patch("/api/articles/:article_id", patchArticleAPI);
+app.delete("/api/comments/:comment_id", deleteCommentAPI);
 
 // Error Handling
 app.use(customErrors);

@@ -306,10 +306,13 @@ describe("DELETE /api/comments/:comment_id", () => {
   });
   test("DELETE /api/comments/:comment_id - 400: Responds with error where the parameter is NaN", () => {
     return request(app)
-      .patch("/api/comments/qwerty")
+      .delete("/api/comments/qwerty")
       .expect(400)
       .then(({ body }) => {
         expect(body.message).toEqual("Invalid input");
       });
+  });
+  test("DELETE /api/comments/:comment_id - 204: Responds with 204 status where a comment is successfully delete", () => {
+    return request(app).delete("/api/comments/3").expect(204);
   });
 });
