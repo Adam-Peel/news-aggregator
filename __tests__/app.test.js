@@ -165,6 +165,14 @@ describe.only("GET /api/articles", () => {
         expect(body.message).toEqual("Invalid input");
       });
   });
+  test("400: Responds with an error when sort request is not in desired format where a sorting query is used", () => {
+    return request(app)
+      .get("/api/articles?sort=created_at:up")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Invalid input");
+      });
+  });
   test("Get single article - /api/articles/:id - 200: Responds with an object listing an article in desired format, where that article exists", () => {
     return request(app)
       .get("/api/articles/3")
