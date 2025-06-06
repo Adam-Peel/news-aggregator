@@ -30,6 +30,7 @@ async function getSingleArticleAPI(request, response, next) {
 
 async function patchArticleAPI(request, response, next) {
   try {
+    await isStringANumber(request.body.inc_votes);
     await isStringANumber(request.params.article_id);
   } catch (err) {
     next(err);

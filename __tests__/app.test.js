@@ -256,4 +256,14 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(body.message).toEqual("Invalid input");
       });
   });
+  test("Patch the vote count for a single article - /api/articles/:id/comments - 400: Responds with error where the vote_count is NaN", () => {
+    const commentObj = { inc_votes: "abc" };
+    return request(app)
+      .patch("/api/articles/def")
+      .send(commentObj)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Invalid input");
+      });
+  });
 });
