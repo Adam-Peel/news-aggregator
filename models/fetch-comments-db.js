@@ -1,11 +1,15 @@
 const db = require("../db/connection");
+const format = require("pg-format");
 
 async function fetchSingleCommentsDB(request) {
   try {
-    const { rows } = await db.query(
-      `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC`,
-      request
+    column = Object.keys(request);
+    condition = Object.values(request);
+    const sqlString = format(
+      `SELECT * FROM comments WHERE %I = $1 ORDER BY created_at DESC`,
+      column
     );
+    const { rows } = await db.query(sqlString, condition);
     if (rows.length > 0) {
       return { comments: rows };
     } else {
@@ -18,8 +22,8 @@ async function fetchSingleCommentsDB(request) {
 
 async function postSingleCommentDB(request) {
   try {
-    const { username, body, articleId } = request;
-    if (!username || !body || !articleId) {
+    const { username, body, article_id } = request;
+    if (!username || !body || !article_id) {
       return Promise.reject({
         status: 400,
         message: "At least one parameter missing or incorrect",
@@ -28,7 +32,7 @@ async function postSingleCommentDB(request) {
     const timestamp = new Date();
     const { rows } = await db.query(
       `INSERT INTO comments (article_id, body, author, created_at) VALUES ($1, $2, $3, $4) RETURNING body`,
-      [articleId, body, username, timestamp]
+      [article_id, body, username, timestamp]
     );
     if (rows.length > 0) {
       return rows[0];

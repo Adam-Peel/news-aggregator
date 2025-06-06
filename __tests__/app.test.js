@@ -209,7 +209,7 @@ describe("POST /api/articles/:article_id/comments", () => {
 });
 
 describe("PATCH /api/articles/:article_id", () => {
-  test.only("Patch the vote count for a single article - /api/articles/:id/comments - 200: Responds with the updated article", () => {
+  test("Patch the vote count for a single article - /api/articles/:id/comments - 200: Responds with the updated article", () => {
     const commentObj = { inc_votes: 1000 };
     return request(app)
       .patch("/api/articles/2")

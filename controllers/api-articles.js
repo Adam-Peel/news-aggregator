@@ -15,8 +15,7 @@ async function getAllArticlesAPI(request, response, next) {
 
 async function getSingleArticleAPI(request, response, next) {
   try {
-    const articleId = Object.values(request.params);
-    const article = await fetchSingleArticle(articleId);
+    const article = await fetchSingleArticle(request.params);
     response.status(200).send(article);
   } catch (err) {
     next(err);

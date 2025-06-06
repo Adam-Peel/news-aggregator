@@ -20,10 +20,10 @@ const { customErrors, genericError } = require("./errors");
 app.get("/api/topics", getAllTopicsAPI);
 app.get("/api/articles", getAllArticlesAPI);
 app.get("/api/users", getAllUsersAPI);
-app.get("/api/articles/:id", getSingleArticleAPI);
-app.get("/api/articles/:id/comments", getSingleCommentsAPI);
-app.post("/api/articles/:id/comments", postSingleCommentAPI);
-app.patch("/api/articles/:id", patchArticleAPI);
+app.get("/api/articles/:article_id", getSingleArticleAPI);
+app.get("/api/articles/:article_id/comments", getSingleCommentsAPI);
+app.post("/api/articles/:article_id/comments", postSingleCommentAPI);
+app.patch("/api/articles/:article_id", patchArticleAPI);
 
 // Error Handling
 app.use(customErrors);

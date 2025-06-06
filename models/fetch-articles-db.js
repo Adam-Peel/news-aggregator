@@ -1,4 +1,5 @@
 const db = require("../db/connection");
+const format = require("pg-format");
 
 async function fetchAllArticlesDB(request, response) {
   try {
@@ -29,10 +30,10 @@ articles.created_at DESC;`
 
 async function fetchSingleArticle(request) {
   try {
-    const { rows } = await db.query(
-      `SELECT * FROM articles WHERE article_id = $1`,
-      request
-    );
+    column = Object.keys(request);
+    condition = Object.values(request);
+    const sqlString = format(`SELECT * FROM articles WHERE %I = $1`, column);
+    const { rows } = await db.query(sqlString, condition);
     if (rows.length > 0) {
       return { article: rows[0] };
     } else {
@@ -50,7 +51,6 @@ async function patchArticleDB(request) {
       `UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *`,
       [inc_votes, article_id]
     );
-    console.log(rows);
     if (rows.length > 0) {
       return { article: rows[0] };
     } else {

@@ -6,8 +6,7 @@ const { fetchSingleArticle } = require("../models/fetch-articles-db");
 
 async function getSingleCommentsAPI(request, response, next) {
   try {
-    const articleId = Object.values(request.params);
-    const comments = await fetchSingleCommentsDB(articleId);
+    const comments = await fetchSingleCommentsDB(request.params);
     response.status(200).send(comments);
   } catch (err) {
     next(err);
@@ -17,9 +16,8 @@ async function getSingleCommentsAPI(request, response, next) {
 async function postSingleCommentAPI(request, response, next) {
   try {
     const bodyToSend = structuredClone(request.body);
-    const articleId = Object.values(request.params);
-    await fetchSingleArticle(articleId);
-    bodyToSend.articleId = articleId[0];
+    await fetchSingleArticle(request.params);
+    bodyToSend.article_id = request.params.article_id;
     const postedComment = await postSingleCommentDB(bodyToSend);
     response.status(201).send(postedComment);
   } catch (err) {
