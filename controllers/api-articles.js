@@ -3,6 +3,7 @@ const {
   fetchSingleArticle,
   patchArticleDB,
 } = require("../models/fetch-articles-db");
+const { isStringANumber } = require("../app-utils.js");
 
 async function getAllArticlesAPI(request, response, next) {
   try {
@@ -15,6 +16,11 @@ async function getAllArticlesAPI(request, response, next) {
 
 async function getSingleArticleAPI(request, response, next) {
   try {
+    await isStringANumber(request.params.article_id);
+  } catch (err) {
+    next(err);
+  }
+  try {
     const article = await fetchSingleArticle(request.params);
     response.status(200).send(article);
   } catch (err) {
@@ -23,6 +29,11 @@ async function getSingleArticleAPI(request, response, next) {
 }
 
 async function patchArticleAPI(request, response, next) {
+  try {
+    await isStringANumber(request.params.article_id);
+  } catch (err) {
+    next(err);
+  }
   try {
     const bodyToSend = structuredClone(request.body);
     bodyToSend.article_id = request.params.article_id;

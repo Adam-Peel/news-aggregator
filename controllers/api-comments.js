@@ -3,8 +3,14 @@ const {
   postSingleCommentDB,
 } = require("../models/fetch-comments-db");
 const { fetchSingleArticle } = require("../models/fetch-articles-db");
+const { isStringANumber } = require("../app-utils.js");
 
 async function getSingleCommentsAPI(request, response, next) {
+  try {
+    await isStringANumber(request.params.article_id);
+  } catch (err) {
+    next(err);
+  }
   try {
     const comments = await fetchSingleCommentsDB(request.params);
     response.status(200).send(comments);
@@ -14,6 +20,11 @@ async function getSingleCommentsAPI(request, response, next) {
 }
 
 async function postSingleCommentAPI(request, response, next) {
+  try {
+    await isStringANumber(request.params.article_id);
+  } catch (err) {
+    next(err);
+  }
   try {
     const bodyToSend = structuredClone(request.body);
     await fetchSingleArticle(request.params);
