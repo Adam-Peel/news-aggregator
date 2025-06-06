@@ -1,10 +1,8 @@
 const db = require("../db/connection");
 const format = require("pg-format");
 
-async function fetchAllArticlesDB(request, response) {
-  try {
-    const { rows } = await db.query(
-      `SELECT
+async function checkArticleSort(query) {
+  let sqlStr = `SELECT
 articles.author,
 articles.title,
 articles.article_id,
@@ -18,10 +16,35 @@ articles
 LEFT JOIN
 comments ON articles.article_id = comments.article_id
 GROUP BY
-articles.article_id
-ORDER BY
-articles.created_at DESC;`
-    );
+articles.article_id`;
+
+  if (!query || query === "") {
+    return `${sqlStr} ORDER BY articles.created_at DESC`;
+  }
+  const columnWhiteList = [
+    "author",
+    "title",
+    "article_id",
+    "topic",
+    "created_at",
+    "votes",
+    "article_img_url",
+  ];
+  const sortWhiteList = ["ASC", "DESC"];
+  const check = query.split(":");
+  let column = check[0].toLowerCase();
+  let order = check[1].toUpperCase();
+  if (columnWhiteList.includes(column) && sortWhiteList.includes(order)) {
+    return `${sqlStr} ORDER BY articles.${column} ${order}`;
+  } else {
+    return Promise.reject({ status: 400, message: "Invalid input" });
+  }
+}
+
+async function fetchAllArticlesDB(request, response) {
+  const check = await checkArticleSort(request.query.sort);
+  try {
+    const { rows } = await db.query(check);
     return { articles: rows };
   } catch (err) {
     throw err;

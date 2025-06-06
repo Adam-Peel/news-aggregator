@@ -7,8 +7,7 @@ const { isStringANumber } = require("../app-utils.js");
 
 async function getAllArticlesAPI(request, response, next) {
   try {
-    console.log(request.query);
-    const articles = await fetchAllArticlesDB();
+    const articles = await fetchAllArticlesDB(request);
     response.status(200).send(articles);
   } catch (err) {
     next(err);

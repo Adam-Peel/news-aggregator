@@ -37,7 +37,7 @@ describe("GET /api/topics", () => {
   // });
 });
 
-describe("GET /api/articles", () => {
+describe.only("GET /api/articles", () => {
   test("200: Responds with an object listing all articles in desired format", () => {
     return request(app)
       .get("/api/articles")
@@ -65,7 +65,7 @@ describe("GET /api/articles", () => {
         });
       });
   });
-  test.only("200: Responds with an object listing all articles in desired format where a sorting query is used, in this case defaulting to the created_at", () => {
+  test("200: Responds with an object listing all articles in desired format where a sorting query is used, but not specified, in this case defaulting to the created_at", () => {
     return request(app)
       .get("/api/articles?sort")
       .expect(200)
@@ -93,6 +93,76 @@ describe("GET /api/articles", () => {
           expect(new Date(created_at).getTime()).toBeLessThanOrEqual(dateCheck);
           dateCheck = new Date(created_at).getTime();
         });
+      });
+  });
+  test("200: Responds with an object listing all articles in desired format where a sorting query is used", () => {
+    return request(app)
+      .get("/api/articles?sort=created_at:asc")
+      .expect(200)
+      .then(({ body }) => {
+        let dateCheck = new Date(body.articles[0].created_at).getTime();
+        body.articles.forEach((element) => {
+          const {
+            author,
+            title,
+            article_id,
+            topic,
+            created_at,
+            votes,
+            article_img_url,
+            comment_count,
+          } = element;
+          expect(typeof author).toBe("string");
+          expect(typeof title).toBe("string");
+          expect(typeof article_id).toBe("number");
+          expect(typeof topic).toBe("string");
+          expect(new Date(created_at)).toBeInstanceOf(Date);
+          expect(votes).toBeOneOf([expect.any(Number), null]);
+          expect(typeof article_img_url).toBe("string");
+          expect(typeof comment_count).toBe("string");
+          expect(new Date(created_at).getTime()).toBeGreaterThanOrEqual(
+            dateCheck
+          );
+          dateCheck = new Date(created_at).getTime();
+        });
+      });
+  });
+  test("200: Responds with an object listing all articles in desired format where a sorting query is used", () => {
+    return request(app)
+      .get("/api/articles?sort=votes:asc")
+      .expect(200)
+      .then(({ body }) => {
+        let voteCheck = body.articles[0].votes;
+        body.articles.forEach((element) => {
+          const {
+            author,
+            title,
+            article_id,
+            topic,
+            created_at,
+            votes,
+            article_img_url,
+            comment_count,
+          } = element;
+          expect(typeof author).toBe("string");
+          expect(typeof title).toBe("string");
+          expect(typeof article_id).toBe("number");
+          expect(typeof topic).toBe("string");
+          expect(new Date(created_at)).toBeInstanceOf(Date);
+          expect(votes).toBeOneOf([expect.any(Number), null]);
+          expect(typeof article_img_url).toBe("string");
+          expect(typeof comment_count).toBe("string");
+          expect(votes).toBeGreaterThanOrEqual(voteCheck);
+          voteCheck = votes;
+        });
+      });
+  });
+  test("400: Responds with an error when sort request is not in desired format where a sorting query is used", () => {
+    return request(app)
+      .get("/api/articles?sort=wrong_input:asc")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Invalid input");
       });
   });
   test("Get single article - /api/articles/:id - 200: Responds with an object listing an article in desired format, where that article exists", () => {
