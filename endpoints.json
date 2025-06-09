@@ -83,7 +83,7 @@
     }
   },
   "GET /api/articles/:article_id": {
-    "description": "serves an object with the key of article and the value of an article of article objects. The articles are sorted by date, in descending order.",
+    "description": "serves an object with the key of article and the value of an article of article objects with a joined 'comment_count' key.",
     "exampleResponse": {
       "article": {
         "title": "Seafood substitutions are increasing",
