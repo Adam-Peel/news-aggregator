@@ -4,9 +4,7 @@ This repo contains all scripts and data necessary to serve an api of a mock-up o
 
 The current live api server can be found at: https://news-aggregator-7e9t.onrender.com/
 
-All APIs are currently unrestricted and accessible to all, and a list of endpoints will be published shortly, with information about what can be accessed, and how.
-
-For a current test, please see the list of articles in the database at: https://news-aggregator-7e9t.onrender.com/api/articles
+All APIs are currently unrestricted and accessible to all, and a list of endpoints, with information about what can be accessed, and how is available at https://news-aggregator-7e9t.onrender.com/api.
 
 ## Local hosting - Necessary repo modifications
 

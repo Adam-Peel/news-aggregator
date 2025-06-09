@@ -14,6 +14,17 @@ afterAll(() => {
   db.end();
 });
 
+describe("GET /api", () => {
+  test("200: Responds with an object detailing the documentation for each endpoint", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then(({ body: { endpoints } }) => {
+        expect(endpoints).toEqual(endpointsJson);
+      });
+  });
+});
+
 describe("GET /api/topics", () => {
   test("200: Responds with an object listing all topics in desired format", () => {
     return request(app)
@@ -27,14 +38,6 @@ describe("GET /api/topics", () => {
         });
       });
   });
-  // test("200: Responds with an object detailing the documentation for each endpoint", () => {
-  //   return request(app)
-  //     .get("/api")
-  //     .expect(200)
-  //     .then(({ body: { endpoints } }) => {
-  //       expect(endpoints).toEqual(endpointsJson);
-  //     });
-  // });
 });
 
 describe("GET /api/articles", () => {

@@ -9,6 +9,7 @@ const {
   getSingleArticleAPI,
   patchArticleAPI,
 } = require("./controllers/api-articles");
+const { getEndpoints } = require("./controllers/api-endpoints");
 const {
   getSingleCommentsAPI,
   postSingleCommentAPI,
@@ -18,6 +19,7 @@ const { getAllUsersAPI } = require("./controllers/api-users");
 const { customErrors, genericError } = require("./errors");
 
 // CODE HERE
+app.get("/api", getEndpoints);
 app.get("/api/topics", getAllTopicsAPI);
 app.get("/api/articles", getAllArticlesAPI);
 app.get("/api/users", getAllUsersAPI);
