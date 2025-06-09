@@ -78,9 +78,20 @@ async function fetchSingleArticle(request) {
   let column = Object.keys(request);
   let condition = Object.values(request);
   try {
-    const sqlString = format(`SELECT * FROM articles WHERE %I = $1`, column);
+    const sqlString = format(
+      `SELECT articles.*, 
+COUNT(comments.article_id) AS comment_count
+FROM
+articles
+LEFT JOIN 
+comments ON articles.article_id = comments.article_id 
+WHERE articles.%I = $1 
+GROUP BY articles.article_id`,
+      column
+    );
     const { rows } = await db.query(sqlString, condition);
     if (rows.length > 0) {
+      rows[0].comment_count = Number(rows[0].comment_count);
       return { article: rows[0] };
     } else {
       return Promise.reject({ status: 404, message: "Item not found" });

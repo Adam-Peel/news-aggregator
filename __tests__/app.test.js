@@ -37,7 +37,7 @@ describe("GET /api/topics", () => {
   // });
 });
 
-describe.only("GET /api/articles", () => {
+describe("GET /api/articles", () => {
   test("200: Responds with an object listing all articles in desired format", () => {
     return request(app)
       .get("/api/articles")
@@ -251,12 +251,14 @@ test("Get single article - /api/articles/:id - 200: Responds with an object list
         created_at,
         votes,
         article_img_url,
+        comment_count,
       } = body.article;
       expect(typeof author).toBe("string");
       expect(typeof title).toBe("string");
       expect(typeof article_id).toBe("number");
       expect(typeof articleBody).toBe("string");
       expect(typeof topic).toBe("string");
+      expect(typeof comment_count).toBe("number");
       expect(new Date(created_at)).toBeInstanceOf(Date);
       expect(votes).toBeOneOf([expect.any(Number), null]);
       expect(article_img_url).toBeOneOf([expect.any(String), null]);
