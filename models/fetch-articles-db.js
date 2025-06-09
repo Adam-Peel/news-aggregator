@@ -1,7 +1,8 @@
 const db = require("../db/connection");
 const format = require("pg-format");
 
-async function checkArticleSort(query) {
+async function checkArticleQuery(request) {
+  console.log(request.query);
   let sqlStr = `SELECT
 articles.author,
 articles.title,
@@ -18,31 +19,37 @@ comments ON articles.article_id = comments.article_id
 GROUP BY
 articles.article_id`;
 
-  if (!query || query === "") {
+  if (Object.keys(request.query).length === 0) {
     return `${sqlStr} ORDER BY articles.created_at DESC`;
   }
-  const columnWhiteList = [
-    "author",
-    "title",
-    "article_id",
-    "topic",
-    "created_at",
-    "votes",
-    "article_img_url",
-  ];
-  const sortWhiteList = ["ASC", "DESC"];
-  const check = query.split(":");
-  let column = check[0].toLowerCase();
-  let order = check[1].toUpperCase();
-  if (columnWhiteList.includes(column) && sortWhiteList.includes(order)) {
-    return `${sqlStr} ORDER BY articles.${column} ${order}`;
+  //Check sort
+  if (!request.query.sort || request.query.sort === "") {
+    sqlStr += ` ORDER BY articles.created_at DESC`;
   } else {
-    return Promise.reject({ status: 400, message: "Invalid input" });
+    const columnWhiteList = [
+      "author",
+      "title",
+      "article_id",
+      "topic",
+      "created_at",
+      "votes",
+      "article_img_url",
+    ];
+    const sortWhiteList = ["ASC", "DESC"];
+    const check = request.query.sort.split(":");
+    let column = check[0].toLowerCase();
+    let order = check[1].toUpperCase();
+    if (columnWhiteList.includes(column) && sortWhiteList.includes(order)) {
+      sqlStr += ` ORDER BY articles.${column} ${order}`;
+    } else {
+      return Promise.reject({ status: 400, message: "Invalid input" });
+    }
   }
+  return sqlStr;
 }
 
 async function fetchAllArticlesDB(request, response) {
-  const check = await checkArticleSort(request.query.sort);
+  const check = await checkArticleQuery(request);
   try {
     const { rows } = await db.query(check);
     return { articles: rows };
