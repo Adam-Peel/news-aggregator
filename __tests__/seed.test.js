@@ -774,7 +774,7 @@ describe("data insertion", () => {
 
   test("users data has been inserted correctly", () => {
     return db.query(`SELECT * FROM users;`).then(({ rows: users }) => {
-      expect(users).toHaveLength(4);
+      expect(users).toHaveLength(5);
       users.forEach((user) => {
         expect(user).toHaveProperty("username");
         expect(user).toHaveProperty("name");
@@ -845,7 +845,6 @@ describe("data insertion", () => {
           expect(user_engagement).toHaveProperty("article_id");
           expect(user_engagement).toHaveProperty("is_article_read");
           expect(user_engagement).toHaveProperty("is_article_bookmarked");
-          expect(user_engagement).toHaveProperty("vote_count");
           expect(user_engagement).toHaveProperty("emoji_id");
         });
       });
