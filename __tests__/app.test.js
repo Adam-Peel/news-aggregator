@@ -228,47 +228,55 @@ describe.only("GET /api/articles", () => {
         });
       });
   });
-  test("Get single article - /api/articles/:id - 200: Responds with an object listing an article in desired format, where that article exists", () => {
+  test("404: Responds with a 404 error where a topic filter is used and specified, but is not a valid topic", () => {
     return request(app)
-      .get("/api/articles/3")
-      .expect(200)
-      .then(({ body }) => {
-        const {
-          author,
-          title,
-          article_id,
-          body: articleBody,
-          topic,
-          created_at,
-          votes,
-          article_img_url,
-        } = body.article;
-        expect(typeof author).toBe("string");
-        expect(typeof title).toBe("string");
-        expect(typeof article_id).toBe("number");
-        expect(typeof articleBody).toBe("string");
-        expect(typeof topic).toBe("string");
-        expect(new Date(created_at)).toBeInstanceOf(Date);
-        expect(votes).toBeOneOf([expect.any(Number), null]);
-        expect(article_img_url).toBeOneOf([expect.any(String), null]);
-      });
-  });
-  test("Get single article - /api/articles/:id - 404: Responds with error where that article does not exists", () => {
-    return request(app)
-      .get("/api/articles/3676")
+      .get("/api/articles?topic=platypussycats")
       .expect(404)
       .then(({ body }) => {
         expect(body.message).toEqual("Item not found");
       });
   });
-  test("Get single article - /api/articles/:id - 400: Responds with error where the input is not a valid 'type'", () => {
-    return request(app)
-      .get("/api/articles/abc")
-      .expect(400)
-      .then(({ body }) => {
-        expect(body.message).toEqual("Invalid input");
-      });
-  });
+});
+test("Get single article - /api/articles/:id - 200: Responds with an object listing an article in desired format, where that article exists", () => {
+  return request(app)
+    .get("/api/articles/3")
+    .expect(200)
+    .then(({ body }) => {
+      const {
+        author,
+        title,
+        article_id,
+        body: articleBody,
+        topic,
+        created_at,
+        votes,
+        article_img_url,
+      } = body.article;
+      expect(typeof author).toBe("string");
+      expect(typeof title).toBe("string");
+      expect(typeof article_id).toBe("number");
+      expect(typeof articleBody).toBe("string");
+      expect(typeof topic).toBe("string");
+      expect(new Date(created_at)).toBeInstanceOf(Date);
+      expect(votes).toBeOneOf([expect.any(Number), null]);
+      expect(article_img_url).toBeOneOf([expect.any(String), null]);
+    });
+});
+test("Get single article - /api/articles/:id - 404: Responds with error where that article does not exists", () => {
+  return request(app)
+    .get("/api/articles/3676")
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.message).toEqual("Item not found");
+    });
+});
+test("Get single article - /api/articles/:id - 400: Responds with error where the input is not a valid 'type'", () => {
+  return request(app)
+    .get("/api/articles/abc")
+    .expect(400)
+    .then(({ body }) => {
+      expect(body.message).toEqual("Invalid input");
+    });
 });
 
 describe("GET /api/users", () => {
