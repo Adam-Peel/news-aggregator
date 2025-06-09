@@ -201,6 +201,33 @@ describe.only("GET /api/articles", () => {
         });
       });
   });
+  test("200: Responds with an object listing all articles in desired format where a topic filter is used and specified", () => {
+    return request(app)
+      .get("/api/articles?topic=cats")
+      .expect(200)
+      .then(({ body }) => {
+        body.articles.forEach((element) => {
+          const {
+            author,
+            title,
+            article_id,
+            topic,
+            created_at,
+            votes,
+            article_img_url,
+            comment_count,
+          } = element;
+          expect(typeof author).toBe("string");
+          expect(typeof title).toBe("string");
+          expect(typeof article_id).toBe("number");
+          expect(topic).toBe("cats");
+          expect(new Date(created_at)).toBeInstanceOf(Date);
+          expect(votes).toBeOneOf([expect.any(Number), null]);
+          expect(typeof article_img_url).toBe("string");
+          expect(typeof comment_count).toBe("string");
+        });
+      });
+  });
   test("Get single article - /api/articles/:id - 200: Responds with an object listing an article in desired format, where that article exists", () => {
     return request(app)
       .get("/api/articles/3")

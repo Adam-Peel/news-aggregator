@@ -1,5 +1,6 @@
 const db = require("../db/connection");
 const format = require("pg-format");
+const fetchAllTopicsDB = require("./fetch-topics-db");
 
 async function checkArticleQuery(request) {
   console.log(request.query);
@@ -15,13 +16,30 @@ COUNT(comments.article_id) AS comment_count
 FROM
 articles
 LEFT JOIN
-comments ON articles.article_id = comments.article_id
-GROUP BY
-articles.article_id`;
+comments ON articles.article_id = comments.article_id`;
 
   if (Object.keys(request.query).length === 0) {
-    return `${sqlStr} ORDER BY articles.created_at DESC`;
+    return `${sqlStr} GROUP BY articles.article_id ORDER BY articles.created_at DESC`;
   }
+  //Check topic
+  if (!request.query.topic || request.query.topic === "") {
+    // Do nothing
+  } else {
+    let topic = request.query.topic;
+    console.log(topic);
+    const { rows } = await db.query(`SELECT slug FROM topics`);
+    let topics = [];
+    rows.forEach((topic) => {
+      topics.push(topic.slug);
+    });
+    console.log(topics);
+    if (topics.includes(topic)) {
+      sqlStr += ` WHERE topic = '${topic}'`;
+    } else {
+      return Promise.reject({ status: 404, message: "Item not found" });
+    }
+  }
+  sqlStr += ` GROUP BY articles.article_id`;
   //Check sort
   if (!request.query.sort || request.query.sort === "") {
     sqlStr += ` ORDER BY articles.created_at DESC`;
@@ -45,12 +63,8 @@ articles.article_id`;
       return Promise.reject({ status: 400, message: "Invalid input" });
     }
   }
-  //Check topic
-  if (!request.query.topic || request.query.topic === "") {
-    sqlStr;
-    // Do nothing
-  } else {
-  }
+
+  console.log(sqlStr);
   return sqlStr;
 }
 
@@ -58,6 +72,7 @@ async function fetchAllArticlesDB(request, response) {
   const check = await checkArticleQuery(request);
   try {
     const { rows } = await db.query(check);
+    console.log(rows);
     return { articles: rows };
   } catch (err) {
     throw err;
