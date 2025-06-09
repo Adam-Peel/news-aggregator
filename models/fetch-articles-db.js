@@ -3,7 +3,6 @@ const format = require("pg-format");
 const fetchAllTopicsDB = require("./fetch-topics-db");
 
 async function checkArticleQuery(request) {
-  console.log(request.query);
   let sqlStr = `SELECT
 articles.author,
 articles.title,
@@ -25,14 +24,12 @@ comments ON articles.article_id = comments.article_id`;
   if (!request.query.topic || request.query.topic === "") {
     // Do nothing
   } else {
-    let topic = request.query.topic;
-    console.log(topic);
+    let topic = request.query.topic.toLowerCase();
     const { rows } = await db.query(`SELECT slug FROM topics`);
     let topics = [];
     rows.forEach((topic) => {
       topics.push(topic.slug);
     });
-    console.log(topics);
     if (topics.includes(topic)) {
       sqlStr += ` WHERE topic = '${topic}'`;
     } else {
@@ -64,7 +61,6 @@ comments ON articles.article_id = comments.article_id`;
     }
   }
 
-  console.log(sqlStr);
   return sqlStr;
 }
 
@@ -72,7 +68,6 @@ async function fetchAllArticlesDB(request, response) {
   const check = await checkArticleQuery(request);
   try {
     const { rows } = await db.query(check);
-    console.log(rows);
     return { articles: rows };
   } catch (err) {
     throw err;

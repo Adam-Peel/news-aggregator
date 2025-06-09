@@ -54,6 +54,34 @@
       ]
     }
   },
+  "GET /api/articles?topic...": {
+    "description": "... must take the form of '=topicName'. The topicName will be searched against all topics in the database and, if it exists as a valid entry, will attempt to filter the articles by that value. The inputs are case insensitive. The return serves an object with the key of articles and the value of an array of article objects which match the filter. Where no match is found for the filter, it returns an error of 404.",
+    "exampleQuery": "GET /api/articles?topic=voting",
+    "exampleResponse": {
+      "articles": [
+        {
+          "title": "The case for digital 'Postal' votes",
+          "topic": "voting",
+          "article_id": 1,
+          "author": "weegembump",
+          "created_at": "2018-05-30T15:59:13.341Z",
+          "votes": 0,
+          "comment_count": 6,
+          "article_img_url": "url-goes-here"
+        },
+        {
+          "title": "Vote counts are increasing",
+          "topic": "voting",
+          "article_id": 4,
+          "author": "weegembump",
+          "created_at": "2019-06-10T15:49:13.341Z",
+          "votes": 2,
+          "comment_count": 3,
+          "article_img_url": "url-goes-here"
+        }
+      ]
+    }
+  },
   "GET /api/articles/:article_id": {
     "description": "serves an object with the key of article and the value of an article of article objects. The articles are sorted by date, in descending order.",
     "exampleResponse": {
