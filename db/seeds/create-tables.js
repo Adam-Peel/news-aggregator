@@ -67,7 +67,7 @@ async function createUsersTopicsTable(db) {
 async function createUsersArticlesEngagementTable(db) {
   try {
     await db.query(
-      `CREATE TABLE users_articles_engagement (users_articles_engagement_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), is_article_read BOOLEAN, is_article_bookmarked BOOLEAN, vote_count INT CHECK (vote_count between -1 and 1), emoji_id INT REFERENCES emojis(emoji_id));`
+      `CREATE TABLE users_articles_engagement (users_articles_engagement_id SERIAL PRIMARY KEY, username VARCHAR(255) REFERENCES users(username), article_id INT REFERENCES articles(article_id), is_article_read BOOLEAN, is_article_bookmarked BOOLEAN, emoji_id INT REFERENCES emojis(emoji_id));`
     );
   } catch (err) {
     console.log(`Error creating users_articles_engagement table:\n${err}`);
