@@ -45,6 +45,12 @@ articles.article_id`;
       return Promise.reject({ status: 400, message: "Invalid input" });
     }
   }
+  //Check topic
+  if (!request.query.topic || request.query.topic === "") {
+    sqlStr;
+    // Do nothing
+  } else {
+  }
   return sqlStr;
 }
 

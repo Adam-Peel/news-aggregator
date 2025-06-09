@@ -95,7 +95,7 @@ describe.only("GET /api/articles", () => {
         });
       });
   });
-  test("200: Responds with an object listing all articles in desired format where a sorting query is used", () => {
+  test("200: Responds with an object listing all articles in desired format where a created_at sorting query is used", () => {
     return request(app)
       .get("/api/articles?sort=created_at:asc")
       .expect(200)
@@ -127,7 +127,7 @@ describe.only("GET /api/articles", () => {
         });
       });
   });
-  test("200: Responds with an object listing all articles in desired format where a sorting query is used", () => {
+  test("200: Responds with an object listing all articles in desired format where a votes sorting query is used", () => {
     return request(app)
       .get("/api/articles?sort=votes:asc")
       .expect(200)
@@ -173,9 +173,10 @@ describe.only("GET /api/articles", () => {
         expect(body.message).toEqual("Invalid input");
       });
   });
-  test("200: Responds with an object listing all articles in desired format", () => {
+  // TODO
+  test("200: Responds with an object listing all articles in desired format where a topic filter is used but no topic specified", () => {
     return request(app)
-      .get("/api/articles?")
+      .get("/api/articles?topic=")
       .expect(200)
       .then(({ body }) => {
         body.articles.forEach((element) => {
