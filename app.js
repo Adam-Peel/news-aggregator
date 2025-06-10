@@ -3,6 +3,9 @@ const db = require("./db/connection");
 const express = require("express");
 const app = express();
 app.use(express.json());
+const path = require("path");
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "public")));
 const { getAllTopicsAPI } = require("./controllers/api-topics");
 const {
   getAllArticlesAPI,
@@ -19,7 +22,9 @@ const { getAllUsersAPI } = require("./controllers/api-users");
 const { customErrors, genericError } = require("./errors");
 
 // CODE HERE
-app.get("/api", getEndpoints);
+app.get("/api", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 app.get("/api/topics", getAllTopicsAPI);
 app.get("/api/articles", getAllArticlesAPI);
 app.get("/api/users", getAllUsersAPI);
