@@ -4,16 +4,21 @@ This repo contains all scripts and data necessary to serve an api of a mock-up o
 
 The current live api server can be found at: https://news-aggregator-7e9t.onrender.com/
 
-All APIs are currently unrestricted and accessible to all, and a list of endpoints, with information about what can be accessed, and how is available at https://news-aggregator-7e9t.onrender.com/api.
+All APIs are currently unrestricted and accessible to all, and a list of endpoints, with information about what can be accessed, and how is available in [Link](endpoints.json).
 
 ## Local hosting - Necessary repo modifications
 
 The DB and api were developed with the following packages:
+
 {
 "express": "^5.1.0",
+
 "dotenv": "^16.5.0",
+
 "nodemon": "^3.1.10",
+
 "pg": "^8.16.0",
+
 "pg-format": "^1.0.4"
 },
 
