@@ -49,7 +49,7 @@
         The project is currently a work in progress, and only working API
         endpoints, routes, and queries are fully documented below. As such, new endpoints and parameters are likely to become publicly available in the near future.
       </p>
-      <p>All APIs are currently unrestricted and accessible to all.</p>
+      <p>All available APIs are currently unrestricted and accessible to all.</p>
       <p>
         A list of new changes are summarised in the footer along with a roadmap
         for future planned development.
@@ -61,7 +61,7 @@
             <li><a href="https://news-aggregator-7e9t.onrender.com/api/articles">/articles</a></li>
             <li><a href="https://news-aggregator-7e9t.onrender.com/api/topics">/topics</a></li>
             <li><a href="https://news-aggregator-7e9t.onrender.com/api/users">/users</a></li>
-            <li class="inactive">/comments (endpoint currently inactive)</li>
+            <li>/comments (full endpoint currently unavailable, though some routes are available)</li>
             <li class="inactive">/emojis (endpoint currently inactive)</li>
           </ul>
         </nav>
@@ -70,7 +70,8 @@
     <main>
       <section id="documentation-start">
         <h2>API Documentation</h2>
-        <h3>Articles</h3>
+        <h3 class="api-section">Articles</h3>
+        <p>Where an API serves multiple articles they will. by default, be sorted by the date the article was created, in descending order.</p>
         <table>
               <colgroup>
        <col span="1" style="width: 20%;">
@@ -187,24 +188,215 @@
         }
       ]
     }
-  </code></pre>
+  </code>
+</pre>
+</td>
+</tr>
+<tr>
+  <td>GET /api/articles/:article_id</td>
+  <td><b>Serve single article by article_id</b>
+      <p>:article_id must take the form of a single integer which relates to an article record in the database. </p><p>The return serves an object with the key of article and the value of all article objects with a joined 'comment_count' key.</p><p>Where no match is found for the parameter, it returns an error of 404.</p>
+  </td>
+  <td>
+  <pre><code>"exampleQuery": "GET /api/articles/1",
+   "exampleResponse": {
+      "article": {
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "article_id": 1,
+        "author": "weegembump",
+        "created_at": "2018-05-30T15:59:13.341Z",
+        "votes": 0,
+        "comment_count": 6,
+        "article_img_url": "url-goes-here"
+      }
+    }
+  </code>
+</pre>
+</td>
+</tr>
+          <tr>
+            <td>GET /api/articles/:article_id/comments</td>
+            <td><b>Serve all comments associated with a single article</b><p>
+              Serves an object with the key of comments and the value of an of an array of comments for the given article_id.</p>
             </td>
+            <td>
+              <pre><code>"exampleQuery": "GET /api/articles/1/comments",
+    "exampleResponse": {
+      "comments": [
+      { 
+        "comment_id": 2,
+          "article_id": 1,
+          "author": "weegembump",
+          "created_at": "2018-05-30T15:59:13.341Z",
+          "votes": 0,
+          "body": "This is a comment about the article"
+      },
+      { 
+        "comment_id": 3,
+          "article_id": 1,
+          "author": "grumpy19",
+          "created_at": "2014-06-30T15:59:13.341Z",
+          "votes": 0,
+          "body": "This is a different comment about the article"
+      }
+      ]
+    }
+  </code>
+</pre>
+</td>
+</tr>
+           <tr>
+            <td>PATCH /api/articles/:article_id<p><b>Required Information:</b><br> {
+      "inc_votes": INT
+    },</p></td>
+            <td><b>Patch vote_count for single article by article_id</b>
+              <p>:article_id must take the form of a single integer which relates to an article record in the database. </p><p>The value for inc_votes can be both positive or negative (e.g. 1000 or -1000) and the total vote_count will alter by the amount provided (i.e. will not change TO the amount provided).</p> <p>A successful PATCH request will return the updated article, with the new number of votes</p><p>Where no match is found for the parameter, it returns an error of 404.</p>
+            </td>
+            <td>
+              <pre><code>"exampleQuery": "PATCH /api/articles/1" {inc_votes: 1000},
+   "exampleResponse": {
+      "article": {
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "article_id": 1,
+        "author": "weegembump",
+        "created_at": "2018-05-30T15:59:13.341Z",
+        "votes": 1000,
+        "comment_count": 6,
+        "article_img_url": "url-goes-here"
+      }
+    }
+  </code>
+</pre>
+</td>
+</tr>
+<tr>
+            <td>POST /api/articles/:article_id/comments<p><b>Required Information:</b><br> {
+      "username: "The name of the user posting the comment",
+      "body" : "The comment body to be posted"
+    },</p></td>
+            <td><b>Post a single comment to article by article_id</b>
+              <p>:article_id must take the form of a single integer which relates to an article record in the database. </p><p>Posts a comment to the relevant article subject to tests being passed, returns the posted comment only.</p> <p>A successful POST request will return the comment body only.</p><p>Where no match is found for the parameter, it returns an error of 404.</p>
+            </td>
+            <td>
+              <pre><code>"exampleQuery": "POST /api/articles/4/comments" 
+      {
+        "username": "butter_bridge",
+        "body": "This is a comment about the article"
+      },
+   "exampleResponse": {
+      "body" : "This is a comment about the article"
+    }
+  </code>
+</pre>
+</td>
+</tr>
+</table>
+</section>
+<section>
+<h3 class="api-section">Topics</h3>
+<p></p>
+<table>
+  <colgroup>
+    <col span="1" style="width: 20%;">
+    <col span="1" style="width: 40%;">
+    <col span="1" style="width: 40%;">
+  </colgroup>
+          <tr>
+            <th>Endpoint</th>
+            <th>Description</th>
+            <th>Example</th>
           </tr>
-        </table>
-        <nav><!-- List of endpoints --></nav>
+          <tr>
+            <td>GET /api/topics</td>
+            <td><b>Serve all topics</b><p>
+              Serves an object with the key of topics and the value of an array of topic objects.</p><p>slug acts as a unique identifier."</p>
+            </td>
+            <td>
+              <pre><code>"exampleQuery": "GET /api/topics",
+    "exampleResponse": {
+      "topics": [
+      { "slug": "football", "description": "Footie!" },
+      { "slug": "cooking", description: "Foodie!" }
+      ]
+    }
+  </code>
+</pre>
+</td>
+</tr>       
+</table>
       </section>
       <section>
-        <h3>Topics</h3>
-        <nav><!-- List of endpoints --></nav>
+        <h3 class="api-section">Comments</h3>
+  <table>
+  <colgroup>
+    <col span="1" style="width: 20%;">
+    <col span="1" style="width: 40%;">
+    <col span="1" style="width: 40%;">
+  </colgroup>
+          <tr>
+            <th>Endpoint</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+ <tr>
+            <td>DELETE /comments/:comment_id</td>
+            <td><b>Delete single comment</b><p>Deletes the given comment where it exists, returning no response except a 204 status.</p>
+            </td>
+            <td>
+              <pre><code>"exampleQuery": "DELETE /api/comments/2"
+  </code>
+</pre>
+</td>
+</tr>              
+</table>
       </section>
       <section>
-        <h3>Comments</h3>
-        <nav><!-- List of endpoints --></nav>
-      </section>
-      <section>
-        <h3>Users</h3>
-        <nav><!-- List of endpoints --></nav>
-      </section>
+        <h3 class="api-section">Users</h3>
+        <table>
+  <colgroup>
+    <col span="1" style="width: 20%;">
+    <col span="1" style="width: 40%;">
+    <col span="1" style="width: 40%;">
+  </colgroup>
+          <tr>
+            <th>Endpoint</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+          <tr>
+            <td>GET /api/users</td>
+            <td><b>Serve all users</b><p>
+              Serves an object with the key of users and the value of an array of user objects.</p>
+            </td>
+            <td>
+              <pre><code>"exampleQuery": "GET /api/users",
+    "exampleResponse": {
+      "users": [
+      { 
+        "username": "tickle122",
+        "name": "Tom Tickle" 
+        "avatar_url": "url_goes_here"
+      },
+      { 
+        "username": "grumpy19",
+        "name": "Paul Grump" 
+        "avatar_url": "url_goes_here"
+      },
+      { 
+        "username": "happyAmy2016",
+        "name": "Amy Happy" 
+        "avatar_url": "url_goes_here"
+      },
+      ]
+    }
+  </code>
+</pre>
+</td>
+</tr>       
+</table>
+</section>
     </main>
     <footer class="footer">
       Last edited: 10/06/2025<!-- Next steps / WIP -->

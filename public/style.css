@@ -44,6 +44,7 @@
 }
 
 .footer {
+  margin-top: 12px;
   padding: 8px;
   text-align: center;
 }
@@ -55,6 +56,11 @@ body {
     sans-serif;
   min-height: 100vh;
   flex: 1;
+}
+
+.api-section {
+  padding: 16px;
+  background-color: lightsteelblue;
 }
 
 table {
