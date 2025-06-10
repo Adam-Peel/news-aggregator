@@ -4,7 +4,7 @@ This repo contains all scripts and data necessary to serve an api of a mock-up o
 
 The current live api server can be found at: https://news-aggregator-7e9t.onrender.com/
 
-All APIs are currently unrestricted and accessible to all, and a list of endpoints, with information about what can be accessed, and how is available in [Link](endpoints.json).
+All APIs are currently unrestricted and accessible to all, and a list of endpoints, with information about what can be accessed, and how is available in [The endpoints](endpoints.json).
 
 ## Local hosting - Necessary repo modifications
 
@@ -46,8 +46,7 @@ These can either be automated by running `'npm run setup-env"` in the terminal, 
 As the repo is currently a work in progress, regular checks for commits and / or pull requests should be made before any major revisions to the codebase.
 
 1. Debugging and testing - In progress
-2. ERD Creation - In progress
-3. Live API server - In progress
+2. Live API server - In progress
 
 # ERD:
 
