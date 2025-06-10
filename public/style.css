@@ -1,9 +1,83 @@
+.header,
+.footer {
+  background-color: #1f2937;
+  color: #e5e7eb;
+  min-height: 32px;
+  align-content: center;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.header-links,
+.hero-content {
+  font-size: 18px;
+}
+
+.header-banner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+}
+
+.header-links img {
+  height: 32px;
+  flex: 1 1 auto;
+  object-fit: scale-down;
+}
+
+.header-links a {
+  color: white;
+  text-decoration: none;
+}
+
+.logo-placeholder {
+  color: #f9faf8;
+  font-size: 24px;
+}
+
+.footer {
+  padding: 8px;
+  text-align: center;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  min-height: 100vh;
+  flex: 1;
+}
+
+#erd-main {
+  background-color: #171717;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+li {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 code {
   font-family: monospace;
 }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 tr:nth-child(even) {
-  background-color: rgb(192, 192, 192);
+  background-color: rgb(222, 222, 222);
 }
 tr:nth-child(odd) {
   background-color: rgb(255, 255, 255);

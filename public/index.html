@@ -3,11 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>News Server API Endpoints</title>
   </head>
   <body>
+    <div class="header">
+      <div class="header-banner">
+        <div class="logo-placeholder">News Server: API Endpoints</div>
+        <div class="header-links">
+          <ul>
+            <li>
+              <a href="#documentation-start">
+                <img src="images/documents-electronics-svgrepo-com.svg" />
+                Documentation</a
+              >
+            </li>
+            <li>
+              <a href="erd.html">
+                <img src="images/diagram-nested-svgrepo-com.svg" /> ERD</a
+              >
+            </li>
+            <li>
+              <a href="https://github.com/Adam-Peel/news-aggregator"
+                ><img src="images/github-svgrepo-com.svg" />Github Repo</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <header>
-      <h1>News Server API Endpoints</h1>
+      <div class="documentation-block"></div>
       <p>
         The <b>News Server REST API</b> demonstrates an example of API
         capabilities and available endpoints for querying a mock-up of a basic
@@ -25,8 +51,9 @@
       <!-- info about the repo -->
     </header>
     <main>
-      <section>
-        <h2>Articles</h2>
+      <section id="documentation-start">
+        <h2>API Documentation</h2>
+        <h3>Articles</h3>
         <table>
           <tr>
             <th>Endpoint</th>
@@ -111,18 +138,20 @@
         <nav><!-- List of endpoints --></nav>
       </section>
       <section>
-        <h2>Topics</h2>
+        <h3>Topics</h3>
         <nav><!-- List of endpoints --></nav>
       </section>
       <section>
-        <h2>Comments</h2>
+        <h3>Comments</h3>
         <nav><!-- List of endpoints --></nav>
       </section>
       <section>
-        <h2>Users</h2>
+        <h3>Users</h3>
         <nav><!-- List of endpoints --></nav>
       </section>
     </main>
-    <footer>Last edited: 10/06/2025<!-- Next steps / WIP --></footer>
+    <footer class="footer">
+      Last edited: 10/06/2025<!-- Next steps / WIP -->
+    </footer>
   </body>
 </html>
