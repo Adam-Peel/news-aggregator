@@ -50,4 +50,4 @@ As the repo is currently a work in progress, regular checks for commits and / or
 
 # ERD:
 
-![Link to ERD](ERD.svg)
+![Link to ERD](views/visuals/ERD.svg)
