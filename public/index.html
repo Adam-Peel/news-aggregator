@@ -15,7 +15,7 @@
             <li>
               <a href="#documentation-start">
                 <img src="images/documents-electronics-svgrepo-com.svg" />
-                Documentation</a
+                API Documentation</a
               >
             </li>
             <li>
@@ -28,12 +28,18 @@
                 ><img src="images/github-svgrepo-com.svg" />Github Repo</a
               >
             </li>
+            <!-- <li>
+              <a href="technical.html"
+                ><img src="images/technical.svg" />Technical Documentation</a
+              >
+            </li> -->
           </ul>
         </div>
       </div>
     </div>
     <header>
       <div class="documentation-block"></div>
+      <!-- info about the repo -->
       <p>
         The <b>News Server REST API</b> demonstrates an example of API
         capabilities and available endpoints for querying a mock-up of a basic
@@ -41,20 +47,36 @@
       </p>
       <p>
         The project is currently a work in progress, and only working API
-        endpoints are listed below. As such, new endpoints and parameters are
-        likely to become publicly available in the near future.
+        endpoints, routes, and queries are fully documented below. As such, new endpoints and parameters are likely to become publicly available in the near future.
       </p>
+      <p>All APIs are currently unrestricted and accessible to all.</p>
       <p>
         A list of new changes are summarised in the footer along with a roadmap
         for future planned development.
       </p>
-      <!-- info about the repo -->
+      <p>
+        <b>Endpoints:</b>
+        <nav>
+          <ul class="no-dec">
+            <li><a href="https://news-aggregator-7e9t.onrender.com/api/articles">/articles</a></li>
+            <li><a href="https://news-aggregator-7e9t.onrender.com/api/topics">/topics</a></li>
+            <li><a href="https://news-aggregator-7e9t.onrender.com/api/users">/users</a></li>
+            <li class="inactive">/comments (endpoint currently inactive)</li>
+            <li class="inactive">/emojis (endpoint currently inactive)</li>
+          </ul>
+        </nav>
+      </p>
     </header>
     <main>
       <section id="documentation-start">
         <h2>API Documentation</h2>
         <h3>Articles</h3>
         <table>
+              <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 40%;">
+       <col span="1" style="width: 40%;">
+    </colgroup>
           <tr>
             <th>Endpoint</th>
             <th>Description</th>
@@ -62,8 +84,8 @@
           </tr>
           <tr>
             <td>GET /api/articles</td>
-            <td>
-              serves an object with the key of articles and the value of an
+            <td><b>Serve all articles</b><p>
+              Serves an object with the key of articles and the value of an
               array of article objects. The articles are sorted by date, in
               descending order.
             </td>
@@ -97,14 +119,14 @@
           </tr>
           <tr>
             <td>GET /api/articles?sort...</td>
-            <td>
-              ... must take the form of column_name:order. The column_name
+            <td><b>Serve all articles - sorted by column</b>
+              <p>... must take the form of column_name:order. The column_name
               pertains to columns in the articles table and the order can be asc
-              (for ascending) or desc (for descending). The inputs are case
-              insensitive. The return serves an object with the key of articles
-              and the value of an array of article objects. Where no sorting
+              (for ascending) or desc (for descending).</p><p>The inputs are case
+              insensitive.</p><p>The return serves an object with the key of articles
+              and the value of an array of article objects.</p><p>Where no sorting
               parameters are provided, the articles are sorted by date, in
-              descending order.
+              descending order.</p>
             </td>
             <td>
               <pre><code>"exampleQuery": "GET /api/articles?sort=votes:asc",
@@ -132,6 +154,40 @@
         }
       ]
     }</code></pre>
+            </td>
+          </tr>
+                    <tr>
+            <td>GET /api/articles?topic...</td>
+            <td><b>Serve all articles - filtered by topic</b>
+              <p>... must take the form of '=topicName'. The topicName will be searched against all topics in the database and, if it exists as a valid entry, will attempt to filter the articles by that value.</p><p>The inputs are case insensitive.</p><p>The return serves an object with the key of articles and the value of an array of article objects which match the filter.</p><p>Where no match is found for the filter, it returns an error of 404.</p>
+            </td>
+            <td>
+              <pre><code>"exampleQuery": "GET /api/articles?topic=voting",
+    "exampleResponse": {
+      "articles": [
+        {
+          "title": "The case for digital 'Postal' votes",
+          "topic": "voting",
+          "article_id": 1,
+          "author": "weegembump",
+          "created_at": "2018-05-30T15:59:13.341Z",
+          "votes": 0,
+          "comment_count": 6,
+          "article_img_url": "url-goes-here"
+        },
+        {
+          "title": "Vote counts are increasing",
+          "topic": "voting",
+          "article_id": 4,
+          "author": "weegembump",
+          "created_at": "2019-06-10T15:49:13.341Z",
+          "votes": 2,
+          "comment_count": 3,
+          "article_img_url": "url-goes-here"
+        }
+      ]
+    }
+  </code></pre>
             </td>
           </tr>
         </table>
