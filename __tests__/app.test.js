@@ -14,16 +14,16 @@ afterAll(() => {
   db.end();
 });
 
-describe("GET /api", () => {
-  test("200: Responds with an object detailing the documentation for each endpoint", () => {
-    return request(app)
-      .get("/api")
-      .expect(200)
-      .then(({ body: { endpoints } }) => {
-        expect(endpoints).toEqual(endpointsJson);
-      });
-  });
-});
+// describe("GET /api", () => {
+//   test("200: Responds with an object detailing the documentation for each endpoint", () => {
+//     return request(app)
+//       .get("/api")
+//       .expect(200)
+//       .then(({ body: { endpoints } }) => {
+//         expect(endpoints).toEqual(endpointsJson);
+//       });
+//   });
+// });
 
 describe("GET /api/topics", () => {
   test("200: Responds with an object listing all topics in desired format", () => {
@@ -471,7 +471,24 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
-describe("DELETE /api/comments/:comment_id", () => {
+describe("/api/comments", () => {
+  test("GET /api/comments - 200: Responds with an object of all comments", () => {
+    return request(app)
+      .get("/api/comments")
+      .expect(200)
+      .then(({ body }) => {
+        body.comments.forEach((element) => {
+          const { comment_id, votes, created_at, author, body, article_id } =
+            element;
+          expect(typeof comment_id).toBe("number");
+          expect(votes).toBeOneOf([expect.any(Number), null]);
+          expect(new Date(created_at)).toBeInstanceOf(Date);
+          expect(typeof author).toBe("string");
+          expect(typeof body).toBe("string");
+          expect(typeof article_id).toBe("number");
+        });
+      });
+  });
   test("DELETE /api/comments/:comment_id - 404: Responds with error where the comment does not exist", () => {
     return request(app)
       .delete("/api/comments/3432")

@@ -2,9 +2,9 @@
 
 This repo contains all scripts and data necessary to serve an api of a mock-up of a basic news-based site where users can post, and interact with, articles.
 
-The current live api server can be found at: https://news-aggregator-7e9t.onrender.com/
+The current live api server and documentation can be found at: https://news-aggregator-7e9t.onrender.com/api
 
-All APIs are currently unrestricted and accessible to all, and a list of endpoints, with information about what can be accessed, and how is available in [The endpoints](endpoints.json).
+All available APIs are currently unrestricted and accessible to all, and a list of endpoints, with information about what can be accessed, and how is available in documentation on the hosted site.
 
 ## Local hosting - Necessary repo modifications
 
@@ -47,7 +47,3 @@ As the repo is currently a work in progress, regular checks for commits and / or
 
 1. Debugging and testing - In progress
 2. Live API server - In progress
-
-# ERD:
-
-![Link to ERD](views/visuals/ERD.svg)

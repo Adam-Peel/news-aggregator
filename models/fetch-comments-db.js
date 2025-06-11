@@ -20,6 +20,19 @@ async function fetchSingleCommentsDB(request) {
   }
 }
 
+async function fetchAllCommentsDB(request) {
+  try {
+    const { rows } = await db.query(`SELECT * FROM comments`);
+    if (rows.length > 0) {
+      return { comments: rows };
+    } else {
+      return Promise.reject({ status: 404, message: "Item not found" });
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
 async function postSingleCommentDB(request) {
   try {
     const { username, body, article_id } = request;
@@ -64,6 +77,7 @@ async function deleteSingleCommentDB(request) {
 }
 
 module.exports = {
+  fetchAllCommentsDB,
   fetchSingleCommentsDB,
   postSingleCommentDB,
   deleteSingleCommentDB,

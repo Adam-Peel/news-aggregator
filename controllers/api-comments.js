@@ -1,10 +1,21 @@
 const {
   fetchSingleCommentsDB,
+  fetchAllCommentsDB,
   postSingleCommentDB,
   deleteSingleCommentDB,
 } = require("../models/fetch-comments-db");
 const { fetchSingleArticle } = require("../models/fetch-articles-db");
 const { isStringANumber } = require("../app-utils.js");
+
+async function getAllCommentsAPI(request, response, next) {
+  try {
+    const comments = await fetchAllCommentsDB();
+    console.log(comments);
+    response.status(200).send(comments);
+  } catch (err) {
+    next(err);
+  }
+}
 
 async function getSingleCommentsAPI(request, response, next) {
   try {
@@ -55,4 +66,5 @@ module.exports = {
   getSingleCommentsAPI,
   postSingleCommentAPI,
   deleteCommentAPI,
+  getAllCommentsAPI,
 };

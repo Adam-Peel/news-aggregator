@@ -4,7 +4,6 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 const path = require("path");
-// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
 const { getAllTopicsAPI } = require("./controllers/api-topics");
 const {
@@ -14,6 +13,7 @@ const {
 } = require("./controllers/api-articles");
 const { getEndpoints } = require("./controllers/api-endpoints");
 const {
+  getAllCommentsAPI,
   getSingleCommentsAPI,
   postSingleCommentAPI,
   deleteCommentAPI,
@@ -28,6 +28,7 @@ app.get("/api", (req, res) => {
 app.get("/api/topics", getAllTopicsAPI);
 app.get("/api/articles", getAllArticlesAPI);
 app.get("/api/users", getAllUsersAPI);
+app.get("/api/comments", getAllCommentsAPI);
 app.get("/api/articles/:article_id", getSingleArticleAPI);
 app.get("/api/articles/:article_id/comments", getSingleCommentsAPI);
 app.post("/api/articles/:article_id/comments", postSingleCommentAPI);
