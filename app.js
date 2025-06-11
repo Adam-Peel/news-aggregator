@@ -23,7 +23,7 @@ const { customErrors, genericError } = require("./errors");
 
 // CODE HERE
 app.get("/api", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.status(200).sendFile(path.join(__dirname, "public", "index.html"));
 });
 app.get("/api/topics", getAllTopicsAPI);
 app.get("/api/articles", getAllArticlesAPI);
