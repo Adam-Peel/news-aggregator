@@ -22,8 +22,8 @@ const { getAllUsersAPI } = require("./controllers/api-users");
 const { customErrors, genericError } = require("./errors");
 
 // CODE HERE
-app.get("/api", (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, "public", "index.html"));
+app.get("/api", (request, response) => {
+  response.status(200).sendFile(path.join(__dirname, "public", "index.html"));
 });
 app.get("/api/topics", getAllTopicsAPI);
 app.get("/api/articles", getAllArticlesAPI);
