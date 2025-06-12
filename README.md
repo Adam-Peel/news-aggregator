@@ -44,7 +44,9 @@ We will also require the creation of two environment variables:
 
 These can either be automated by running the following command from the terminal whilst in the repo root directory:
 
-`npm run setup-env`
+```
+npm run setup-env
+```
 
 Or, to create the files manually, name and populated as follows:
 
