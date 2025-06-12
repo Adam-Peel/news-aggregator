@@ -14,14 +14,6 @@ All available APIs are currently unrestricted and accessible to all, and a list 
 
 To set up and use this repository locally you are welcome to clone the whole repo.
 
-To clone the repository, click the green <span style="color:lime;font-weight:bold"><> Code</span> button near the top of the page, then copy this repository's .git link.
-
-Once copied, clone into the directory of your choice using the terminal command:
-
-```
-git clone <COPIED LINK HERE>
-```
-
 ### Local set up:
 
 Once cloned, run `npm install` and ensure that the following packages are dependencies:
@@ -57,10 +49,10 @@ These can either be automated by running the following command from the terminal
 Or, to create the files manually, name and populated as follows:
 
 Name: .env.development
-`PGDATABASE=nc_news`
+Content: `PGDATABASE=nc_news`
 
 Name: .env.test
-`PGDATABASE=nc_news_test`
+Content: `PGDATABASE=nc_news_test`
 
 ## Database set up:
 
