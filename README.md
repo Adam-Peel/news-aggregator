@@ -6,9 +6,25 @@ The current live api server and documentation can be found at: https://news-aggr
 
 All available APIs are currently unrestricted and accessible to all, and a list of endpoints, with information about what can be accessed, and how is available in documentation on the hosted site.
 
-## Local hosting - Necessary repo modifications
+# Local hosting
 
-The DB and api were developed with the following packages:
+## Local hosting - Necessary repo set up
+
+### Cloning:
+
+To set up and use this repository locally you are welcome to clone the whole repo.
+
+To clone the repository, click the green <span style="color:lime;font-weight:bold"><> Code</span> button near the top of the page, then copy this repository's .git link.
+
+Once copied, clone into the directory of your choice using the terminal command:
+
+```
+git clone <COPIED LINK HERE>
+```
+
+### Local set up:
+
+Once cloned, run `npm install` and ensure that the following packages are dependencies:
 
 {
 "express": "^5.1.0",
@@ -22,28 +38,56 @@ The DB and api were developed with the following packages:
 "pg-format": "^1.0.4"
 },
 
-Run using the following engine:
+Run using the following:
 
-{"node": ">=6.0.0}
+| **Engine** | **Version** |
+| ---------- | ----------- |
+| Node.js    | V22.15.0    |
+| PostgreSQL | V16.9       |
 
-To host the content locally will require creation of two environment variables:
+We will also require the creation of two environment variables:
 
 1. '.env.development'
 2. '.env.test'
 
-These can either be automated by running `'npm run setup-env"` in the terminal, or created manually and populated as follows:
+These can either be automated by running the following command from the terminal whilst in the repo root directory:
 
-### .env.development
+`npm run setup-env`
 
+Or, to create the files manually, name and populated as follows:
+
+Name: .env.development
 `PGDATABASE=nc_news`
 
-### .env.test
-
+Name: .env.test
 `PGDATABASE=nc_news_test`
+
+## Database set up:
+
+Once the repo is set up, with dependencies and environment variables, the database can be created using the following terminal command from the root folder:
+
+```
+npm run setup-dbs
+```
+
+This creates the necessary database, which will then require seeding using the following command from the root folder:
+
+```
+npm run seed-dev
+```
+
+### Testing
+
+> To note: This seeds the database with the full set of 'development data'.
+> When altering code, the repo is set to test the functionality with a smaller dataset.
+> Jest automatically seeds the database with **test** data, before each test is ran.
+> Therefore, if you wish to amend any data for local testing purposes please do so using the data in the directory ./db/data/test-data
 
 ## Progress Status
 
 As the repo is currently a work in progress, regular checks for commits and / or pull requests should be made before any major revisions to the codebase.
+
+The current live api server and documentation can be found at: https://news-aggregator-7e9t.onrender.com/api
 
 1. Debugging and testing - In progress
 2. Live API server - In progress
