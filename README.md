@@ -49,9 +49,11 @@ These can either be automated by running the following command from the terminal
 Or, to create the files manually, name and populated as follows:
 
 Name: .env.development
+
 Content: `PGDATABASE=nc_news`
 
 Name: .env.test
+
 Content: `PGDATABASE=nc_news_test`
 
 ## Database set up:
