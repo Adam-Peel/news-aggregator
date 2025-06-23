@@ -1,6 +1,7 @@
 // Required packages / elements
 const db = require("./db/connection");
 const express = require("express");
+const cors = require("cors");
 app.use(cors());
 const app = express();
 app.use(express.json());
