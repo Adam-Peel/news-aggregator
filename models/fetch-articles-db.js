@@ -49,7 +49,6 @@ comments ON articles.article_id = comments.article_id`;
       "created_at",
       "votes",
       "article_img_url",
-      "comment_count",
     ];
     const sortWhiteList = ["ASC", "DESC"];
     const check = request.query.sort.split(":");
@@ -57,6 +56,8 @@ comments ON articles.article_id = comments.article_id`;
     let order = check[1].toUpperCase();
     if (columnWhiteList.includes(column) && sortWhiteList.includes(order)) {
       sqlStr += ` ORDER BY articles.${column} ${order}`;
+    } else if (column === "comment_count") {
+      sqlStr += ` ORDER BY COUNT (comments.comment_id)`;
     } else {
       return Promise.reject({ status: 400, message: "Invalid input" });
     }
