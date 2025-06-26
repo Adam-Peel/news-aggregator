@@ -49,6 +49,7 @@ comments ON articles.article_id = comments.article_id`;
       "created_at",
       "votes",
       "article_img_url",
+      "comment_count",
     ];
     const sortWhiteList = ["ASC", "DESC"];
     const check = request.query.sort.split(":");
