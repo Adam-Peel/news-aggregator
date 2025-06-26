@@ -11,7 +11,7 @@ articles.topic,
 articles.created_at,
 articles.votes,
 articles.article_img_url,
-COUNT(comments.article_id) AS comment_count
+COUNT(comments.article_id) :: INT AS comment_count
 FROM
 articles
 LEFT JOIN
