@@ -31,7 +31,8 @@ async function getSingleArticleAPI(request, response, next) {
 
 async function searchAllArticlesAPI(request, response, next) {
   try {
-    const articles = await fetchAllArticlesByKeywordsDB(request.params);
+    const keyWords = request.params.keywords;
+    const articles = await fetchAllArticlesByKeywordsDB(keyWords);
     response.status(200).send(articles);
   } catch (err) {
     next(err);

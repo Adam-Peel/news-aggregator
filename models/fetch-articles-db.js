@@ -109,7 +109,7 @@ async function fetchAllArticlesByKeywordsDB(request) {
     const { rows } = await db.query(
       `SELECT * FROM articles 
        WHERE title ILIKE ANY ($1::text[]) 
-          OR body ILIKE ANY ($1::text[])`,
+          AND body ILIKE ANY ($1::text[])`,
       [keywords]
     );
     if (rows.length > 0) {
