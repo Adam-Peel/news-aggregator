@@ -110,6 +110,11 @@ async function fetchAllArticlesByKeywordsDB(request) {
       `SELECT * FROM articles WHERE title LIKE ANY (%L) OR body LIKE ANY (%L)`,
       keywords
     );
+    if (rows.length > 0) {
+      return { articles: rows };
+    } else {
+      return Promise.reject({ status: 404, message: "Item not found" });
+    }
   } catch (err) {
     throw err;
   }
