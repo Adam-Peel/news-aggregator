@@ -107,8 +107,8 @@ async function fetchAllArticlesByKeywordsDB(request) {
   const keywords = request.split(" ");
   try {
     const { rows } = await db.query(
-      `SELECT * FROM articles WHERE title LIKE ANY (%L) OR body LIKE ANY (%L)`,
-      keywords
+      `SELECT * FROM articles WHERE title ILIKE ANY $1 OR body ILIKE ANY $1`,
+      [keywords]
     );
     if (rows.length > 0) {
       return { articles: rows };
