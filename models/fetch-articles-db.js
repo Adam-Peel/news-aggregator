@@ -104,10 +104,12 @@ GROUP BY articles.article_id`,
 }
 
 async function fetchAllArticlesByKeywordsDB(request) {
-  const keywords = request.split(" ");
+  const keywords = request.split(" ").map((word) => `%${word}%`);
   try {
     const { rows } = await db.query(
-      `SELECT * FROM articles WHERE title ILIKE ANY $1 OR body ILIKE ANY $1`,
+      `SELECT * FROM articles 
+       WHERE title ILIKE ANY ($1::text[]) 
+          OR body ILIKE ANY ($1::text[])`,
       [keywords]
     );
     if (rows.length > 0) {

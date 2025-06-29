@@ -40,6 +40,36 @@ describe("GET /api/topics", () => {
   });
 });
 
+describe.only("GET /api/articles/search", () => {
+  test("200: Responds with an object listing all articles in desired format", () => {
+    return request(app)
+      .get("/api/articles/search/mitch")
+      .expect(200)
+      .then(({ body }) => {
+        body.articles.forEach((element) => {
+          const {
+            author,
+            title,
+            article_id,
+            topic,
+            created_at,
+            votes,
+            article_img_url,
+            comment_count,
+          } = element;
+          expect(typeof author).toBe("string");
+          expect(typeof title).toBe("string");
+          expect(typeof article_id).toBe("number");
+          expect(typeof topic).toBe("string");
+          expect(new Date(created_at)).toBeInstanceOf(Date);
+          expect(votes).toBeOneOf([expect.any(Number), null]);
+          expect(typeof article_img_url).toBe("string");
+          expect(typeof comment_count).toBe("string");
+        });
+      });
+  });
+});
+
 describe("GET /api/articles", () => {
   test("200: Responds with an object listing all articles in desired format", () => {
     return request(app)
