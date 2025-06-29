@@ -103,6 +103,18 @@ GROUP BY articles.article_id`,
   }
 }
 
+async function fetchAllArticlesByKeywordsDB(request) {
+  const keywords = request.split(" ");
+  try {
+    const { rows } = await db.query(
+      `SELECT * FROM articles WHERE title LIKE ANY (%L) OR body LIKE ANY (%L)`,
+      keywords
+    );
+  } catch (err) {
+    throw err;
+  }
+}
+
 async function patchArticleDB(request) {
   const { inc_votes, article_id } = request;
   try {
@@ -120,4 +132,9 @@ async function patchArticleDB(request) {
   }
 }
 
-module.exports = { fetchAllArticlesDB, fetchSingleArticle, patchArticleDB };
+module.exports = {
+  fetchAllArticlesDB,
+  fetchSingleArticle,
+  patchArticleDB,
+  fetchAllArticlesByKeywordsDB,
+};

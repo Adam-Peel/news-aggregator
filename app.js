@@ -12,6 +12,7 @@ const {
   getAllArticlesAPI,
   getSingleArticleAPI,
   patchArticleAPI,
+  searchAllArticlesAPI,
 } = require("./controllers/api-articles");
 const { getEndpoints } = require("./controllers/api-endpoints");
 const {
@@ -27,6 +28,7 @@ const { customErrors, genericError } = require("./errors");
 app.get("/api", (request, response) => {
   response.status(200).sendFile(path.join(__dirname, "public", "index.html"));
 });
+app.get("/api/articles/search:keywords", searchAllArticlesAPI);
 app.get("/api/topics", getAllTopicsAPI);
 app.get("/api/articles", getAllArticlesAPI);
 app.get("/api/users", getAllUsersAPI);

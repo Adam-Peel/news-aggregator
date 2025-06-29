@@ -2,6 +2,7 @@ const {
   fetchAllArticlesDB,
   fetchSingleArticle,
   patchArticleDB,
+  fetchAllArticlesByKeywordsDB,
 } = require("../models/fetch-articles-db");
 const { isStringANumber } = require("../app-utils.js");
 
@@ -28,6 +29,15 @@ async function getSingleArticleAPI(request, response, next) {
   }
 }
 
+async function searchAllArticlesAPI(request, response, next) {
+  try {
+    const articles = await fetchAllArticlesByKeywordsDB(request.params);
+    response.status(200).send(articles);
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function patchArticleAPI(request, response, next) {
   try {
     await isStringANumber(request.body.inc_votes);
@@ -45,4 +55,9 @@ async function patchArticleAPI(request, response, next) {
   }
 }
 
-module.exports = { getAllArticlesAPI, getSingleArticleAPI, patchArticleAPI };
+module.exports = {
+  getAllArticlesAPI,
+  getSingleArticleAPI,
+  patchArticleAPI,
+  searchAllArticlesAPI,
+};
