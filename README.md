@@ -2,7 +2,7 @@
 
 This repo contains all scripts and data necessary to serve an api of a mock-up of a basic news-based site where users can post, and interact with, articles.
 
-The current live api server and documentation can be found at: https://news-aggregator-7e9t.onrender.com/api
+The current live api server and documentation can be found at: https://www.adampeel.co.uk/api
 
 All available APIs are currently unrestricted and accessible to all, and a list of endpoints, with information about what can be accessed, and how is available in documentation on the hosted site.
 
@@ -83,4 +83,4 @@ npm run seed-dev
 
 As the repo is currently a work in progress, regular checks for commits and / or pull requests should be made before any major revisions to the codebase.
 
-The current live api server and documentation can be found at: https://news-aggregator-7e9t.onrender.com/api
+The current live api server and documentation can be found at: https://www.adampeel.co.uk/api
